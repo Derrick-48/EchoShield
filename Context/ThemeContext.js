@@ -1,5 +1,6 @@
-import React, { createContext, useState, useContext } from 'react';
-import { lightTheme , darkTheme } from '../constants/theme';
+/* eslint-disable prettier/prettier */
+import React, { createContext, useState, useContext } from "react";
+import { lightTheme, darkTheme } from "../constants/theme";
 
 const ThemeContext = createContext();
 
