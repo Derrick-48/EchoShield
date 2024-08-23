@@ -43,12 +43,3 @@
 - **Node.js**: For backend services and API integration.
 - **MongoDB**: For managing user data and storing emergency contacts.
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js
-- Expo CLI
-- React Native
-
-### Installation
-
