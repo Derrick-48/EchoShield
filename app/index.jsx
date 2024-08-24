@@ -1,32 +1,17 @@
-import React from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
-import { useCommonStyles } from "@/constants/CommonStyles";
-import { useTheme } from "../Context/ThemeContext";
-import { Link } from "expo-router";
+// app/index.js (or HomeScreen.js depending on your structure)
+import React from 'react';
+import { View } from 'react-native';
+import { useCommonStyles } from '@/constants/CommonStyles';
+import { useTheme } from '../Context/ThemeContext';
+import Onboarding from './Intro/onboarding'; // Import the Onboarding component
 
 const HomeScreen = () => {
   const { theme, toggleTheme, isDarkTheme } = useTheme();
   const styles = useCommonStyles();
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
-    >
-      {/* <Text style={[styles.text, { color: theme.colors.text }]}>
-        {isDarkTheme ? "Dark Mode" : "Light Mode"}
-      </Text>
-
-      <Text style={styles.text}> Trying Out the theme</Text>
-      <Button
-        title="Toggle Theme"
-        onPress={toggleTheme}
-        color={theme.colors.primary}
-      /> */}
-      <Link href="/(auth)" asChild >
-      <TouchableOpacity>
-        <Text  >SignIn Now </Text>
-      </TouchableOpacity>
-    </Link>
+    <View style={styles.container}>
+      <Onboarding />
     </View>
   );
 };
