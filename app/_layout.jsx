@@ -2,15 +2,17 @@ import { Stack } from "expo-router";
 
 import { ThemeProvider } from "@/Context/ThemeContext";
 
-export default function RootLayout() {
+const RootLayout = () => {
   return (
     <ThemeProvider>
       <Stack>
         <Stack.Screen name="index" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="auth" />
-        <Stack.Screen name="onboarding" />
+        <Stack.Screen name="intro/onboarding" />
       </Stack>
     </ThemeProvider>
   );
 }
+
+export default  RootLayout;
