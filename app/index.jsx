@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useCommonStyles } from "@/constants/CommonStyles";
 import { useTheme } from "../Context/ThemeContext";
-import onboarding from "./Intro/onboarding";
 import { Link } from "expo-router";
 
 const HomeScreen = () => {
@@ -25,7 +24,7 @@ const HomeScreen = () => {
       /> */}
       <Link href="/(auth)" asChild >
       <TouchableOpacity>
-        <Text className="text-xl font-JakartaSemiBold mb-3" >SignIn Now </Text>
+        <Text  >SignIn Now </Text>
       </TouchableOpacity>
     </Link>
     </View>
