@@ -7,6 +7,9 @@ export default function RootLayout() {
     <ThemeProvider>
       <Stack>
         <Stack.Screen name="index" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="auth" />
+        <Stack.Screen name="onboarding" />
       </Stack>
     </ThemeProvider>
   );
