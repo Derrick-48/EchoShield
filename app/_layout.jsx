@@ -6,10 +6,8 @@ const RootLayout = () => {
   return (
     <ThemeProvider>
       <Stack>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="auth" />
-        <Stack.Screen name="intro/onboarding" />
+        <Stack.Screen name="index"  />
+        <Stack.Screen name="(Root)" options={{headerShown :  false}} />
       </Stack>
     </ThemeProvider>
   );

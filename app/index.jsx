@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
-
+import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useCommonStyles } from "@/constants/CommonStyles";
-
 import { useTheme } from "../Context/ThemeContext";
+import onboarding from "./Intro/onboarding";
+import { Link } from "expo-router";
 
 const HomeScreen = () => {
   const { theme, toggleTheme, isDarkTheme } = useTheme();
@@ -13,7 +13,7 @@ const HomeScreen = () => {
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <Text style={[styles.text, { color: theme.colors.text }]}>
+      {/* <Text style={[styles.text, { color: theme.colors.text }]}>
         {isDarkTheme ? "Dark Mode" : "Light Mode"}
       </Text>
 
@@ -22,7 +22,12 @@ const HomeScreen = () => {
         title="Toggle Theme"
         onPress={toggleTheme}
         color={theme.colors.primary}
-      />
+      /> */}
+      <Link href="/(auth)" asChild >
+      <TouchableOpacity>
+        <Text className="text-xl font-JakartaSemiBold mb-3" >SignIn Now </Text>
+      </TouchableOpacity>
+    </Link>
     </View>
   );
 };
