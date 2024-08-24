@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-import { useTheme } from "../Context/ThemeContext";
+
 import { useCommonStyles } from "@/constants/CommonStyles";
+
+import { useTheme } from "../Context/ThemeContext";
 
 const HomeScreen = () => {
   const { theme, toggleTheme, isDarkTheme } = useTheme();
