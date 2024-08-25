@@ -22,7 +22,7 @@ const SignUp = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const onSignUpPress = () => {
-    router.replace("(Root)/(tabs)");
+    router.replace("/(Root)/(tabs)/Aid");
   };
 
   const onPressVerify = () => {

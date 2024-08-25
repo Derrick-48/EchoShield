@@ -1,32 +1,36 @@
-import { Tabs } from 'expo-router';
-import { AntDesign, FontAwesome, SimpleLineIcons } from '@expo/vector-icons';
-import Colors from '@/constants/Colors';
-import { View, StyleSheet } from 'react-native';
-import { useTheme } from '@/Context/ThemeContext';
-import { StatusBar } from 'expo-status-bar';
+import { Tabs, useNavigation, router, usePathname } from "expo-router";
+import { AntDesign, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
+import { View, StyleSheet, SafeAreaView } from "react-native";
+import { useTheme } from "@/Context/ThemeContext";
+import { StatusBar } from "expo-status-bar";
+import Icon from "react-native-vector-icons/Ionicons";
+import { DrawerToggleButton } from "@react-navigation/drawer";
+import HeaderCustom from "@/components/HeaderCustom";
 
 const Layout = () => {
   const { isDarkTheme } = useTheme();
-  const statusBarStyle = isDarkTheme ? 'light' : 'dark';
-  const backgroundColor = isDarkTheme ? '#ffffff' : '#0066FF';
-  const BorderColor = isDarkTheme ? "#151718" : '#ffffff';
-  const containerBackgroundColor = isDarkTheme ? '#151718' : '#ffff';
-  const TabIconBackgroundColor = isDarkTheme ? '#151718' : "#ffffff" ; 
-  const TabIconColor = isDarkTheme ? '#0066FF' : "#151718" ;
-  const  TabIconActiveColor = isDarkTheme ? '#ffffff' : "#ffffff" ;
-  const  TabIconInActiveColor = isDarkTheme ? '#ffffff' : "#151718"
-
+  const navigation = useNavigation();
+  const statusBarStyle = isDarkTheme ? "light" : "dark";
+  const backgroundColor = isDarkTheme ? "#ffffff" : "#0066FF";
+  const BorderColor = isDarkTheme ? "#151718" : "#ffffff";
+  const containerBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+  const TabIconBackgroundColor = isDarkTheme ? "#151718" : "#ffffff";
+  const TabIconColor = isDarkTheme ? "#0066FF" : "#151718";
+  const TabIconActiveColor = isDarkTheme ? "#ffffff" : "#ffffff";
+  const TabIconInActiveColor = isDarkTheme ? "#ffffff" : "#151718";
 
   return (
-    <View style={[styles.container, { backgroundColor: containerBackgroundColor }]}>
+    <View
+      style={[styles.container, { backgroundColor: containerBackgroundColor }]}
+    >
       <Tabs
         screenOptions={{
           tabBarStyle: {
             backgroundColor: backgroundColor,
-            position: 'relative',
+            position: "relative",
             bottom: 40,
-            justifyContent: 'center',
-            alignSelf: 'center',
+            justifyContent: "center",
+            alignSelf: "center",
             height: 63,
             marginHorizontal: 90,
             paddingHorizontal: 10,
@@ -42,82 +46,112 @@ const Layout = () => {
           tabBarShowLabel: false,
           tabBarInactiveTintColor: TabIconInActiveColor,
           tabBarActiveTintColor: TabIconActiveColor,
+          headerLeft: () => <DrawerToggleButton tintColor="#000" />,
         }}
       >
         <Tabs.Screen
-          name="index"
+          name="home"
           options={{
-            tabBarLabel: 'Explore',
+            tabBarLabel: "Explore",
             tabBarIcon: ({ color, size, focused }) => (
               <View
                 style={{
                   flex: 1,
                   padding: 10,
                   borderRadius: 30,
-                  backgroundColor: focused ? TabIconColor : TabIconBackgroundColor ,
+                  backgroundColor: focused
+                    ? TabIconColor
+                    : TabIconBackgroundColor,
                 }}
               >
                 <SimpleLineIcons name="disc" size={25} color={color} />
               </View>
             ),
-            headerShown: null
+            header: () => {
+              const { isDarkTheme } = useTheme();
+              const statusBarStyle = isDarkTheme ? "light" : "dark";
+              return (
+                <>
+                  <SafeAreaView>
+                    <HeaderCustom
+                      isDarkTheme={isDarkTheme}
+                      navigation={navigation}
+                      onLeftPress={() => navigation.openDrawer()}
+                      onFirstRightPress={() => {
+                        router.navigate("/(tabs)/home/notifications");
+                      }}
+                      onRightSecondPress={() => {
+                        router.navigate("/(tabs)/home/HomeProfile");
+                      }}
+                    />
+                  </SafeAreaView>
+                  <StatusBar style={statusBarStyle} />
+                </>
+              );
+            },
           }}
         />
         <Tabs.Screen
           name="Aid"
           options={{
-            tabBarLabel: 'Space-Aid',
+            tabBarLabel: "Space-Aid",
             tabBarIcon: ({ color, size, focused }) => (
               <View
                 style={{
                   flex: 1,
                   padding: 10,
                   borderRadius: 30,
-                  backgroundColor: focused ? TabIconColor : TabIconBackgroundColor,
+                  backgroundColor: focused
+                    ? TabIconColor
+                    : TabIconBackgroundColor,
                 }}
               >
                 <AntDesign name="Safety" size={25} color={color} />
               </View>
             ),
-            headerShown: null
+            headerShown: null,
           }}
         />
         <Tabs.Screen
           name="History"
           options={{
-            tabBarLabel: 'Your History',
+            tabBarLabel: "Your History",
             tabBarIcon: ({ color, size, focused }) => (
               <View
                 style={{
                   flex: 1,
                   padding: 10,
                   borderRadius: 30,
-                  backgroundColor: focused ? TabIconColor : TabIconBackgroundColor ,
+                  backgroundColor: focused
+                    ? TabIconColor
+                    : TabIconBackgroundColor,
                 }}
               >
                 <FontAwesome name="stack-overflow" size={25} color={color} />
               </View>
             ),
-            headerShown: null
+            headerShown: null,
           }}
         />
         <Tabs.Screen
           name="Location"
           options={{
-            tabBarLabel: 'Current Location',
+            tabBarLabel: "Current Location",
             tabBarIcon: ({ color, size, focused }) => (
               <View
                 style={{
                   flex: 1,
                   padding: 10,
                   borderRadius: 30,
-                  backgroundColor: focused ? TabIconColor : TabIconBackgroundColor ,
+                  backgroundColor: focused
+                    ? TabIconColor
+                    : TabIconBackgroundColor,
                 }}
               >
                 <FontAwesome name="map-o" size={25} color={color} />
               </View>
             ),
-            headerShown: null
+            headerShown: null,
           }}
         />
       </Tabs>
@@ -129,7 +163,27 @@ const Layout = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end', 
+    justifyContent: "flex-end",
+  },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 15,
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  iconContainer: {
+    padding: 10,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 5,
+  },
+  rightIconsContainer: {
+    flexDirection: "row",
   },
 });
 
