@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
   },
   userEmail: {
     fontSize: 16,
-    fontStyle: "italic",
     textDecorationLine: "underline",
   },
 });

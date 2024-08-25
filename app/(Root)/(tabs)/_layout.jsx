@@ -46,7 +46,6 @@ const Layout = () => {
           tabBarShowLabel: false,
           tabBarInactiveTintColor: TabIconInActiveColor,
           tabBarActiveTintColor: TabIconActiveColor,
-          headerLeft: () => <DrawerToggleButton tintColor="#000" />,
         }}
       >
         <Tabs.Screen
@@ -69,7 +68,6 @@ const Layout = () => {
             ),
             header: () => {
               const { isDarkTheme } = useTheme();
-              const statusBarStyle = isDarkTheme ? "light" : "dark";
               return (
                 <>
                   <SafeAreaView>
@@ -85,7 +83,6 @@ const Layout = () => {
                       }}
                     />
                   </SafeAreaView>
-                  <StatusBar style={statusBarStyle} />
                 </>
               );
             },
