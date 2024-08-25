@@ -1,16 +1,7 @@
 import React, { useState } from "react";
 import { Link, router } from "expo-router";
-import {
-  ScrollView,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { ScrollView, Text, View, Image, StyleSheet } from "react-native";
 import { ReactNativeModal } from "react-native-modal";
-
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import { icons, images } from "@/constants";
@@ -31,7 +22,7 @@ const SignUp = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const onSignUpPress = () => {
-         router.replace ("(Root)/(tabs)");
+    router.replace("(Root)/(tabs)");
   };
 
   const onPressVerify = () => {
@@ -77,8 +68,7 @@ const SignUp = () => {
         />
         {/* Insert OAuth component here */}
         <Link href="(auth)" style={styles.link}>
-          Already have an account?{" "}
-          <Text style={styles.signInText}>Log In</Text>
+          Already have an account? <Text style={styles.signInText}>Log In</Text>
         </Link>
       </View>
 
@@ -101,9 +91,7 @@ const SignUp = () => {
             icon={icons.lock}
             value={verification.code}
             keyboardType="numeric"
-            onChangeText={(code) =>
-              setVerification({ ...verification, code })
-            }
+            onChangeText={(code) => setVerification({ ...verification, code })}
           />
           {verification.error && (
             <Text style={styles.errorText}>{verification.error}</Text>

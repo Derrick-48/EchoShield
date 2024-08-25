@@ -1,116 +1,136 @@
 import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome5 ,  AntDesign, FontAwesome, SimpleLineIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, SimpleLineIcons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { useTheme } from '@/Context/ThemeContext';
+import { StatusBar } from 'expo-status-bar';
 
 const Layout = () => {
+  const { isDarkTheme } = useTheme();
+  const statusBarStyle = isDarkTheme ? 'light' : 'dark';
+  const backgroundColor = isDarkTheme ? '#ffffff' : '#0066FF';
+  const BorderColor = isDarkTheme ? "#151718" : '#ffffff';
+  const containerBackgroundColor = isDarkTheme ? '#151718' : '#ffff';
+  const TabIconBackgroundColor = isDarkTheme ? '#151718' : "#ffffff" ; 
+  const TabIconColor = isDarkTheme ? '#0066FF' : "#151718" ;
+  const  TabIconActiveColor = isDarkTheme ? '#ffffff' : "#ffffff" ;
+  const  TabIconInActiveColor = isDarkTheme ? '#ffffff' : "#151718"
+
+
   return (
-    <Tabs
-    screenOptions={{
-        tabBarStyle: {
-          backgroundColor: Colors.grey,
-          position: 'relative',
-          bottom: 40,
-          justifyContent: 'center',
-          alignSelf: 'center',
-          height: 63,
-          marginHorizontal: 90,
-          paddingHorizontal: 10,
-          paddingVertical: 8,
-          paddingBottom: 8,
-          borderRadius: 50,
-          borderWidth: 1,
-          borderTopWidth: 1,
-          borderColor: '#333',
-          borderTopColor: '#333',
-          width : "60%",
-        },
-        tabBarShowLabel: false,
-        tabBarInactiveTintColor: '#F5B227',
-        tabBarActiveTintColor: "white",
-      }}
+    <View style={[styles.container, { backgroundColor: containerBackgroundColor }]}>
+      <Tabs
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: backgroundColor,
+            position: 'relative',
+            bottom: 40,
+            justifyContent: 'center',
+            alignSelf: 'center',
+            height: 63,
+            marginHorizontal: 90,
+            paddingHorizontal: 10,
+            paddingVertical: 8,
+            paddingBottom: 8,
+            borderRadius: 50,
+            borderWidth: 1,
+            borderTopWidth: 1,
+            borderColor: BorderColor,
+            borderTopColor: BorderColor,
+            width: "60%",
+          },
+          tabBarShowLabel: false,
+          tabBarInactiveTintColor: TabIconInActiveColor,
+          tabBarActiveTintColor: TabIconActiveColor,
+        }}
       >
-      <Tabs.Screen
-        name="index"
-        options={{
-          tabBarLabel: 'Explore',
-          tabBarIcon: ({ color, size, focused }) => (
-            <View
-              style={{
-                flex : 1,
-                padding: 10,
-                borderRadius: 30,
-                backgroundColor: focused ? "#F5B227": Colors.grey,
-              }}
-            >
-              <SimpleLineIcons name="disc" size={25} color={color} />
-            </View>
-          ),
-       
-        }}
-      />
-      <Tabs.Screen
-        name="Aid"
-        options={{
-          tabBarLabel: 'Space-Aid',
-          tabBarIcon: ({ color, size, focused }) => (
-            <View
-              style={{
-                flex : 1,
-                padding: 10,
-                borderRadius: 30,
-                backgroundColor: focused ? "#F5B227" : Colors.grey,
-              }}
-            >
-              <AntDesign name="Safety" size={25} color={color} />
-            </View>
-          ),
-       
-        }}
-      />
-      <Tabs.Screen
-        name="History"
-        options={{
-          tabBarLabel: 'Your History',
-          tabBarIcon: ({ color, size, focused }) => (
-            <View
-              style={{
-                flex : 1,
-                padding: 10,
-                borderRadius: 30,
-                backgroundColor: focused ? "#F5B227" : Colors.grey,
-              }}
-            >
-              <FontAwesome name="stack-overflow" size={25} color={color} />
-            </View>
-          ),
-       
-        }}
-      />
-      <Tabs.Screen
-        name="Location"
-        options={{
-          tabBarLabel: 'Current Location',
-          tabBarIcon: ({ color, size, focused }) => (
-            <View
-              style={{
-                flex : 1,
-                padding: 10,
-                borderRadius: 30,
-                backgroundColor: focused ? "#F5B227" : Colors.grey,
-              }}
-            >
-              <FontAwesome name="map-o" size={25} color={color} />
-            </View>
-          ),
-       
-        }}
-      />
-      
-    </Tabs>
+        <Tabs.Screen
+          name="index"
+          options={{
+            tabBarLabel: 'Explore',
+            tabBarIcon: ({ color, size, focused }) => (
+              <View
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  borderRadius: 30,
+                  backgroundColor: focused ? TabIconColor : TabIconBackgroundColor ,
+                }}
+              >
+                <SimpleLineIcons name="disc" size={25} color={color} />
+              </View>
+            ),
+            headerShown: null
+          }}
+        />
+        <Tabs.Screen
+          name="Aid"
+          options={{
+            tabBarLabel: 'Space-Aid',
+            tabBarIcon: ({ color, size, focused }) => (
+              <View
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  borderRadius: 30,
+                  backgroundColor: focused ? TabIconColor : TabIconBackgroundColor,
+                }}
+              >
+                <AntDesign name="Safety" size={25} color={color} />
+              </View>
+            ),
+            headerShown: null
+          }}
+        />
+        <Tabs.Screen
+          name="History"
+          options={{
+            tabBarLabel: 'Your History',
+            tabBarIcon: ({ color, size, focused }) => (
+              <View
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  borderRadius: 30,
+                  backgroundColor: focused ? TabIconColor : TabIconBackgroundColor ,
+                }}
+              >
+                <FontAwesome name="stack-overflow" size={25} color={color} />
+              </View>
+            ),
+            headerShown: null
+          }}
+        />
+        <Tabs.Screen
+          name="Location"
+          options={{
+            tabBarLabel: 'Current Location',
+            tabBarIcon: ({ color, size, focused }) => (
+              <View
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  borderRadius: 30,
+                  backgroundColor: focused ? TabIconColor : TabIconBackgroundColor ,
+                }}
+              >
+                <FontAwesome name="map-o" size={25} color={color} />
+              </View>
+            ),
+            headerShown: null
+          }}
+        />
+      </Tabs>
+      <StatusBar style={statusBarStyle} />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-end', 
+  },
+});
 
 export default Layout;
