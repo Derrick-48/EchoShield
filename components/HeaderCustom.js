@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons"; // or any other icon set 
 import { useTheme } from "@/Context/ThemeContext";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { DrawerToggleButton } from "@react-navigation/drawer";
+import { StatusBar } from "expo-status-bar";
 
 const HeaderCustom = ({
   onLeftPress,
@@ -11,48 +12,55 @@ const HeaderCustom = ({
   onRightSecondPress,
   isDarkTheme,
   navigation,
+  statusBarStyle,
 }) => {
-  const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+  const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffffff";
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const IconBackgroundColor = isDarkTheme ? "#252829" : "#f0f0f0";
 
   return (
-    <View
-      style={[
-        styles.headerContainer,
-        { backgroundColor: ScreenBackgroundColor },
-      ]}
-    >
-      <TouchableOpacity
-        style={[styles.iconContainer, { backgroundColor: IconBackgroundColor }]}
-        onPress={onLeftPress}
+    <>
+      <StatusBar style={statusBarStyle} />
+      <View
+        style={[
+          styles.headerContainer,
+          { backgroundColor: ScreenBackgroundColor },
+        ]}
       >
-        <Icon name="menu" size={24} color={TextColor} />
-      </TouchableOpacity>
-
-      <Text style={[styles.headerText, { color: TextColor }]}>Dashboard</Text>
-
-      <View style={styles.rightIconsContainer}>
         <TouchableOpacity
           style={[
             styles.iconContainer,
             { backgroundColor: IconBackgroundColor },
           ]}
-          onPress={onFirstRightPress}
+          onPress={onLeftPress}
         >
-          <Icon name="notifications" size={24} color={TextColor} />
+          <Icon name="menu" size={24} color={TextColor} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.iconContainer,
-            { backgroundColor: IconBackgroundColor },
-          ]}
-          onPress={onRightSecondPress}
-        >
-          <Icon name="person" size={24} color={TextColor} />
-        </TouchableOpacity>
+
+        <Text style={[styles.headerText, { color: TextColor }]}>Dashboard</Text>
+
+        <View style={styles.rightIconsContainer}>
+          <TouchableOpacity
+            style={[
+              styles.iconContainer,
+              { backgroundColor: IconBackgroundColor },
+            ]}
+            onPress={onFirstRightPress}
+          >
+            <Icon name="notifications" size={24} color={TextColor} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.iconContainer,
+              { backgroundColor: IconBackgroundColor },
+            ]}
+            onPress={onRightSecondPress}
+          >
+            <Icon name="person" size={24} color={TextColor} />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

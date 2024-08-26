@@ -9,8 +9,15 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 import { router, usePathname } from "expo-router";
+import { useTheme } from "@/Context/ThemeContext";
 
 const CustomDrawerContent = (props) => {
+  const { isDarkTheme } = useTheme();
+  const TextColor = isDarkTheme ? "#ffffff" : "#000000";
+  const DrawerButtonActiveText = isDarkTheme ? "#ffffff" : "#ffffff";
+  const DrawerButtonInActiveText = isDarkTheme ? "#ffffff" : "#151718";
+  const DrawerButtonActiveLayer = isDarkTheme ? "#0066FF" : "#151718";
+  const DrawerButtonInActiveLayer = isDarkTheme ? "#151718" : "#ffffff";
   const pathname = usePathname();
 
   useEffect(() => {
@@ -27,8 +34,10 @@ const CustomDrawerContent = (props) => {
           style={styles.userImg}
         />
         <View style={styles.userDetailsWrapper}>
-          <Text style={styles.userName}>John Doe</Text>
-          <Text style={styles.userEmail}>john@email.com</Text>
+          <Text style={[styles.userName, { color: TextColor }]}>John Doe</Text>
+          <Text style={[styles.userEmail, { color: TextColor }]}>
+            john@email.com
+          </Text>
         </View>
       </View>
       <DrawerItem
@@ -36,15 +45,29 @@ const CustomDrawerContent = (props) => {
           <Feather
             name="list"
             size={size}
-            color={pathname == "/home" ? "#fff" : "#000"}
+            color={
+              pathname == "/home"
+                ? DrawerButtonActiveText
+                : DrawerButtonInActiveText
+            }
           />
         )}
         label={"home"}
         labelStyle={[
           styles.navItemLabel,
-          { color: pathname == "/home" ? "#fff" : "#000" },
+          {
+            color:
+              pathname == "/home"
+                ? DrawerButtonActiveText
+                : DrawerButtonInActiveText,
+          },
         ]}
-        style={{ backgroundColor: pathname == "/home" ? "#333" : "#fff" }}
+        style={{
+          backgroundColor:
+            pathname == "/home"
+              ? DrawerButtonActiveLayer
+              : DrawerButtonInActiveLayer,
+        }}
         onPress={() => {
           router.push("/(Root)/(tabs)/home");
         }}
@@ -54,15 +77,25 @@ const CustomDrawerContent = (props) => {
           <AntDesign
             name="user"
             size={size}
-            color={pathname == "/profile" ? "#fff" : "#000"}
+            color={pathname == "/profile" ? "#fff" : DrawerButtonInActiveText}
           />
         )}
         label={"Profile"}
         labelStyle={[
           styles.navItemLabel,
-          { color: pathname == "/profile" ? "#fff" : "#000" },
+          {
+            color:
+              pathname == "/profile"
+                ? DrawerButtonActiveText
+                : DrawerButtonInActiveText,
+          },
         ]}
-        style={{ backgroundColor: pathname == "/profile" ? "#333" : "#fff" }}
+        style={{
+          backgroundColor:
+            pathname == "/profile"
+              ? DrawerButtonActiveLayer
+              : DrawerButtonInActiveLayer,
+        }}
         onPress={() => {
           router.push("/(Root)/profile");
         }}
@@ -73,15 +106,29 @@ const CustomDrawerContent = (props) => {
           <Ionicons
             name="settings-outline"
             size={size}
-            color={pathname == "/settings" ? "#fff" : "#000"}
+            color={
+              pathname == "/settings"
+                ? DrawerButtonActiveText
+                : DrawerButtonInActiveText
+            }
           />
         )}
         label={"Settings"}
         labelStyle={[
           styles.navItemLabel,
-          { color: pathname == "/settings" ? "#fff" : "#000" },
+          {
+            color:
+              pathname == "/settings"
+                ? DrawerButtonActiveText
+                : DrawerButtonInActiveText,
+          },
         ]}
-        style={{ backgroundColor: pathname == "/settings" ? "#333" : "#fff" }}
+        style={{
+          backgroundColor:
+            pathname == "/settings"
+              ? DrawerButtonActiveLayer
+              : DrawerButtonInActiveLayer,
+        }}
         onPress={() => {
           router.push("/settings");
         }}
@@ -90,11 +137,16 @@ const CustomDrawerContent = (props) => {
   );
 };
 
-export default function Layout() {
+export default function RootLayout() {
+  const { isDarkTheme } = useTheme();
+  const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
   return (
     <Drawer
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        drawerStyle: { backgroundColor: ScreenBackgroundColor },
+      }}
     >
       <Drawer.Screen name="profile" options={{ headerShown: true }} />
       <Drawer.Screen name="settings" options={{ headerShown: true }} />

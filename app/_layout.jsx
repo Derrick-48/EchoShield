@@ -4,7 +4,7 @@ import { StatusBar } from "react-native";
 
 import { ThemeProvider } from "@/Context/ThemeContext";
 
-const RootLayout = () => {
+const MainLayout = () => {
   return (
     <ThemeProvider>
       <Stack>
@@ -16,4 +16,4 @@ const RootLayout = () => {
   );
 };
 
-export default RootLayout;
+export default MainLayout;

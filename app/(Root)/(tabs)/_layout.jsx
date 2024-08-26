@@ -3,11 +3,9 @@ import { AntDesign, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { View, StyleSheet, SafeAreaView } from "react-native";
 import { useTheme } from "@/Context/ThemeContext";
 import { StatusBar } from "expo-status-bar";
-import Icon from "react-native-vector-icons/Ionicons";
-import { DrawerToggleButton } from "@react-navigation/drawer";
 import HeaderCustom from "@/components/HeaderCustom";
 
-const Layout = () => {
+const TabsLayout = () => {
   const { isDarkTheme } = useTheme();
   const navigation = useNavigation();
   const statusBarStyle = isDarkTheme ? "light" : "dark";
@@ -68,12 +66,14 @@ const Layout = () => {
             ),
             header: () => {
               const { isDarkTheme } = useTheme();
+              const statusBarStyle = isDarkTheme ? "light" : "dark";
               return (
                 <>
                   <SafeAreaView>
                     <HeaderCustom
                       isDarkTheme={isDarkTheme}
                       navigation={navigation}
+                      statusBarStyle={statusBarStyle}
                       onLeftPress={() => navigation.openDrawer()}
                       onFirstRightPress={() => {
                         router.navigate("/(tabs)/home/notifications");
@@ -184,4 +184,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Layout;
+export default TabsLayout;
