@@ -149,7 +149,7 @@ export default function RootLayout() {
       }}
     >
       <Drawer.Screen name="profile" options={{ headerShown: true }} />
-      <Drawer.Screen name="settings" options={{ headerShown: true }} />
+      <Drawer.Screen name="settings" options={{ headerShown: false }} />
     </Drawer>
   );
 }

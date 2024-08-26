@@ -12,7 +12,6 @@ const HeaderCustom = ({
   onRightSecondPress,
   isDarkTheme,
   navigation,
-  statusBarStyle,
 }) => {
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffffff";
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
@@ -20,7 +19,6 @@ const HeaderCustom = ({
 
   return (
     <>
-      <StatusBar style={statusBarStyle} />
       <View
         style={[
           styles.headerContainer,

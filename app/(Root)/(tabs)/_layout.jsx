@@ -65,15 +65,12 @@ const TabsLayout = () => {
               </View>
             ),
             header: () => {
-              const { isDarkTheme } = useTheme();
-              const statusBarStyle = isDarkTheme ? "light" : "dark";
               return (
                 <>
                   <SafeAreaView>
                     <HeaderCustom
                       isDarkTheme={isDarkTheme}
                       navigation={navigation}
-                      statusBarStyle={statusBarStyle}
                       onLeftPress={() => navigation.openDrawer()}
                       onFirstRightPress={() => {
                         router.navigate("/(tabs)/home/notifications");
