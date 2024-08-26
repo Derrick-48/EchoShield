@@ -16,6 +16,7 @@ const HeaderCustom = ({
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffffff";
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const IconBackgroundColor = isDarkTheme ? "#252829" : "#f0f0f0";
+  const statusBarStyle = isDarkTheme ? "light" : "dark";
 
   return (
     <>
@@ -25,6 +26,7 @@ const HeaderCustom = ({
           { backgroundColor: ScreenBackgroundColor },
         ]}
       >
+        <StatusBar style={statusBarStyle} />
         <TouchableOpacity
           style={[
             styles.iconContainer,

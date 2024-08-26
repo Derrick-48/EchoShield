@@ -12,10 +12,10 @@ const HomeTabScreen = () => {
 
   return (
     <>
-      <StatusBar style={statusBarStyle} />
       <View
         style={[styles.container, { backgroundColor: ScreenBackgroundColor }]}
       >
+        <StatusBar style={statusBarStyle} />
         <Text style={[styles.text, { color: TextColor }]}>Home Tab</Text>
       </View>
     </>

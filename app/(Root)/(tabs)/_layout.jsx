@@ -68,6 +68,7 @@ const TabsLayout = () => {
               return (
                 <>
                   <SafeAreaView>
+                    <StatusBar style={statusBarStyle} />
                     <HeaderCustom
                       isDarkTheme={isDarkTheme}
                       navigation={navigation}

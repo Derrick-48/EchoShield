@@ -14,8 +14,8 @@ const HomeScreen = () => {
 
   return (
     <>
-      <StatusBar style={statusBarStyle} />
       <View style={styles.container}>
+        <StatusBar style={statusBarStyle} />
         <Onboarding />
       </View>
     </>
