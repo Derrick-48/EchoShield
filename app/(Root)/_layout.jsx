@@ -107,7 +107,7 @@ const CustomDrawerContent = (props) => {
             name="settings-outline"
             size={size}
             color={
-              pathname == "/settings"
+              pathname == "/Settings"
                 ? DrawerButtonActiveText
                 : DrawerButtonInActiveText
             }
@@ -118,19 +118,19 @@ const CustomDrawerContent = (props) => {
           styles.navItemLabel,
           {
             color:
-              pathname == "/settings"
+              pathname == "/Settings"
                 ? DrawerButtonActiveText
                 : DrawerButtonInActiveText,
           },
         ]}
         style={{
           backgroundColor:
-            pathname == "/settings"
+            pathname == "/Settings"
               ? DrawerButtonActiveLayer
               : DrawerButtonInActiveLayer,
         }}
         onPress={() => {
-          router.push("/settings");
+          router.push("/Settings");
         }}
       />
     </DrawerContentScrollView>
@@ -149,7 +149,7 @@ export default function RootLayout() {
       }}
     >
       <Drawer.Screen name="profile" options={{ headerShown: true }} />
-      <Drawer.Screen name="settings" options={{ headerShown: false }} />
+      <Drawer.Screen name="Settings" options={{ headerShown: false }} />
     </Drawer>
   );
 }

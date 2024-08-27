@@ -21,56 +21,56 @@ const SettingsScreen = () => {
 
   // accountItems Navigation functions (start)
   const editProfile = () => {
-    router.navigate("/(Root)/editProfile");
+    router.navigate("/Settings/editProfile");
   };
 
   const securityRoom = () => {
-    router.navigate("/(Root)/securityRoom");
+    router.navigate("/Settings/securityRoom");
   };
 
   const notified = () => {
-    router.navigate("/(Root)/notifications");
+    router.navigate("/Settings/notifiedSettings");
   };
 
   const privacy = () => {
-    router.navigate("/(Root)/privacy");
+    router.navigate("/Settings/privacy");
   };
 
   // supportItems Navigation functions (start)
 
   const subscription = () => {
-    router.navigate("/(Root)/subscription");
+    router.navigate("/Settings/subscription");
   };
 
   const support = () => {
-    router.navigate("/(Root)/support");
+    router.navigate("/Settings/support");
   };
 
   const TermsAndPolicies = () => {
-    router.navigate("/(Root)/TermsAndPolicies");
+    router.navigate("/Settings/TermsAndPolicies");
   };
 
   // cacheAndCellularItems Navigation functions (start)
 
   const freeUpSpace = () => {
-    router.navigate("/(Root)/freeUpSpace");
+    router.navigate("/Settings/freeUpSpace");
   };
 
   const dataSaver = () => {
-    router.navigate("/(Root)/dataSaver");
+    router.navigate("/Settings/dataSaver");
   };
 
   // actionsItems Navigation functions (start)
   const reportProblem = () => {
-    router.navigate("/(Root)/reportProblem");
+    router.navigate("/Settings/reportProblem");
   };
 
   const addAccount = () => {
-    router.navigate("/(Root)/addAccount");
+    router.navigate("/Settings/addAccount");
   };
 
   const logout = () => {
-    router.navigate("/(Root)/logout");
+    router.navigate("/Settings/logout");
   };
 
   const accountItems = [
