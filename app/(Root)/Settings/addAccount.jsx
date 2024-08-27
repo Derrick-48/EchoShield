@@ -1,12 +1,21 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { useTheme } from "@/Context/ThemeContext";
 
-const addAccount = () => {
+const AddAccountScreen = () => {
+  const { isDarkTheme } = useTheme();
+  const TextColor = isDarkTheme ? "#ffffff" : "#000000";
+  const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+
   return (
-    <View>
-      <Text>addAccount</Text>
+    <View
+      style={[styles.container, { backgroundColor: ScreenBackgroundColor }]}
+    >
+      <Text style={{ color: TextColor }}>AddAccountScreen</Text>
     </View>
   );
 };
 
-export default addAccount;
+export default AddAccountScreen;
+
+const styles = StyleSheet.create({ container: { flex: 1 } });

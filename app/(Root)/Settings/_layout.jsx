@@ -1,61 +1,64 @@
 import React from "react";
 import { Stack } from "expo-router";
+import { useTheme } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
 
 const SettingsLayout = () => {
+  const { isDarkTheme } = useTheme();
+  const StatusBarStyle = isDarkTheme ? "light" : "dark";
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ headerShown: false, headerTitle: "Settings" }}
-      />
-      <Stack.Screen
-        name="editProfile"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="securityRoom"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="notifiedSettings"
-        options={{
-          headerShown: true,
-          presentation: "card",
-        }}
-      />
-      <Stack.Screen
-        name="privacy"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="subscription"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="support"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="TermsAndPolicies"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="freeUpSpace"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="dataSaver"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="reportProblem"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-      <Stack.Screen
-        name="addAccount"
-        options={{ headerShown: true, presentation: "card" }}
-      />
-    </Stack>
+    <>
+      <StatusBar style={StatusBarStyle} />
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{ headerShown: false, headerTitle: "Settings" }}
+        />
+        <Stack.Screen
+          name="editProfile"
+          options={{ headerShown: false, presentation: "card" }}
+        />
+        <Stack.Screen
+          name="securityRoom"
+          options={{ headerShown: true, presentation: "modal" }}
+        />
+        <Stack.Screen
+          name="notifiedSettings"
+          options={{
+            headerShown: false,
+            presentation: "card",
+          }}
+        />
+        <Stack.Screen
+          name="privacy"
+          options={{ headerShown: false, presentation: "card" }}
+        />
+        <Stack.Screen
+          name="subscription"
+          options={{ headerShown: false, presentation: "card" }}
+        />
+        <Stack.Screen
+          name="support"
+          options={{ headerShown: false, presentation: "card" }}
+        />
+        <Stack.Screen
+          name="TermsAndPolicies"
+          options={{ headerShown: false, presentation: "card" }}
+        />
+        <Stack.Screen
+          name="dataSaver"
+          options={{ headerShown: false, presentation: "card" }}
+        />
+        <Stack.Screen
+          name="reportProblem"
+          options={{ headerShown: false, presentation: "card" }}
+        />
+        <Stack.Screen
+          name="addAccount"
+          options={{ headerShown: false, presentation: "card" }}
+        />
+      </Stack>
+    </>
   );
 };
 

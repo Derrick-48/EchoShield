@@ -72,6 +72,10 @@ const TabsLayout = () => {
                     <HeaderCustom
                       isDarkTheme={isDarkTheme}
                       navigation={navigation}
+                      LeftIconName={"menu"}
+                      RightFirstIconName={"notifications"}
+                      HeaderName={"Home"}
+                      RightSecondIconName={"person"}
                       onLeftPress={() => navigation.openDrawer()}
                       onFirstRightPress={() => {
                         router.navigate("/(tabs)/home/notifications");

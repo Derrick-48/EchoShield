@@ -1,12 +1,26 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useTheme } from "@/Context/ThemeContext";
 
-const notifiedSettings = () => {
+const NotifiedSettingsScreen = () => {
+  const { isDarkTheme } = useTheme();
+  const TextColor = isDarkTheme ? "#ffffff" : "#000000";
+  const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+
   return (
-    <View>
-      <Text>notifiedSettings</Text>
-    </View>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: ScreenBackgroundColor }]}
+    >
+      <Text style={{ color: TextColor }}>NotifiedSettingsScreen</Text>
+    </SafeAreaView>
   );
 };
 
-export default notifiedSettings;
+export default NotifiedSettingsScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

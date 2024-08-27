@@ -12,6 +12,10 @@ const HeaderCustom = ({
   onRightSecondPress,
   isDarkTheme,
   navigation,
+  HeaderName,
+  LeftIconName,
+  RightFirstIconName,
+  RightSecondIconName,
 }) => {
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffffff";
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
@@ -34,10 +38,12 @@ const HeaderCustom = ({
           ]}
           onPress={onLeftPress}
         >
-          <Icon name="menu" size={24} color={TextColor} />
+          <Icon name={LeftIconName} size={24} color={TextColor} />
         </TouchableOpacity>
 
-        <Text style={[styles.headerText, { color: TextColor }]}>Dashboard</Text>
+        <Text style={[styles.headerText, { color: TextColor }]}>
+          {HeaderName}
+        </Text>
 
         <View style={styles.rightIconsContainer}>
           <TouchableOpacity
@@ -47,7 +53,7 @@ const HeaderCustom = ({
             ]}
             onPress={onFirstRightPress}
           >
-            <Icon name="notifications" size={24} color={TextColor} />
+            <Icon name={RightFirstIconName} size={24} color={TextColor} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -56,7 +62,7 @@ const HeaderCustom = ({
             ]}
             onPress={onRightSecondPress}
           >
-            <Icon name="person" size={24} color={TextColor} />
+            <Icon name={RightSecondIconName} size={24} color={TextColor} />
           </TouchableOpacity>
         </View>
       </View>

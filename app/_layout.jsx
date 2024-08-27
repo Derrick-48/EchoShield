@@ -47,6 +47,10 @@ const MainLayout = () => {
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="(Root)" options={{ headerShown: false }} />
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="Intro/onboarding"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </ThemeProvider>
       </ClerkLoaded>

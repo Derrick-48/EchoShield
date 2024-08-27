@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Alert,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +12,7 @@ import { useTheme } from "@/Context/ThemeContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import ToggleSwitch from "toggle-switch-react-native";
+import { StatusBar } from "expo-status-bar";
 
 const SettingsScreen = () => {
   const { isDarkTheme, toggleTheme } = useTheme();
@@ -18,6 +20,7 @@ const SettingsScreen = () => {
   const IconColor = isDarkTheme ? "#ffffff" : "#000000";
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
   const BackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+  const StatusBarStyle = isDarkTheme ? "light" : "dark";
 
   // accountItems Navigation functions (start)
   const editProfile = () => {
@@ -53,7 +56,7 @@ const SettingsScreen = () => {
   // cacheAndCellularItems Navigation functions (start)
 
   const freeUpSpace = () => {
-    router.navigate("/Settings/freeUpSpace");
+    Alert.alert("Space Freed");
   };
 
   const dataSaver = () => {
@@ -70,7 +73,7 @@ const SettingsScreen = () => {
   };
 
   const logout = () => {
-    router.navigate("/Settings/logout");
+    Alert.alert("You've Successfully Logged Out");
   };
 
   const accountItems = [
@@ -170,6 +173,7 @@ const SettingsScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: ScreenBackgroundColor }}>
+      <StatusBar style={StatusBarStyle} />
       <ScrollView
         style={{ marginHorizontal: 12 }}
         showsVerticalScrollIndicator={false}
