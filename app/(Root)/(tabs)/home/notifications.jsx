@@ -5,9 +5,11 @@ import { useTheme } from "@/Context/ThemeContext";
 const NotifiedState = () => {
   const { isDarkTheme } = useTheme();
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
+  const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+
   return (
-    <View>
-      <Text>NotifiedState</Text>
+    <View style={{ backgroundColor: ScreenBackgroundColor }}>
+      <Text style={{ color: TextColor }}>NotifiedState</Text>
     </View>
   );
 };

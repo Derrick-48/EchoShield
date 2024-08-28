@@ -10,6 +10,7 @@ import {
 } from "@expo/vector-icons";
 import { router, usePathname } from "expo-router";
 import { useTheme } from "@/Context/ThemeContext";
+import { StatusBar } from "expo-status-bar";
 
 const CustomDrawerContent = (props) => {
   const { isDarkTheme } = useTheme();
@@ -18,6 +19,7 @@ const CustomDrawerContent = (props) => {
   const DrawerButtonInActiveText = isDarkTheme ? "#ffffff" : "#151718";
   const DrawerButtonActiveLayer = isDarkTheme ? "#0066FF" : "#151718";
   const DrawerButtonInActiveLayer = isDarkTheme ? "#151718" : "#ffffff";
+  const statusBarStyle = isDarkTheme ? "light" : "dark";
   const pathname = usePathname();
 
   useEffect(() => {
@@ -26,6 +28,7 @@ const CustomDrawerContent = (props) => {
 
   return (
     <DrawerContentScrollView {...props}>
+      <StatusBar style={statusBarStyle} />
       <View style={styles.userInfoWrapper}>
         <Image
           source={{ uri: "https://randomuser.me/api/portraits/women/26.jpg" }}
@@ -148,7 +151,7 @@ export default function RootLayout() {
         drawerStyle: { backgroundColor: ScreenBackgroundColor },
       }}
     >
-      <Drawer.Screen name="profile" options={{ headerShown: true }} />
+      <Drawer.Screen name="profile" options={{ headerShown: false }} />
       <Drawer.Screen name="Settings" options={{ headerShown: false }} />
     </Drawer>
   );

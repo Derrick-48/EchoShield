@@ -4,7 +4,6 @@ import { useCommonStyles } from "@/constants/CommonStyles";
 import { useTheme } from "../Context/ThemeContext";
 import Onboarding from "./Intro/onboarding"; // Import the Onboarding component
 import { StatusBar } from "expo-status-bar";
-import settings from "./(Root)/Settings";
 
 const HomeScreen = () => {
   const { isDarkTheme } = useTheme();

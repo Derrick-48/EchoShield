@@ -31,6 +31,7 @@ import onboarding1 from "@/assets/images/onboarding1.png";
 import onboarding2 from "@/assets/images/onboarding2.png";
 import onboarding3 from "@/assets/images/onboarding3.png";
 import signUpCar from "@/assets/images/signup-car.png";
+import theme, { COLORS, SIZES, FONTS } from "./theme";
 
 export const images = {
   onboarding1,
@@ -98,3 +99,5 @@ export const onboarding = [
 export const data = {
   onboarding,
 };
+
+export { theme, COLORS, SIZES, FONTS };
