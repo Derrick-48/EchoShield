@@ -81,7 +81,7 @@ const TabsLayout = () => {
                         router.navigate("/(tabs)/home/notifications");
                       }}
                       onRightSecondPress={() => {
-                        router.navigate("/(tabs)/home/HomeProfile");
+                        router.navigate("/(tabs)/home/incidents");
                       }}
                     />
                   </SafeAreaView>
