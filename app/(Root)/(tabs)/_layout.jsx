@@ -64,30 +64,7 @@ const TabsLayout = () => {
                 <SimpleLineIcons name="disc" size={25} color={color} />
               </View>
             ),
-            header: () => {
-              return (
-                <>
-                  <SafeAreaView>
-                    <StatusBar style={statusBarStyle} />
-                    <HeaderCustom
-                      isDarkTheme={isDarkTheme}
-                      navigation={navigation}
-                      LeftIconName={"menu"}
-                      RightFirstIconName={"notifications"}
-                      HeaderName={"Home"}
-                      RightSecondIconName={"person"}
-                      onLeftPress={() => navigation.openDrawer()}
-                      onFirstRightPress={() => {
-                        router.navigate("/(tabs)/home/notifications");
-                      }}
-                      onRightSecondPress={() => {
-                        router.navigate("/(tabs)/home/incidents");
-                      }}
-                    />
-                  </SafeAreaView>
-                </>
-              );
-            },
+            headerShown: null,
           }}
         />
         <Tabs.Screen

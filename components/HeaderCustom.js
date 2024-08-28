@@ -5,6 +5,7 @@ import { useTheme } from "@/Context/ThemeContext";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HeaderCustom = ({
   onLeftPress,
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 10,
+    paddingTop: 60,
   },
   headerText: {
     fontSize: 20,

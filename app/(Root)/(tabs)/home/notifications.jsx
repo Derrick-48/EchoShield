@@ -8,7 +8,7 @@ const NotifiedState = () => {
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
 
   return (
-    <View style={{ backgroundColor: ScreenBackgroundColor }}>
+    <View style={{ flex: 1, backgroundColor: ScreenBackgroundColor }}>
       <Text style={{ color: TextColor }}>NotifiedState</Text>
     </View>
   );
