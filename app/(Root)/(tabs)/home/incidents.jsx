@@ -43,7 +43,7 @@ const IncidentsProfileSection = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "first", title: "Photos" },
-    { key: "second", title: "Likes" },
+    { key: "second", title: "Shared" },
   ]);
 
   const renderTabBar = (props) => (

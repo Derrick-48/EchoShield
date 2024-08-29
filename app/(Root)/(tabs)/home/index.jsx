@@ -1,3 +1,4 @@
+// Import necessary components and libraries
 import {
   View,
   Text,
@@ -5,139 +6,494 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
+  ScrollView,
 } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import React from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/Context/ThemeContext";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
+import { imageDataURL } from "@/constants/ImageData";
 
+// Define the HomeTabScreen component
 const HomeTabScreen = () => {
+  // Get the current theme from the ThemeContext
   const { isDarkTheme } = useTheme();
+
+  // Define colors based on the current theme
+
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+  const NearCardBgColor = isDarkTheme ? "#FBBF00" : "#ffff";
+  const PoliceNearCardBgColor = isDarkTheme ? "#00BFA6" : "#ffff";
+  const MedNearCardBgColor = isDarkTheme ? "#FF4500" : "#000000";
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
+  const InverseTextColor = isDarkTheme ? "#000000" : "#ffffff";
+  const SameTextColor = isDarkTheme ? "#ffffff" : "#ffffff";
+  const IconColor = isDarkTheme ? "#ffffff" : "#000000";
+  const SecondIconColor = isDarkTheme ? "#0066FF" : "#ffffff";
+  const ThirdTextColor = isDarkTheme ? "#ffffff" : "#0066FF";
+  const FourTextColor = isDarkTheme ? "#ffffff" : "#6B7280";
+  const FifthTextColor = isDarkTheme ? "#000000" : "#6B7280";
+  const SecondTextColor = isDarkTheme ? "#ffffff" : "#FBBF24";
+  const TextInputColor = isDarkTheme ? "#ffffff" : "#6B7280";
   const statusBarStyle = isDarkTheme ? "light" : "dark";
   const IconBackgroundColor = isDarkTheme ? "#252829" : "#f0f0f0";
 
+  // Add event listeners for keyboard show and hide events
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        // Custom logic when the keyboard appears
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        // Custom logic when the keyboard disappears
+      }
+    );
+
+    // Cleanup the listeners on component unmount
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  // Render the component
   return (
     <>
-      <View
-        style={[
-          styles.MainContainer,
-          { backgroundColor: ScreenBackgroundColor },
-        ]}
-      >
-        <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View
+          style={[
+            styles.MainContainer,
+            { backgroundColor: ScreenBackgroundColor },
+          ]}
+        >
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.greetingText}>Hello,</Text>
-            <Text style={styles.greetingName}>Hi James</Text>
+            <Text style={[styles.greetingText, { color: TextColor }]}>
+              Hello,
+            </Text>
+            <Text style={[styles.greetingName, { color: TextColor }]}>
+              Hi James
+            </Text>
           </View>
 
-          <View style={styles.doctorOverviewCard}>
-            <View style={styles.doctorCard}>
-              <Image
-                source={{ uri: "https://via.placeholder.com/50" }}
-                style={styles.doctorImage}
-              />
-              <View style={styles.doctorInfo}>
-                <Text style={styles.doctorName}>Dr. Imran Syahir</Text>
-                <Text style={styles.doctorRole}>General Doctor</Text>
-              </View>
-
-              <TouchableOpacity style={styles.arrowIcon}>
-                <FontAwesome name="chevron-right" size={20} color="#3B82F6" />
-              </TouchableOpacity>
-            </View>
-            {/* Separator Line */}
-            <View style={styles.separatorLine} />
-            <View style={styles.doctorSchedule}>
-              <MaterialIcons name="date-range" size={16} color="#6B7280" />
-              <Text style={styles.scheduleText}>Sunday, 12 June</Text>
-              <MaterialIcons name="access-time" size={16} color="#6B7280" />
-              <Text style={styles.scheduleText}>11:00 - 12:00 AM</Text>
-            </View>
-          </View>
-
-          {/* Search Bar */}
-          <View style={styles.searchBar}>
-            <FontAwesome
-              name="search"
-              size={25}
-              color="#9CA3AF"
-              style={styles.searchIcon}
-            />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search doctor or health issue"
-              placeholderTextColor="#9CA3AF"
-            />
-          </View>
-
-          {/* Category Icons */}
-          <View style={styles.categories}>
-            {["snowflake-o", "user-md", "medkit", "hospital-o"].map(
-              (icon, index) => (
-                <View key={index} style={styles.categoryButton}>
-                  <TouchableOpacity
-                    style={[
-                      styles.iconContainer,
-                      { backgroundColor: IconBackgroundColor },
-                    ]}
-                  >
-                    <FontAwesome name={icon} size={20} color="#3B82F6" />
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.MainContainer}
+            keyboardVerticalOffset={90} // Adjust this value as needed
+          >
+            <ScrollView>
+              {/* Doctor Overview Card */}
+              <View style={styles.doctorOverviewCard}>
+                <View style={styles.doctorCard}>
+                  <Image
+                    source={{ uri: "https://via.placeholder.com/50" }}
+                    style={styles.doctorImage}
+                  />
+                  <View style={styles.doctorInfo}>
+                    <Text style={[styles.doctorName, { color: SameTextColor }]}>
+                      Dr. Imran Syahir
+                    </Text>
+                    <Text style={[styles.doctorRole, { color: SameTextColor }]}>
+                      General Doctor
+                    </Text>
+                  </View>
+                  <TouchableOpacity style={styles.arrowIcon}>
+                    <FontAwesome
+                      name="chevron-right"
+                      size={20}
+                      color={SameTextColor}
+                    />
                   </TouchableOpacity>
-                  <Text style={styles.categoryText}>
-                    {["Covid 19", "Doctor", "Medicine", "Hospital"][index]}
+                </View>
+                {/* Separator Line */}
+                <View style={styles.separatorLine} />
+                <View style={styles.doctorSchedule}>
+                  <MaterialIcons
+                    name="date-range"
+                    size={16}
+                    color={IconColor}
+                  />
+                  <Text style={[styles.scheduleText, { color: SameTextColor }]}>
+                    Sunday, 12 June
+                  </Text>
+                  <MaterialIcons
+                    name="access-time"
+                    size={16}
+                    color={IconColor}
+                  />
+                  <Text style={[styles.scheduleText, { color: SameTextColor }]}>
+                    11:00 - 12:00 AM
                   </Text>
                 </View>
-              )
-            )}
-          </View>
+              </View>
 
-          {/* Nearby Doctor Card */}
-          <View style={styles.nearDoctorCard}>
-            <Image
-              source={{ uri: "https://via.placeholder.com/40" }}
-              style={styles.nearDoctorImage}
-            />
-            <View style={styles.nearDoctorInfo}>
-              <Text style={styles.nearDoctorName}>Dr. Joseph Brostito</Text>
-              <Text style={styles.nearDoctorRole}>Dental Specialist</Text>
-              <View style={styles.nearDoctorDetails}>
-                <Text style={styles.distanceText}>
-                  <MaterialIcons name="location-on" size={14} color="#6B7280" />{" "}
-                  1.2 KM
+              {/* Search Bar */}
+              <View
+                style={[styles.searchBar, { backgroundColor: TextInputColor }]}
+              >
+                <FontAwesome
+                  name="search"
+                  size={25}
+                  color={SecondIconColor}
+                  style={styles.searchIcon}
+                />
+                <TextInput
+                  style={[
+                    styles.searchInput,
+                    { backgroundColor: TextInputColor },
+                  ]}
+                  placeholder="Search doctor or health issue"
+                  placeholderTextColor={InverseTextColor}
+                />
+              </View>
+
+              {/* Category Icons */}
+              <View style={styles.categories}>
+                {["building-o", "user-md", "medkit", "hospital-o"].map(
+                  (icon, index) => (
+                    <View key={index} style={styles.categoryButton}>
+                      <TouchableOpacity
+                        style={[
+                          styles.iconContainer,
+                          { backgroundColor: IconBackgroundColor },
+                        ]}
+                      >
+                        <FontAwesome name={icon} size={20} color={IconColor} />
+                      </TouchableOpacity>
+                      <Text style={[styles.categoryText, { color: TextColor }]}>
+                        {["Police", "Doctor", "Medicine", "Hospital"][index]}
+                      </Text>
+                    </View>
+                  )
+                )}
+              </View>
+              {/* Nearby Doctor Card */}
+              <View style={styles.header}>
+                <Text style={[styles.greetingName, { color: TextColor }]}>
+                  Near Doctor
                 </Text>
               </View>
-              <Text style={styles.ratingText}>
-                <FontAwesome name="star" size={14} color="#FBBF24" /> 4.8 (120
-                Reviews)
-              </Text>
-              <Text style={styles.availabilityText}>
-                <MaterialIcons name="access-time" size={14} color="#3B82F6" />{" "}
-                Open at 17:00
-              </Text>
-            </View>
-          </View>
+              <TouchableOpacity>
+                <View
+                  style={[
+                    styles.nearDoctorCardContainer,
+                    { backgroundColor: NearCardBgColor },
+                  ]}
+                >
+                  <View style={styles.nearDoctorCard}>
+                    <Image
+                      source={{ uri: imageDataURL[0] }}
+                      style={styles.nearDoctorImage}
+                    />
+                    <View style={styles.nearDoctorInfo}>
+                      <Text style={styles.nearDoctorName}>
+                        Dr. Joseph Brostito
+                      </Text>
+                      <Text
+                        style={[
+                          styles.nearDoctorRole,
+                          { color: FourTextColor, fontWeight: "600" },
+                        ]}
+                      >
+                        Dental Specialist
+                      </Text>
+                      <View style={styles.nearDoctorDetailsContainer}>
+                        <View style={styles.nearDoctorDetails}>
+                          <MaterialIcons
+                            name="location-on"
+                            size={22}
+                            color={FifthTextColor}
+                          />
+                          <Text
+                            style={[
+                              styles.distanceText,
+                              {
+                                color: FifthTextColor,
+                                fontWeight: "600",
+                                fontSize: 15,
+                              },
+                            ]}
+                          >
+                            {" "}
+                            1.2 Km
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  {/* Separator Line */}
+                  <View style={styles.separatorLine} />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: 5,
+                    }}
+                  >
+                    <FontAwesome name="star" size={20} color={FifthTextColor} />
+                    <Text
+                      style={[
+                        styles.ratingText,
+                        {
+                          color: FifthTextColor,
+                          fontWeight: "600",
+                          paddingRight: 5,
+                        },
+                      ]}
+                    >
+                      {"  "} 4.8 (120 Reviews)
+                    </Text>
+                    <MaterialIcons
+                      name="access-time"
+                      size={20}
+                      color={ThirdTextColor}
+                    />
+                    <Text
+                      style={[
+                        styles.availabilityText,
+                        {
+                          color: ThirdTextColor,
+                          fontWeight: "600",
+                          paddingRight: 5,
+                        },
+                      ]}
+                    >
+                      {"   "}
+                      Open at 17:00
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <View style={styles.header}>
+                <Text style={[styles.greetingName, { color: TextColor }]}>
+                  Near Police Station
+                </Text>
+              </View>
+              <TouchableOpacity>
+                <View
+                  style={[
+                    styles.nearDoctorCardContainer,
+                    { backgroundColor: PoliceNearCardBgColor },
+                  ]}
+                >
+                  <View style={styles.nearDoctorCard}>
+                    <Image
+                      source={{ uri: imageDataURL[2] }}
+                      style={styles.nearDoctorImage}
+                    />
+                    <View style={styles.nearDoctorInfo}>
+                      <Text style={styles.nearDoctorName}>
+                        Prestea Police Station
+                      </Text>
+                      <Text
+                        style={[
+                          styles.nearDoctorRole,
+                          { color: FourTextColor, fontWeight: "600" },
+                        ]}
+                      >
+                        Near Urban Council
+                      </Text>
+                      <View style={styles.nearDoctorDetailsContainer}>
+                        <View style={styles.nearDoctorDetails}>
+                          <MaterialIcons
+                            name="location-on"
+                            size={22}
+                            color={FifthTextColor}
+                          />
+                          <Text
+                            style={[
+                              styles.distanceText,
+                              {
+                                color: FifthTextColor,
+                                fontWeight: "600",
+                                fontSize: 15,
+                              },
+                            ]}
+                          >
+                            {" "}
+                            1.2 Km
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  {/* Separator Line */}
+                  <View style={styles.separatorLine} />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: 5,
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="police-station"
+                      size={20}
+                      color={FifthTextColor}
+                    />
+                    <Text
+                      style={[
+                        styles.ratingText,
+                        {
+                          color: FifthTextColor,
+                          fontWeight: "600",
+                          paddingRight: 5,
+                        },
+                      ]}
+                    >
+                      {"  "} 4.8 (120 Reviews)
+                    </Text>
+                    <MaterialIcons
+                      name="access-time"
+                      size={20}
+                      color={ThirdTextColor}
+                    />
+                    <Text
+                      style={[
+                        styles.availabilityText,
+                        {
+                          color: ThirdTextColor,
+                          fontWeight: "700",
+                          paddingRight: 5,
+                        },
+                      ]}
+                    >
+                      {"   "}
+                      Open at 24/7
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <View style={styles.header}>
+                <Text style={[styles.greetingName, { color: TextColor }]}>
+                  Nearby Hospital
+                </Text>
+              </View>
+              <TouchableOpacity>
+                <View
+                  style={[
+                    styles.nearDoctorCardContainer,
+                    { backgroundColor: MedNearCardBgColor },
+                  ]}
+                >
+                  <View style={styles.nearDoctorCard}>
+                    <Image
+                      source={{ uri: imageDataURL[4] }}
+                      style={styles.nearDoctorImage}
+                    />
+                    <View style={styles.nearDoctorInfo}>
+                      <Text style={styles.nearDoctorName}>
+                        Prestea Medical Hospital
+                      </Text>
+                      <Text
+                        style={[
+                          styles.nearDoctorRole,
+                          { color: FourTextColor, fontWeight: "600" },
+                        ]}
+                      >
+                        Near The Fuel Station
+                      </Text>
+                      <View style={styles.nearDoctorDetailsContainer}>
+                        <View style={styles.nearDoctorDetails}>
+                          <MaterialIcons
+                            name="location-on"
+                            size={22}
+                            color={FifthTextColor}
+                          />
+                          <Text
+                            style={[
+                              styles.distanceText,
+                              {
+                                color: FifthTextColor,
+                                fontWeight: "600",
+                                fontSize: 15,
+                              },
+                            ]}
+                          >
+                            {" "}
+                            1.2 Km
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  {/* Separator Line */}
+                  <View style={styles.separatorLine} />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: 5,
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="police-station"
+                      size={20}
+                      color={FifthTextColor}
+                    />
+                    <Text
+                      style={[
+                        styles.ratingText,
+                        {
+                          color: FifthTextColor,
+                          fontWeight: "600",
+                          paddingRight: 5,
+                        },
+                      ]}
+                    >
+                      {"  "} 4.8 (120 Reviews)
+                    </Text>
+                    <MaterialIcons
+                      name="access-time"
+                      size={20}
+                      color={ThirdTextColor}
+                    />
+                    <Text
+                      style={[
+                        styles.availabilityText,
+                        {
+                          color: ThirdTextColor,
+                          fontWeight: "700",
+                          paddingRight: 5,
+                        },
+                      ]}
+                    >
+                      {"   "}
+                      Open at 24/7
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </>
   );
 };
 
+// Define styles for the component
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-  },
   MainContainer: {
     flex: 1,
+    padding: 10,
   },
   header: {
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   greetingText: {
     fontSize: 18,
@@ -234,20 +590,25 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   nearDoctorCard: {
+    marginBottom: 10,
     flexDirection: "row",
-    backgroundColor: "#FFF",
+    padding: 10,
+    alignItems: "center",
+  },
+  nearDoctorCardContainer: {
+    flexDirection: "column",
     borderRadius: 12,
     padding: 15,
-    alignItems: "center",
+    marginBottom: 20,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
   },
   nearDoctorImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
   nearDoctorInfo: {
     flex: 1,
@@ -260,7 +621,11 @@ const styles = StyleSheet.create({
   },
   nearDoctorRole: {
     fontSize: 14,
-    color: "#6B7280",
+  },
+  nearDoctorDetailsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 5,
   },
   nearDoctorDetails: {
     flexDirection: "row",
