@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   Alert,
+  Image,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,14 +14,21 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import ToggleSwitch from "toggle-switch-react-native";
 import { StatusBar } from "expo-status-bar";
+import { useNavigation } from "expo-router";
+import Icon from "react-native-vector-icons/Ionicons";
+import { imageDataURL } from "@/constants/ImageData";
 
 const SettingsScreen = () => {
   const { isDarkTheme, toggleTheme } = useTheme();
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const IconColor = isDarkTheme ? "#ffffff" : "#000000";
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
-  const BackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+  const OnSwitchColor = isDarkTheme ? "#151718" : "#ffff";
+  const OffSwitchColor = isDarkTheme ? "#151718" : "#ffff";
+  const SectionBackgroundColor = isDarkTheme ? "#333333" : "#f0f0f0";
   const StatusBarStyle = isDarkTheme ? "light" : "dark";
+  const navigation = useNavigation();
+  const IconBackgroundColor = isDarkTheme ? "#252829" : "#f0f0f0";
 
   // accountItems Navigation functions (start)
   const editProfile = () => {
@@ -173,6 +181,26 @@ const SettingsScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: ScreenBackgroundColor }}>
+      <View
+        style={[
+          styles.headerContainer,
+          {
+            backgroundColor: ScreenBackgroundColor,
+          },
+        ]}
+      >
+        <TouchableOpacity
+          style={[
+            styles.iconContainer,
+            { backgroundColor: IconBackgroundColor },
+          ]}
+          onPress={() => navigation.openDrawer()}
+        >
+          <Icon name="menu" size={24} color={TextColor} />
+        </TouchableOpacity>
+        <Text style={[styles.headerText, { color: TextColor }]}>Settings</Text>
+      </View>
+
       <StatusBar style={StatusBarStyle} />
       <ScrollView
         style={{ marginHorizontal: 12 }}
@@ -190,7 +218,12 @@ const SettingsScreen = () => {
           >
             Account
           </Text>
-          <View style={{ borderRadius: 12, backgroundColor: BackgroundColor }}>
+          <View
+            style={{
+              borderRadius: 12,
+              backgroundColor: SectionBackgroundColor,
+            }}
+          >
             {accountItems.map((item, index) => (
               <React.Fragment key={index}>
                 {renderSettingsScreenItem(item)}
@@ -211,7 +244,12 @@ const SettingsScreen = () => {
           >
             Support & About
           </Text>
-          <View style={{ borderRadius: 12, backgroundColor: BackgroundColor }}>
+          <View
+            style={{
+              borderRadius: 12,
+              backgroundColor: SectionBackgroundColor,
+            }}
+          >
             {supportItems.map((item, index) => (
               <React.Fragment key={index}>
                 {renderSettingsScreenItem(item)}
@@ -232,7 +270,12 @@ const SettingsScreen = () => {
           >
             Cache & Cellular
           </Text>
-          <View style={{ borderRadius: 12, backgroundColor: BackgroundColor }}>
+          <View
+            style={{
+              borderRadius: 12,
+              backgroundColor: SectionBackgroundColor,
+            }}
+          >
             {cacheAndCellularItems.map((item, index) => (
               <React.Fragment key={index}>
                 {renderSettingsScreenItem(item)}
@@ -253,36 +296,45 @@ const SettingsScreen = () => {
           >
             Actions
           </Text>
-          <View style={{ borderRadius: 12, backgroundColor: BackgroundColor }}>
+          <View
+            style={{
+              borderRadius: 12,
+              backgroundColor: SectionBackgroundColor,
+            }}
+          >
             {actionsItems.map((item, index) => (
               <React.Fragment key={index}>
                 {renderSettingsScreenItem(item)}
               </React.Fragment>
             ))}
-          </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              padding: 10,
-            }}
-          >
-            <MaterialIcons
-              name="brightness-6" // You can change this to any icon you like
-              size={24}
-              color={IconColor}
-              style={{ marginRight: 29 }}
-            />
-            <ToggleSwitch
-              isOn={isDarkTheme}
-              onColor="green"
-              offColor="#0066FF"
-              label="Dark Theme"
-              labelStyle={{ color: TextColor, fontWeight: "600", fontSize: 16 }}
-              size="medium"
-              onToggle={toggleTheme}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                padding: 10,
+              }}
+            >
+              <MaterialIcons
+                name="brightness-6" // You can change this to any icon you like
+                size={24}
+                color={IconColor}
+                style={{ marginRight: 29 }}
+              />
+              <ToggleSwitch
+                isOn={isDarkTheme}
+                onColor="green"
+                offColor="#0066FF"
+                label="Dark Theme"
+                labelStyle={{
+                  color: TextColor,
+                  fontWeight: "600",
+                  fontSize: 16,
+                }}
+                size="medium"
+                onToggle={toggleTheme}
+              />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -292,4 +344,32 @@ const SettingsScreen = () => {
 
 export default SettingsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+
+    padding: 10,
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 90,
+  },
+  iconContainer: {
+    padding: 10,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 5,
+  },
+  rightIconsContainer: {
+    flexDirection: "row",
+  },
+  profileContainer: {
+    width: "100%",
+  },
+});
