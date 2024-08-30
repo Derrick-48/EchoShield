@@ -35,7 +35,10 @@ const NearbyCard = ({
         <View style={HomeStyle.nearDoctorCard}>
           <Image source={{ uri: imageUrl }} style={HomeStyle.nearDoctorImage} />
           <View style={HomeStyle.nearDoctorInfo}>
-            <Text style={HomeStyle.nearDoctorName}>{name}</Text>
+            <Text style={[HomeStyle.nearDoctorName, { color: textColor }]}>
+              {name}
+            </Text>
+
             <Text
               style={[
                 HomeStyle.nearDoctorRole,

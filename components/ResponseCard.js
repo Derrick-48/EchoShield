@@ -34,10 +34,11 @@ const ResponseOverviewCard = ({
       <View style={HomeStyle.doctorSchedule}>
         <MaterialIcons name="date-range" size={16} color={iconColor} />
         <Text style={[HomeStyle.scheduleText, { color: textColor }]}>
-          {scheduleDate}
+          {"  "} {scheduleDate} {"  "}
         </Text>
         <MaterialIcons name="access-time" size={16} color={iconColor} />
         <Text style={[HomeStyle.scheduleText, { color: textColor }]}>
+          {"  "}
           {scheduleTime}
         </Text>
       </View>

@@ -27,7 +27,7 @@ const HomeStyle = StyleSheet.create({
   doctorCard: {
     marginBottom: 10,
     flexDirection: "row",
-    padding: 10,
+    padding: 6,
     alignItems: "center",
   },
   doctorOverviewCard: {
@@ -36,6 +36,7 @@ const HomeStyle = StyleSheet.create({
     borderRadius: 12,
     padding: 20,
     marginBottom: 20,
+    marginHorizontal: 5,
   },
   doctorImage: {
     width: 70,
@@ -170,6 +171,9 @@ const HomeStyle = StyleSheet.create({
     backgroundColor: "#E5E7EB", // Line color, adjust as needed
     marginVertical: 5, // Space above and below the line
     width: "100%", // Make it full width to match the container
+  },
+  scrollViewContentContainer: {
+    paddingHorizontal: 10,
   },
 });
 
