@@ -32,14 +32,16 @@ const CustomDrawerContent = (props) => {
       <View style={styles.userInfoWrapper}>
         <Image
           source={{ uri: "https://randomuser.me/api/portraits/women/26.jpg" }}
-          width={80}
-          height={80}
+          width={60}
+          height={60}
           style={styles.userImg}
         />
         <View style={styles.userDetailsWrapper}>
-          <Text style={[styles.userName, { color: TextColor }]}>John Doe</Text>
+          <Text style={[styles.userName, { color: TextColor }]}>
+            Isaac Mensah
+          </Text>
           <Text style={[styles.userEmail, { color: TextColor }]}>
-            john@email.com
+            dhopegraphics@gmail.com
           </Text>
         </View>
       </View>
@@ -174,7 +176,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   userDetailsWrapper: {
-    marginTop: 25,
+    flex: 1,
+    marginTop: 5,
     marginLeft: 10,
   },
   userName: {

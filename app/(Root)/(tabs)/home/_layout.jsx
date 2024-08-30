@@ -32,7 +32,7 @@ export default function HomeLayout() {
                       navigation={navigation}
                       LeftIconName={"menu"}
                       RightFirstIconName={"notifications"}
-                      HeaderName={"Home"}
+                      HeaderName={"      Home"}
                       RightSecondIconName={"person"}
                       onLeftPress={() => navigation.openDrawer()}
                       onFirstRightPress={() => {

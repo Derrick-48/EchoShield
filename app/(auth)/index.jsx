@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "expo-router";
-import { ScrollView, Text, View, Image, StyleSheet , TouchableOpacity } from "react-native";
+import {
+  ScrollView,
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import InputField from "@/components/InputField";
 import { icons, images } from "@/constants";
 
@@ -47,8 +54,7 @@ const SignIn = () => {
         </View>
 
         <Link href="/SignUp" style={styles.link}>
-          Don't have an account?{" "}
-          <Text style={styles.signUpText}>Sign Up</Text>
+          Don't have an account? <Text style={styles.signUpText}>Sign Up</Text>
         </Link>
       </View>
     </ScrollView>

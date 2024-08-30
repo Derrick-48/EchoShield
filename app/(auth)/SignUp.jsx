@@ -1,42 +1,34 @@
 import React, { useState } from "react";
-import { Link, router } from "expo-router";
-import { ScrollView, Text, View, Image, StyleSheet } from "react-native";
-import { ReactNativeModal } from "react-native-modal";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  View,
+  Image,
+  useWindowDimensions,
+  Alert,
+} from "react-native";
+import ReactNativeModal from "react-native-modal";
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import { icons, images } from "@/constants";
+import SignUpStyling from "@/Styles_Theme/SignUpStyles";
+import { useTheme } from "@/Context/ThemeContext";
+import { useSignUp } from "@clerk/clerk-expo";
+import { Link, router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const SignUp = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const [verification, setVerification] = useState({
-    state: "default",
-    error: "",
-    code: "",
-  });
-
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-  const onSignUpPress = () => {
-    router.replace("/(Root)/(tabs)/Aid");
-  };
-
-  const onPressVerify = () => {
-    // Replace with actual verification logic
-  };
-
+const NameEmailPasswordRoute = ({ form, setForm, onSignUpPress }) => {
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={images.signUpCar} style={styles.image} />
-        <Text style={styles.headerText}>Create Your Account</Text>
+    <ScrollView style={SignUpStyling.container}>
+      <View style={SignUpStyling.imageContainer}>
+        <Image source={{}} style={SignUpStyling.image} />
+        <Text style={SignUpStyling.welcomeText}>Welcome 👋</Text>
       </View>
 
-      <View style={styles.formContainer}>
+      <View style={SignUpStyling.formContainer}>
         <InputField
           label="Name"
           placeholder="Enter name"
@@ -64,14 +56,188 @@ const SignUp = () => {
         <CustomButton
           title="Sign Up"
           onPress={onSignUpPress}
-          style={styles.button}
+          style={SignUpStyling.button}
         />
-        {/* Insert OAuth component here */}
-        <Link href="(auth)" style={styles.link}>
-          Already have an account? <Text style={styles.signInText}>Log In</Text>
+        <Link href="(auth)" style={SignUpStyling.link}>
+          Already have an account?{" "}
+          <Text style={SignUpStyling.signInText}>Log In</Text>
         </Link>
       </View>
+    </ScrollView>
+  );
+};
 
+const PhoneNumberNameRoute = ({ phoneForm, setPhoneForm, onSignUpPress }) => {
+  return (
+    <View style={SignUpStyling.formContainer}>
+      <InputField
+        label="Phone Number"
+        placeholder="Enter phone number"
+        icon={icons.profile}
+        value={phoneForm.phone}
+        onChangeText={(value) => setPhoneForm({ ...phoneForm, phone: value })}
+      />
+      <InputField
+        label="Name"
+        placeholder="Enter name"
+        icon={icons.person}
+        value={phoneForm.name}
+        onChangeText={(value) => setPhoneForm({ ...phoneForm, name: value })}
+      />
+      <CustomButton
+        title="Sign Up"
+        onPress={onSignUpPress}
+        style={SignUpStyling.button}
+      />
+      <Link href="(auth)" style={SignUpStyling.link}>
+        Already have an account?{" "}
+        <Text style={SignUpStyling.signInText}>Log In</Text>
+      </Link>
+    </View>
+  );
+};
+
+const SignUp = () => {
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "first", title: "Email Sign Up" },
+    { key: "second", title: "Phone Sign Up" },
+  ]);
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [phoneForm, setPhoneForm] = useState({
+    phone: "",
+    name: "",
+  });
+
+  const [verification, setVerification] = useState({
+    state: "default",
+    error: "",
+    code: "",
+  });
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const onSignUpPress = async () => {
+    if (!isLoaded) return;
+    try {
+      if (index === 0) {
+        // Email sign-up
+        await signUp.create({
+          emailAddress: form.email,
+          password: form.password,
+        });
+        await signUp.prepareEmailAddressVerification({
+          strategy: "email_code",
+        });
+        setVerification({ ...verification, state: "pending" });
+      } else {
+        // Phone sign-up
+        await signUp.create({
+          phoneNumber: phoneForm.phone,
+        });
+        await signUp.preparePhoneNumberVerification({ strategy: "phone_code" });
+        setVerification({ ...verification, state: "pending" });
+      }
+    } catch (err) {
+      console.log(JSON.stringify(err, null, 2));
+      Alert.alert("Error", err.errors[0].longMessage);
+    }
+  };
+
+  const onPressVerify = async () => {
+    if (!isLoaded) return;
+    try {
+      const completeSignUp =
+        index === 0
+          ? await signUp.attemptEmailAddressVerification({
+              code: verification.code,
+            })
+          : await signUp.attemptPhoneNumberVerification({
+              code: verification.code,
+            });
+
+      if (completeSignUp.status === "complete") {
+        await setActive({ session: completeSignUp.createdSessionId });
+        setVerification({ ...verification, state: "success" });
+      } else {
+        setVerification({
+          ...verification,
+          error: "Verification failed. Please try again.",
+          state: "failed",
+        });
+      }
+    } catch (err) {
+      setVerification({
+        ...verification,
+        error: err.errors[0].longMessage,
+        state: "failed",
+      });
+    }
+  };
+
+  const renderScene = SceneMap({
+    first: () => (
+      <NameEmailPasswordRoute
+        form={form}
+        setForm={setForm}
+        onSignUpPress={onSignUpPress}
+      />
+    ),
+    second: () => (
+      <PhoneNumberNameRoute
+        phoneForm={phoneForm}
+        setPhoneForm={setPhoneForm}
+        onSignUpPress={onSignUpPress}
+      />
+    ),
+  });
+
+  const { isDarkTheme } = useTheme();
+  const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
+  const FocusedLineColor = isDarkTheme ? "#0066FF" : "#0066FF";
+  const TextLineColor = isDarkTheme ? "#ffffff" : "#0066FF";
+  const FocusedTextLineColor = isDarkTheme ? "#FFFF00" : "#000000";
+  const Layout = useWindowDimensions();
+
+  const renderTabBar = (props) => (
+    <TabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: FocusedLineColor }}
+      style={{ backgroundColor: ScreenBackgroundColor, height: 44 }}
+      renderLabel={({ focused, route }) => (
+        <Text
+          style={{
+            color: focused ? TextLineColor : FocusedTextLineColor,
+            fontWeight: "500",
+          }}
+        >
+          {route.title}
+        </Text>
+      )}
+    />
+  );
+
+  return (
+    <ScrollView
+      contentContainerStyle={{
+        flex: 1,
+        backgroundColor: ScreenBackgroundColor,
+      }}
+    >
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: Layout.width }}
+        renderTabBar={renderTabBar}
+      />
       <ReactNativeModal
         isVisible={verification.state === "pending"}
         onModalHide={() => {
@@ -80,10 +246,11 @@ const SignUp = () => {
           }
         }}
       >
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalHeader}>Verification</Text>
-          <Text style={styles.modalText}>
-            We've sent a verification code to {form.email}.
+        <View style={SignUpStyling.modalContainer}>
+          <Text style={SignUpStyling.modalHeader}>Verification</Text>
+          <Text style={SignUpStyling.modalText}>
+            We've sent a verification code to{" "}
+            {index === 0 ? form.email : phoneForm.phone}.
           </Text>
           <InputField
             label="Code"
@@ -94,118 +261,33 @@ const SignUp = () => {
             onChangeText={(code) => setVerification({ ...verification, code })}
           />
           {verification.error && (
-            <Text style={styles.errorText}>{verification.error}</Text>
+            <Text style={SignUpStyling.errorText}>{verification.error}</Text>
           )}
           <CustomButton
-            title="Verify Email"
+            title="Verify"
             onPress={onPressVerify}
-            style={[styles.button, styles.verifyButton]}
+            style={[SignUpStyling.button, SignUpStyling.verifyButton]}
           />
         </View>
       </ReactNativeModal>
 
+      {/* Success Modal */}
       <ReactNativeModal isVisible={showSuccessModal}>
-        <View style={styles.modalContainer}>
-          <Image source={images.check} style={styles.successImage} />
-          <Text style={styles.successText}>Verified</Text>
-          <Text style={styles.successMessage}>
+        <View style={SignUpStyling.modalContainer}>
+          <Image source={images.check} style={SignUpStyling.successImage} />
+          <Text style={SignUpStyling.successText}>Verified</Text>
+          <Text style={SignUpStyling.successMessage}>
             You have successfully verified your account.
           </Text>
           <CustomButton
             title="Browse Home"
-            onPress={() => {
-              // Navigate to home
-            }}
-            style={styles.button}
+            onPress={() => router.replace("/(Root)/(tabs)/home")}
+            style={SignUpStyling.button}
           />
         </View>
       </ReactNativeModal>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  imageContainer: {
-    position: "relative",
-    width: "100%",
-    height: 250,
-  },
-  image: {
-    width: "100%",
-    height: 250,
-  },
-  headerText: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    fontSize: 24,
-    fontWeight: "600",
-    color: "black",
-  },
-  formContainer: {
-    padding: 20,
-  },
-  button: {
-    backgroundColor: "#0286FF",
-    padding: 15,
-    borderRadius: 25,
-    alignItems: "center",
-    marginTop: 20,
-  },
-  link: {
-    textAlign: "center",
-    fontSize: 16,
-    color: "#777",
-    marginTop: 20,
-  },
-  signInText: {
-    color: "#0286FF",
-    fontWeight: "600",
-  },
-  modalContainer: {
-    backgroundColor: "white",
-    padding: 30,
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  modalHeader: {
-    fontSize: 24,
-    fontWeight: "700",
-    marginBottom: 10,
-  },
-  modalText: {
-    fontSize: 16,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  errorText: {
-    color: "red",
-    fontSize: 14,
-    marginTop: 10,
-  },
-  verifyButton: {
-    backgroundColor: "green",
-  },
-  successImage: {
-    width: 110,
-    height: 110,
-    marginBottom: 20,
-  },
-  successText: {
-    fontSize: 24,
-    fontWeight: "700",
-    textAlign: "center",
-  },
-  successMessage: {
-    fontSize: 16,
-    color: "gray",
-    textAlign: "center",
-    marginTop: 10,
-  },
-});
 
 export default SignUp;
