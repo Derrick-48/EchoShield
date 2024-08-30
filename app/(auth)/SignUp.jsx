@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import {
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   Text,
   View,
@@ -17,85 +15,9 @@ import { icons, images } from "@/constants";
 import SignUpStyling from "@/Styles_Theme/SignUpStyles";
 import { useTheme } from "@/Context/ThemeContext";
 import { useSignUp } from "@clerk/clerk-expo";
-import { Link, router } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-const NameEmailPasswordRoute = ({ form, setForm, onSignUpPress }) => {
-  return (
-    <ScrollView style={SignUpStyling.container}>
-      <View style={SignUpStyling.imageContainer}>
-        <Image source={{}} style={SignUpStyling.image} />
-        <Text style={SignUpStyling.welcomeText}>Welcome 👋</Text>
-      </View>
-
-      <View style={SignUpStyling.formContainer}>
-        <InputField
-          label="Name"
-          placeholder="Enter name"
-          icon={icons.person}
-          value={form.name}
-          onChangeText={(value) => setForm({ ...form, name: value })}
-        />
-        <InputField
-          label="Email"
-          placeholder="Enter email"
-          icon={icons.email}
-          textContentType="emailAddress"
-          value={form.email}
-          onChangeText={(value) => setForm({ ...form, email: value })}
-        />
-        <InputField
-          label="Password"
-          placeholder="Enter password"
-          icon={icons.lock}
-          secureTextEntry={true}
-          textContentType="password"
-          value={form.password}
-          onChangeText={(value) => setForm({ ...form, password: value })}
-        />
-        <CustomButton
-          title="Sign Up"
-          onPress={onSignUpPress}
-          style={SignUpStyling.button}
-        />
-        <Link href="(auth)" style={SignUpStyling.link}>
-          Already have an account?{" "}
-          <Text style={SignUpStyling.signInText}>Log In</Text>
-        </Link>
-      </View>
-    </ScrollView>
-  );
-};
-
-const PhoneNumberNameRoute = ({ phoneForm, setPhoneForm, onSignUpPress }) => {
-  return (
-    <View style={SignUpStyling.formContainer}>
-      <InputField
-        label="Phone Number"
-        placeholder="Enter phone number"
-        icon={icons.profile}
-        value={phoneForm.phone}
-        onChangeText={(value) => setPhoneForm({ ...phoneForm, phone: value })}
-      />
-      <InputField
-        label="Name"
-        placeholder="Enter name"
-        icon={icons.person}
-        value={phoneForm.name}
-        onChangeText={(value) => setPhoneForm({ ...phoneForm, name: value })}
-      />
-      <CustomButton
-        title="Sign Up"
-        onPress={onSignUpPress}
-        style={SignUpStyling.button}
-      />
-      <Link href="(auth)" style={SignUpStyling.link}>
-        Already have an account?{" "}
-        <Text style={SignUpStyling.signInText}>Log In</Text>
-      </Link>
-    </View>
-  );
-};
+import { router } from "expo-router";
+import PhoneNumberNameRoute from "./sign-up/phone";
+import NameEmailPasswordRoute from "./sign-up/emailSignup";
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
