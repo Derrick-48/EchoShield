@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
@@ -16,7 +17,10 @@ import { imageDataURL } from "@/constants/ImageData";
 
 const NameEmailPasswordRoute = ({ form, setForm, onSignUpPress }) => {
   return (
-    <ScrollView style={SignUpStyling.container}>
+    <ScrollView
+      style={SignUpStyling.container}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={SignUpStyling.imageContainer}>
         <Image source={{ uri: imageDataURL[5] }} style={SignUpStyling.image} />
         <Text
@@ -63,10 +67,25 @@ const NameEmailPasswordRoute = ({ form, setForm, onSignUpPress }) => {
           onPress={onSignUpPress}
           style={SignUpStyling.button}
         />
-        <Link href="(auth)" style={SignUpStyling.link}>
-          Already have an account?{" "}
-          <Text style={SignUpStyling.signInText}>Log In</Text>
-        </Link>
+        <View
+          style={{
+            justifyContent: "center",
+            flexDirection: "row",
+            marginTop: 10,
+            alignContent: "center",
+            alignSelf: "center",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={{ fontSize: 17 }}>Already have an account?{"  "}</Text>
+          <Link href="(auth)" asChild>
+            <TouchableOpacity>
+              <Text style={[SignUpStyling.signInText, { fontSize: 17 }]}>
+                Log In
+              </Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
       </View>
     </ScrollView>
   );

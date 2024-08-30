@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import InputField from "@/components/InputField";
 import { icons, images } from "@/constants";
+import { imageDataURL } from "@/constants/ImageData";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -18,9 +19,9 @@ const SignIn = () => {
   });
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.imageContainer}>
-        <Image source={images.signUpCar} style={styles.image} />
+        <Image source={{ uri: imageDataURL[5] }} style={styles.image} />
         <Text style={styles.welcomeText}>Welcome 👋</Text>
       </View>
 
@@ -53,9 +54,22 @@ const SignIn = () => {
           {/* Add your OAuth buttons here */}
         </View>
 
-        <Link href="/SignUp" style={styles.link}>
-          Don't have an account? <Text style={styles.signUpText}>Sign Up</Text>
-        </Link>
+        <View
+          style={{
+            justifyContent: "center",
+            flexDirection: "row",
+            marginTop: 10,
+            alignContent: "center",
+            alignSelf: "center",
+          }}
+        >
+          <Text style={{ fontSize: 17 }}>Don't have an account? {"  "}</Text>
+          <Link href="/SignUp" asChild>
+            <TouchableOpacity>
+              <Text style={[styles.signUpText, { fontSize: 17 }]}>Sign Up</Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
       </View>
     </ScrollView>
   );
@@ -81,7 +95,7 @@ const styles = StyleSheet.create({
     left: 20,
     fontSize: 24,
     fontWeight: "600",
-    color: "black",
+    color: "white",
   },
   formContainer: {
     padding: 20,
