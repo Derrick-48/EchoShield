@@ -20,12 +20,22 @@ import HomeStyle from "@/Styles_Theme/HomeScreenStyle";
 import NearbyCard from "@/components/NearbyCard";
 import ResponseOverviewCard from "@/components/ResponseCard";
 import { doctors as InitialDoctorsData } from "@/constants/data";
+import {
+  nearbyDoctorsData as DummyNearbyDoctorsData,
+  nearbyHospitalsData as DummyNearbyHospitalsData,
+  nearbyPoliceData as DummyNearbyPoliceData,
+} from "@/constants/data";
 
 // Define the HomeTabScreen component
 const HomeTabScreen = () => {
   // Get the current theme from the ThemeContext
   const { isDarkTheme } = useTheme();
   const [doctors, setDoctors] = useState(InitialDoctorsData); // State to store the fetched doctors
+  const [nearbyDoctors, setNearbyDoctors] = useState(DummyNearbyDoctorsData);
+  const [nearbyHospitals, setNearbyHospitals] = useState(
+    DummyNearbyHospitalsData
+  );
+  const [nearbyPolice, setNearbyPolice] = useState(DummyNearbyPoliceData);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false); // State for the refreshing indicator
 
@@ -210,67 +220,94 @@ const HomeTabScreen = () => {
                 Nearby Doctor
               </Text>
             </View>
-            <NearbyCard
-              imageUrl={imageDataURL[1]}
-              name="Dr. Joseph Brostito"
-              role="Dental Specialist"
-              location="1.2 Km"
-              LocationIconName="location-on"
-              distance="1.2 Km"
-              LeftDownIconName="star"
-              rating="4.8"
-              reviews="120"
-              availability="Open at 17:00"
-              cardBgColor={NearCardBgColor}
-              textColor={SixthTextColor}
-              fourTextColor={FourTextColor}
-              fifthTextColor={FifthTextColor}
-              thirdTextColor={ThirdTextColor}
-            />
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
+              showsHorizontalScrollIndicator={false}
+            >
+              {nearbyDoctors.map((data, index) => (
+                <NearbyCard
+                  key={index}
+                  imageUrl={data.imageUrl}
+                  name={data.name}
+                  role={data.role}
+                  location={data.location}
+                  distance={data.distance}
+                  LocationIconName={data.LocationIconName}
+                  LeftDownIconName={data.LeftDownIconName}
+                  rating={data.rating}
+                  reviews={data.reviews}
+                  availability={data.availability}
+                  cardBgColor={NearCardBgColor}
+                  textColor={SixthTextColor}
+                  fourTextColor={FourTextColor}
+                  fifthTextColor={FifthTextColor}
+                  thirdTextColor={ThirdTextColor}
+                />
+              ))}
+            </ScrollView>
+
             <View style={HomeStyle.header}>
               <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
                 Nearby Police Station
               </Text>
             </View>
-            <NearbyCard
-              imageUrl={imageDataURL[2]}
-              name="Prestea Police Station"
-              role="Near Urban Council"
-              location="1.2 Km"
-              distance="1.2 Km"
-              LocationIconName="location-on"
-              LeftDownIconName="police-badge"
-              rating="4.8"
-              reviews="120"
-              availability="Opens 24/7"
-              cardBgColor={PoliceNearCardBgColor}
-              textColor={SixthTextColor}
-              fourTextColor={FourTextColor}
-              fifthTextColor={FifthTextColor}
-              thirdTextColor={ThirdTextColor}
-            />
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
+              showsHorizontalScrollIndicator={false}
+            >
+              {nearbyPolice.map((data, index) => (
+                <NearbyCard
+                  key={index}
+                  imageUrl={data.imageUrl}
+                  name={data.name}
+                  role={data.role}
+                  location={data.location}
+                  distance={data.distance}
+                  LocationIconName={data.LocationIconName}
+                  LeftDownIconName={data.LeftDownIconName}
+                  rating={data.rating}
+                  reviews={data.reviews}
+                  availability={data.availability}
+                  cardBgColor={PoliceNearCardBgColor}
+                  textColor={SixthTextColor}
+                  fourTextColor={FourTextColor}
+                  fifthTextColor={FifthTextColor}
+                  thirdTextColor={ThirdTextColor}
+                />
+              ))}
+            </ScrollView>
             <View style={HomeStyle.header}>
               <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
                 Nearby Hospital
               </Text>
             </View>
-            <NearbyCard
-              imageUrl={imageDataURL[4]}
-              name="Prestea Medical Hospital"
-              role="Near The Fuel Station"
-              location="1.2 Km"
-              LocationIconName="location-on"
-              LeftDownIconName="hospital-building"
-              distance="1.2 Km"
-              rating="4.8"
-              reviews="120"
-              availability="Opens 24/7"
-              cardBgColor={MedNearCardBgColor}
-              textColor={PoliceTextColor}
-              fourTextColor={FourTextColor}
-              fifthTextColor={FifthTextColor}
-              thirdTextColor={ThirdTextColor}
-            />
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
+              showsHorizontalScrollIndicator={false}
+            >
+              {nearbyHospitals.map((data, index) => (
+                <NearbyCard
+                  key={index}
+                  imageUrl={data.imageUrl}
+                  name={data.name}
+                  role={data.role}
+                  location={data.location}
+                  distance={data.distance}
+                  LocationIconName={data.LocationIconName}
+                  LeftDownIconName={data.LeftDownIconName}
+                  rating={data.rating}
+                  reviews={data.reviews}
+                  cardBgColor={MedNearCardBgColor}
+                  textColor={PoliceTextColor}
+                  fourTextColor={FourTextColor}
+                  fifthTextColor={FifthTextColor}
+                  thirdTextColor={ThirdTextColor}
+                />
+              ))}
+            </ScrollView>
           </ScrollView>
         </KeyboardAvoidingView>
       </View>

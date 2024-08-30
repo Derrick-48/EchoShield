@@ -4,6 +4,7 @@ import { useTheme } from "@/Context/ThemeContext";
 import { StatusBar } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { ThemeProvider } from "@/Context/ThemeContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const tokenCache = {
   async getToken(key) {
@@ -43,15 +44,17 @@ const MainLayout = () => {
     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <ClerkLoaded>
         <ThemeProvider>
-          <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="(Root)" options={{ headerShown: false }} />
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="Intro/onboarding"
-              options={{ headerShown: false }}
-            />
-          </Stack>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen name="(Root)" options={{ headerShown: false }} />
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="Intro/onboarding"
+                options={{ headerShown: false }}
+              />
+            </Stack>
+          </GestureHandlerRootView>
         </ThemeProvider>
       </ClerkLoaded>
     </ClerkProvider>
