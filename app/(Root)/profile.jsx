@@ -4,9 +4,7 @@ import {
   View,
   TouchableOpacity,
   Image,
-  useWindowDimensions,
-  FlatList,
-  Button,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { useTheme } from "@/Context/ThemeContext";
@@ -14,19 +12,52 @@ import { useNavigation } from "expo-router";
 import Icon from "react-native-vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { imageDataURL } from "@/constants/ImageData";
+import * as ImagePicker from "expo-image-picker";
 import { COLORS, FONTS, SIZES } from "@/constants";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useUser } from "@clerk/clerk-expo";
 
 const ProfileSection = () => {
   const { isDarkTheme } = useTheme();
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
+  const { user } = useUser(); // Get the current user from the Clerk context
+  const userName = user?.fullName.toUpperCase() || "No Full Name";
   const SecondTextColor = isDarkTheme ? "#ffffff" : "#0066FF";
   const ThirdTextColor = isDarkTheme ? "#0066FF" : "#ffffff";
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
   const navigation = useNavigation();
   const IconBackgroundColor = isDarkTheme ? "#252829" : "#f0f0f0";
-  const statusBarStyle = isDarkTheme ? "light" : "dark";
   const ImageBorderColor = isDarkTheme ? "#ffffff" : "#ffffff";
+  const userProfile = user?.imageUrl;
+  const [selectedImage, setSelectedImage] = useState(userProfile);
+  const [selectedBgImage, setSelectedBgImage] = useState(imageDataURL[0]);
+
+  const handleImageSelection = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      Alert.alert("Image Has Been Successfully Changed");
+    }
+  };
+  const handleBgImageSelection = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setSelectedBgImage(result.assets[0].uri);
+    } else {
+      Alert.alert("Image Has Been Successfully Changed");
+    }
+  };
 
   return (
     <SafeAreaView
@@ -56,30 +87,34 @@ const ProfileSection = () => {
         </TouchableOpacity>
         <Text style={[styles.headerText, { color: TextColor }]}>Profile</Text>
       </View>
-      <View style={styles.profileContainer}>
-        <Image
-          source={{ uri: imageDataURL[0] }}
-          resizeMode="cover"
-          style={{
-            height: 228,
-            width: "100%",
-          }}
-        />
-      </View>
+      <TouchableOpacity onPress={handleBgImageSelection}>
+        <View style={styles.profileContainer}>
+          <Image
+            source={{ uri: selectedBgImage }}
+            resizeMode="cover"
+            style={{
+              height: 228,
+              width: "100%",
+            }}
+          />
+        </View>
+      </TouchableOpacity>
 
       <View style={{ flex: 1, alignItems: "center" }}>
-        <Image
-          source={{ uri: imageDataURL[1] }}
-          resizeMode="cover"
-          style={{
-            height: 155,
-            width: 155,
-            borderRadius: 999,
-            borderColor: ImageBorderColor,
-            borderWidth: 2,
-            marginTop: -90,
-          }}
-        />
+        <TouchableOpacity onPress={handleImageSelection}>
+          <Image
+            source={{ uri: selectedImage }}
+            resizeMode="cover"
+            style={{
+              height: 155,
+              width: 155,
+              borderRadius: 999,
+              borderColor: ImageBorderColor,
+              borderWidth: 2,
+              marginTop: -90,
+            }}
+          />
+        </TouchableOpacity>
         <Text
           style={{
             ...FONTS.h3,
@@ -87,9 +122,10 @@ const ProfileSection = () => {
             marginVertical: 8,
             fontWeight: "700",
             fontSize: 20,
+            marginLeft: 10,
           }}
         >
-          Isaac Mensah
+          {userName}
         </Text>
 
         <Text
@@ -151,7 +187,7 @@ const ProfileSection = () => {
                 fontWeight: "500",
               }}
             >
-              Followers
+              Dangers
             </Text>
           </View>
 
@@ -178,7 +214,7 @@ const ProfileSection = () => {
                 fontWeight: "500",
               }}
             >
-              Following
+              Emergencies
             </Text>
           </View>
           <View
@@ -195,7 +231,7 @@ const ProfileSection = () => {
                 fontWeight: "700",
               }}
             >
-              65K
+              10
             </Text>
             <Text
               style={{
@@ -204,7 +240,7 @@ const ProfileSection = () => {
                 fontWeight: "500",
               }}
             >
-              Likes
+              Places
             </Text>
           </View>
         </View>

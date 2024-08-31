@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -12,12 +11,13 @@ import {
 import React, { useState } from "react";
 import { useTheme } from "@/Context/ThemeContext";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { imageDataURL } from "@/constants/ImageData";
 import DatePicker, { getFormatedDate } from "react-native-modern-datepicker";
-import { COLORS, FONTS } from "@/constants";
+import { FONTS } from "@/constants";
+import { useUser } from "@clerk/clerk-expo";
+import EditProfileStyling from "@/Styles_Theme/EditProfileStyle";
 
 const EditProfileScreen = () => {
   const { isDarkTheme } = useTheme();
@@ -27,16 +27,20 @@ const EditProfileScreen = () => {
   const ImageColor = isDarkTheme ? "#ffffff" : "#151718";
   const BorderColor = isDarkTheme ? "#ffffff" : "#151718";
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
-
-  const [selectedImage, setSelectedImage] = useState(imageDataURL[0]);
-  const [name, setName] = useState("Isaac Mensah");
-  const [email, setEmail] = useState("isaacmensah@gmail.com");
+  const { user, updateUser } = useUser(); // Get the current user from the Clerk context
+  const userRealName = user?.fullName.toUpperCase() || "No Full Name";
+  const userProfile = user?.imageUrl;
+  const userName = user?.username || "No User Name";
+  const initialEmail =
+    user?.emailAddresses[0].emailAddress || "Email Not Found";
+  const [selectedImage, setSelectedImage] = useState(userProfile);
+  const [name, setName] = useState(userName);
+  const [email, setEmail] = useState(initialEmail);
   const [phone, setPhone] = useState("054-1234567");
   const [password, setPassword] = useState("password123");
   const [confirmPassword, setConfirmPassword] = useState("password123");
   const [showPassword, setShowPassword] = useState(false);
   const [country, setCountry] = useState("Ghana");
-
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const today = new Date();
   const startDate = getFormatedDate(
@@ -63,8 +67,6 @@ const EditProfileScreen = () => {
     });
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
-    } else if (result.canceled) {
-      Alert.alert("Image Has Been Successfully Changed");
     }
   };
 
@@ -74,18 +76,18 @@ const EditProfileScreen = () => {
       transparent={true}
       visible={openStartDatePicker}
     >
-      <View style={styles.modalContainer}>
-        <View style={styles.datePickerContainer}>
+      <View style={EditProfileStyling.modalContainer}>
+        <View style={EditProfileStyling.datePickerContainer}>
           <DatePicker
-            options={styles.datePickerOptions}
+            options={EditProfileStyling.datePickerOptions}
             mode="calendar"
             minimumDate={startDate}
-            style={styles.datePicker}
+            style={EditProfileStyling.datePicker}
             onDateChanged={handleChangeStartDate}
             onSelectedChange={(date) => setSelectedStartDate(date)}
           />
           <TouchableOpacity onPress={handleOnPressStartDate}>
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Text style={EditProfileStyling.closeButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -95,14 +97,14 @@ const EditProfileScreen = () => {
   return (
     <SafeAreaView
       style={[
-        styles.container,
+        EditProfileStyling.container,
         { backgroundColor: ScreenBackgroundColor, paddingHorizontal: 22 },
       ]}
     >
-      <View style={styles.header}>
+      <View style={EditProfileStyling.header}>
         <TouchableOpacity
           onPress={() => router.back()}
-          style={styles.backButton}
+          style={EditProfileStyling.backButton}
         >
           <MaterialIcons
             name="keyboard-arrow-left"
@@ -110,24 +112,27 @@ const EditProfileScreen = () => {
             color={TextColor}
           />
         </TouchableOpacity>
-        <Text style={[styles.headerText, { color: TextColor }]}>
+        <Text style={[EditProfileStyling.headerText, { color: TextColor }]}>
           Profile Edit
         </Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.profileImageContainer}>
+        <View style={EditProfileStyling.profileImageContainer}>
           <TouchableOpacity onPress={handleImageSelection}>
             <Image
               source={{ uri: selectedImage }}
-              style={[styles.profileImage, { borderColor: BorderColor }]}
+              style={[
+                EditProfileStyling.profileImage,
+                { borderColor: BorderColor },
+              ]}
             />
-            <View style={styles.cameraIconContainer}>
+            <View style={EditProfileStyling.cameraIconContainer}>
               <MaterialIcons name="photo-camera" size={32} color={ImageColor} />
             </View>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.inputContainer}>
+        <View style={EditProfileStyling.inputContainer}>
           {renderInputField("Name", name, setName, TextColor, BorderColor)}
           {renderInputField("Email", email, setEmail, TextColor, BorderColor)}
           {renderInputField(
@@ -161,20 +166,23 @@ const EditProfileScreen = () => {
             BorderColor
           )}
 
-          <View style={styles.inputWrapper}>
-            <Text style={[styles.label, { color: TextColor }]}>
+          <View style={EditProfileStyling.inputWrapper}>
+            <Text style={[EditProfileStyling.label, { color: TextColor }]}>
               Date of Birth
             </Text>
             <TouchableOpacity
               onPress={handleOnPressStartDate}
-              style={[styles.input, { borderColor: BorderColor }]}
+              style={[EditProfileStyling.input, { borderColor: BorderColor }]}
             >
               <Text style={{ color: TextColor }}>{selectedStartDate}</Text>
             </TouchableOpacity>
           </View>
         </View>
         <TouchableOpacity
-          style={[styles.buttonContainer, { backgroundColor: ButtonColor }]}
+          style={[
+            EditProfileStyling.buttonContainer,
+            { backgroundColor: ButtonColor },
+          ]}
           onPress={() => Alert.alert("Changes Have Been Successfully  Saved")}
         >
           <Text
@@ -200,9 +208,11 @@ const renderInputField = (
   borderColor,
   isPassword = false
 ) => (
-  <View style={styles.inputWrapper}>
-    <Text style={[styles.label, { color: TextColor }]}>{label}</Text>
-    <View style={[styles.input, { borderColor }]}>
+  <View style={EditProfileStyling.inputWrapper}>
+    <Text style={[EditProfileStyling.label, { color: TextColor }]}>
+      {label}
+    </Text>
+    <View style={[EditProfileStyling.input, { borderColor }]}>
       <TextInput
         value={value}
         onChangeText={setValue}
@@ -218,106 +228,3 @@ const renderInputField = (
 );
 
 export default EditProfileScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    marginHorizontal: 12,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  backButton: {
-    position: "absolute",
-    left: 0,
-  },
-  headerText: {
-    margin: 2,
-    marginLeft: 30,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  profileImageContainer: {
-    alignItems: "center",
-    marginVertical: 22,
-  },
-  profileImage: {
-    height: 170,
-    width: 170,
-    borderRadius: 85,
-    borderWidth: 2,
-  },
-  cameraIconContainer: {
-    position: "absolute",
-    bottom: 0,
-    right: 10,
-    zIndex: 9999,
-  },
-  inputContainer: {
-    width: "100%",
-  },
-  inputWrapper: {
-    flexDirection: "column",
-    marginBottom: 6,
-  },
-  label: {
-    fontWeight: "600",
-    fontSize: 16,
-    lineHeight: 20,
-  },
-  input: {
-    height: 44,
-    width: "100%",
-    borderWidth: 1,
-    borderRadius: 4,
-    marginVertical: 6,
-    justifyContent: "center",
-    paddingLeft: 8,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  datePickerContainer: {
-    backgroundColor: COLORS.primary,
-    margin: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
-    padding: 35,
-    width: "90%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  datePicker: {
-    borderRadius: 10,
-  },
-  datePickerOptions: {
-    backgroundColor: COLORS.primary,
-    textHeaderColor: COLORS.white,
-    textDefaultColor: COLORS.white,
-    selectedTextColor: COLORS.white,
-    mainColor: "#469ab6",
-    textSecondaryColor: COLORS.white,
-    borderColor: "rgba(122, 146, 165, 0.1)",
-  },
-  closeButtonText: {
-    color: COLORS.white,
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  buttonContainer: {
-    height: 44,
-    borderRadius: 6,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

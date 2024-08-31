@@ -39,6 +39,7 @@ const HomeTabScreen = () => {
   const [nearbyPolice, setNearbyPolice] = useState(DummyNearbyPoliceData);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false); // State for the refreshing indicator
+  const { user } = useUser(); // Get the current user from the Clerk context
 
   // Function to handle refresh
   const onRefresh = () => {
@@ -93,6 +94,8 @@ const HomeTabScreen = () => {
     };
   }, []);
 
+  const userName = user?.fullName || "User"; // Use the user's first name, or fallback to "User" if not available
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -128,7 +131,7 @@ const HomeTabScreen = () => {
             Hello,
           </Text>
           <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
-            Hi Isaac
+            {userName}
           </Text>
         </View>
 

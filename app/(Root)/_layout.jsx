@@ -11,9 +11,15 @@ import {
 import { router, usePathname } from "expo-router";
 import { useTheme } from "@/Context/ThemeContext";
 import { StatusBar } from "expo-status-bar";
+import { useUser } from "@clerk/clerk-expo";
 
 const CustomDrawerContent = (props) => {
   const { isDarkTheme } = useTheme();
+  const { user } = useUser(); // Get the current user from the Clerk context
+  const userName = user?.fullName.toUpperCase() || "No Full Name";
+  const userProfile = user?.imageUrl;
+  const userRealName = user?.username || "No Full Name";
+  const email = user?.emailAddresses[0].emailAddress || "Email Not Found";
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const DrawerButtonActiveText = isDarkTheme ? "#ffffff" : "#ffffff";
   const DrawerButtonInActiveText = isDarkTheme ? "#ffffff" : "#151718";
@@ -31,17 +37,17 @@ const CustomDrawerContent = (props) => {
       <StatusBar style={statusBarStyle} />
       <View style={styles.userInfoWrapper}>
         <Image
-          source={{ uri: "https://randomuser.me/api/portraits/women/26.jpg" }}
+          source={{ uri: userProfile }}
           width={60}
           height={60}
           style={styles.userImg}
         />
         <View style={styles.userDetailsWrapper}>
           <Text style={[styles.userName, { color: TextColor }]}>
-            Isaac Mensah
+            {userName}
           </Text>
           <Text style={[styles.userEmail, { color: TextColor }]}>
-            dhopegraphics@gmail.com
+            {userRealName}
           </Text>
         </View>
       </View>
@@ -177,7 +183,7 @@ const styles = StyleSheet.create({
   },
   userDetailsWrapper: {
     flex: 1,
-    marginTop: 5,
+    marginTop: 12,
     marginLeft: 10,
   },
   userName: {

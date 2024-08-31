@@ -1,5 +1,14 @@
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#fff";
+import { useTheme } from "@/Context/ThemeContext";
+
+const { isDarkTheme } = useTheme();
+export const TextColor = isDarkTheme ? "#ffffff" : "#000000";
+export const ButtonColor = isDarkTheme ? "#ffffff" : "#0066FF";
+export const ButtonTextColor = isDarkTheme ? "#000000" : "#ffffff";
+export const ImageColor = isDarkTheme ? "#ffffff" : "#151718";
+export const BorderColor = isDarkTheme ? "#ffffff" : "#151718";
+export const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
 
 export const Colors = {
   light: {
