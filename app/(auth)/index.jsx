@@ -7,6 +7,7 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
+import { imageDataURL } from "@/constants/ImageData";
 
 const SignIn = () => {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -41,7 +42,7 @@ const SignIn = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Image source={images.signUpCar} style={styles.headerImage} />
+        <Image source={{ uri: imageDataURL[5] }} style={styles.headerImage} />
         <Text style={styles.headerText}>Welcome 👋</Text>
       </View>
 
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     left: 5,
     fontSize: 24,
     fontWeight: "600",
-    color: "black",
+    color: "white",
   },
   formContainer: {
     padding: 20,
