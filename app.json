@@ -27,7 +27,14 @@
       "favicon": "./assets/images/EcoShield-mainLogo.png"
     },
     "plugins": [
-      "expo-router"
+   [  
+    
+   "expo-router",
+      {
+        "origin" : "https://ecoshield.com/"
+      }
+    
+    ]
     ],
     "experiments": {
       "typedRoutes": true
