@@ -19,6 +19,22 @@ const AuthLayout = () => {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="sign-up/emailSignup"
+        options={{
+          headerShown: true,
+          headerTitle: "Sign Up",
+          presentation: "modal",
+        }}
+      />
+      <Stack.Screen
+        name="sign-up/phone"
+        options={{
+          headerShown: true,
+          headerTitle: "Sign Up",
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 };

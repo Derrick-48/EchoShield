@@ -1,28 +1,48 @@
-import React, { useState } from "react";
-import { Link } from "expo-router";
-import {
-  ScrollView,
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import React, { useCallback, useState } from "react";
+import { Alert, Image, ScrollView, Text, View, StyleSheet } from "react-native";
+import { useSignIn } from "@clerk/clerk-expo";
+import { Link, router } from "expo-router";
+
+import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
+import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-import { imageDataURL } from "@/constants/ImageData";
 
 const SignIn = () => {
+  const { signIn, setActive, isLoaded } = useSignIn();
+
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
+  const onSignInPress = useCallback(async () => {
+    if (!isLoaded) return;
+
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: form.email,
+        password: form.password,
+      });
+
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.replace("/(Root)/(tabs)/home");
+      } else {
+        console.log(JSON.stringify(signInAttempt, null, 2));
+        Alert.alert("Error", "Log in failed. Please try again.");
+      }
+    } catch (err) {
+      console.log(JSON.stringify(err, null, 2));
+      Alert.alert("Error", err.errors[0].longMessage);
+    }
+  }, [isLoaded, form, signIn, setActive]);
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: imageDataURL[5] }} style={styles.image} />
-        <Text style={styles.welcomeText}>Welcome 👋</Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Image source={images.signUpCar} style={styles.headerImage} />
+        <Text style={styles.headerText}>Welcome 👋</Text>
       </View>
 
       <View style={styles.formContainer}>
@@ -45,31 +65,17 @@ const SignIn = () => {
           onChangeText={(value) => setForm({ ...form, password: value })}
         />
 
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </TouchableOpacity>
+        <CustomButton
+          title="Sign In"
+          onPress={onSignInPress}
+          style={styles.signInButton}
+        />
 
-        <View style={styles.oauthContainer}>
-          <Text style={styles.oauthText}>Or sign in with</Text>
-          {/* Add your OAuth buttons here */}
-        </View>
+        <OAuth />
 
-        <View
-          style={{
-            justifyContent: "center",
-            flexDirection: "row",
-            marginTop: 10,
-            alignContent: "center",
-            alignSelf: "center",
-          }}
-        >
-          <Text style={{ fontSize: 17 }}>Don't have an account? {"  "}</Text>
-          <Link href="/SignUp" asChild>
-            <TouchableOpacity>
-              <Text style={[styles.signUpText, { fontSize: 17 }]}>Sign Up</Text>
-            </TouchableOpacity>
-          </Link>
-        </View>
+        <Link href="/SignUp" style={styles.signUpLink}>
+          Don't have an account? <Text style={styles.signUpText}>Sign Up</Text>
+        </Link>
       </View>
     </ScrollView>
   );
@@ -80,55 +86,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  imageContainer: {
+  headerContainer: {
     position: "relative",
     width: "100%",
     height: 250,
   },
-  image: {
+  headerImage: {
     width: "100%",
     height: 250,
   },
-  welcomeText: {
+  headerText: {
     position: "absolute",
-    bottom: 20,
-    left: 20,
+    bottom: 5,
+    left: 5,
     fontSize: 24,
     fontWeight: "600",
-    color: "white",
+    color: "black",
   },
   formContainer: {
     padding: 20,
   },
-  button: {
-    backgroundColor: "#0286FF",
-    padding: 15,
-    borderRadius: 25,
-    alignItems: "center",
-    marginTop: 20,
+  signInButton: {
+    marginTop: 24,
   },
-  buttonText: {
-    color: "white",
+  signUpLink: {
     fontSize: 18,
-    fontWeight: "600",
-  },
-  oauthContainer: {
-    alignItems: "center",
-    marginVertical: 20,
-  },
-  oauthText: {
-    fontSize: 16,
-    color: "#777",
-  },
-  link: {
     textAlign: "center",
-    fontSize: 16,
-    color: "#777",
+    color: "#6B7280", // Example color; replace with actual color
     marginTop: 20,
   },
   signUpText: {
-    color: "#0286FF",
-    fontWeight: "600",
+    color: "#1D4ED8", // Example color; replace with actual color
   },
 });
 

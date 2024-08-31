@@ -20,7 +20,7 @@ const SignUpStyling = StyleSheet.create({
     left: 20,
     fontSize: 24,
     fontWeight: "600",
-    color: "black",
+    color: "white",
   },
   formContainer: {
     padding: 20,
@@ -46,11 +46,11 @@ const SignUpStyling = StyleSheet.create({
     backgroundColor: "white",
     padding: 30,
     borderRadius: 20,
-    alignItems: "center",
+    alignItems: "center", // This aligns content horizontally in the center
   },
   modalHeader: {
     fontSize: 24,
-    fontWeight: "700",
+    fontWeight: "700", // Bold font
     marginBottom: 10,
   },
   modalText: {
@@ -64,7 +64,7 @@ const SignUpStyling = StyleSheet.create({
     marginTop: 10,
   },
   verifyButton: {
-    backgroundColor: "green",
+    backgroundColor: "green", // Matches `bg-success-500`
   },
   successImage: {
     width: 110,
@@ -73,7 +73,7 @@ const SignUpStyling = StyleSheet.create({
   },
   successText: {
     fontSize: 24,
-    fontWeight: "700",
+    fontWeight: "700", // Bold font
     textAlign: "center",
   },
   successMessage: {
