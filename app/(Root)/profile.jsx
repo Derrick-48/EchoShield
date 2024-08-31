@@ -21,7 +21,7 @@ const ProfileSection = () => {
   const { isDarkTheme } = useTheme();
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const { user } = useUser(); // Get the current user from the Clerk context
-  const userName = user?.fullName.toUpperCase() || "No Full Name";
+  const userName = user?.username || "No Full Name";
   const SecondTextColor = isDarkTheme ? "#ffffff" : "#0066FF";
   const ThirdTextColor = isDarkTheme ? "#0066FF" : "#ffffff";
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";

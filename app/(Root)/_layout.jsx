@@ -16,10 +16,10 @@ import { useUser } from "@clerk/clerk-expo";
 const CustomDrawerContent = (props) => {
   const { isDarkTheme } = useTheme();
   const { user } = useUser(); // Get the current user from the Clerk context
-  const userName = user?.fullName.toUpperCase() || "No Full Name";
+  const userName = user?.fullName || "No Full Name";
   const userProfile = user?.imageUrl;
-  const userRealName = user?.username || "No Full Name";
   const email = user?.emailAddresses[0].emailAddress || "Email Not Found";
+
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const DrawerButtonActiveText = isDarkTheme ? "#ffffff" : "#ffffff";
   const DrawerButtonInActiveText = isDarkTheme ? "#ffffff" : "#151718";
@@ -46,9 +46,7 @@ const CustomDrawerContent = (props) => {
           <Text style={[styles.userName, { color: TextColor }]}>
             {userName}
           </Text>
-          <Text style={[styles.userEmail, { color: TextColor }]}>
-            {userRealName}
-          </Text>
+          <Text style={[styles.userEmail, { color: TextColor }]}>{email}</Text>
         </View>
       </View>
       <DrawerItem

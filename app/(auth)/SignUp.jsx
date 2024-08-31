@@ -24,24 +24,36 @@ const SignUp = () => {
     code: "",
   });
 
+  console.log("Component initialized with states:", {
+    form,
+    verification,
+    showSuccessModal,
+  });
+
   const onSignUpPress = async () => {
+    console.log("onSignUpPress called with form data:", form);
     if (!isLoaded) {
       console.log("Clerk is not loaded yet.");
       return;
     }
 
     try {
+      console.log("Attempting to create a new sign up...");
       await signUp.create({
         emailAddress: form.email,
         password: form.password,
       });
+      console.log(
+        "Sign up created successfully. Preparing email verification..."
+      );
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setVerification({
         ...verification,
         state: "pending",
       });
+      console.log("Verification state updated to 'pending':", verification);
     } catch (err) {
-      console.log("Sign-up error:", JSON.stringify(err, null, 2));
+      console.error("Sign-up error:", JSON.stringify(err, null, 2));
       Alert.alert(
         "Error",
         err.errors[0]?.longMessage || "An error occurred during sign-up."
@@ -50,17 +62,24 @@ const SignUp = () => {
   };
 
   const onPressVerify = async () => {
+    console.log(
+      "onPressVerify called with verification code:",
+      verification.code
+    );
     if (!isLoaded) {
       console.log("Clerk is not loaded yet.");
       return;
     }
 
     try {
+      console.log("Attempting email address verification...");
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code: verification.code,
       });
 
+      console.log("Verification attempt result:", completeSignUp);
       if (completeSignUp.status === "complete") {
+        console.log("Verification complete. Creating user in the database...");
         await fetchAPI("/(api)/user", {
           method: "POST",
           body: JSON.stringify({
@@ -69,12 +88,16 @@ const SignUp = () => {
             clerkId: completeSignUp.createdUserId,
           }),
         });
+        console.log("User created in the database successfully.");
         await setActive({ session: completeSignUp.createdSessionId });
+        console.log("Session activated.");
         setVerification({
           ...verification,
           state: "success",
         });
+        console.log("Verification state updated to 'success':", verification);
       } else {
+        console.warn("Verification failed.");
         setVerification({
           ...verification,
           error: "Verification failed. Please try again.",
@@ -82,7 +105,7 @@ const SignUp = () => {
         });
       }
     } catch (err) {
-      console.log("Verification error:", JSON.stringify(err, null, 2));
+      console.error("Verification error:", JSON.stringify(err, null, 2));
       setVerification({
         ...verification,
         error:
@@ -108,7 +131,10 @@ const SignUp = () => {
             placeholder="Enter name"
             icon={icons.person}
             value={form.name}
-            onChangeText={(value) => setForm({ ...form, name: value })}
+            onChangeText={(value) => {
+              console.log("Name input changed:", value);
+              setForm({ ...form, name: value });
+            }}
           />
           <InputField
             label="Email"
@@ -116,7 +142,10 @@ const SignUp = () => {
             icon={icons.email}
             textContentType="emailAddress"
             value={form.email}
-            onChangeText={(value) => setForm({ ...form, email: value })}
+            onChangeText={(value) => {
+              console.log("Email input changed:", value);
+              setForm({ ...form, email: value });
+            }}
           />
           <InputField
             label="Password"
@@ -125,7 +154,10 @@ const SignUp = () => {
             secureTextEntry={true}
             textContentType="password"
             value={form.password}
-            onChangeText={(value) => setForm({ ...form, password: value })}
+            onChangeText={(value) => {
+              console.log("Password input changed.");
+              setForm({ ...form, password: value });
+            }}
           />
           <CustomButton
             title="Sign Up"
@@ -145,11 +177,19 @@ const SignUp = () => {
         {/* Verification Modal */}
         <ReactNativeModal
           isVisible={verification.state === "pending"}
-          onBackdropPress={() =>
-            setVerification({ ...verification, state: "default" })
-          }
+          onBackdropPress={() => {
+            console.log("Backdrop pressed - resetting verification state.");
+            setVerification({ ...verification, state: "default" });
+          }}
           onModalHide={() => {
+            console.log(
+              "Modal hide triggered. Current verification state:",
+              verification.state
+            );
             if (verification.state === "success") {
+              console.log(
+                "Verification was successful, showing success modal."
+              );
               setShowSuccessModal(true);
             }
           }}
@@ -167,24 +207,22 @@ const SignUp = () => {
               placeholder={"12345"}
               value={verification.code}
               keyboardType="numeric"
-              onChangeText={(code) =>
-                setVerification({ ...verification, code })
-              }
+              onChangeText={(code) => {
+                console.log("Verification code input changed:", code);
+                setVerification({ ...verification, code });
+              }}
             />
-
-            <View className="flex  mt-6 -m-3">
-              <CustomButton
-                title="Verify Email"
-                onPress={onPressVerify}
-                className="mt-5 bg-success-500"
-              />
-            </View>
+            {verification.error && (
+              <Text className="text-red-500 text-sm mt-1">
+                {verification.error}
+              </Text>
+            )}
+            <CustomButton
+              title="Verify Email"
+              onPress={onPressVerify}
+              className="mt-5 bg-success-500"
+            />
           </View>
-          {verification.error && (
-            <Text className="text-red-500 text-sm mt-5  self-center">
-              {verification.error}
-            </Text>
-          )}
         </ReactNativeModal>
 
         {/* Success Modal */}
@@ -202,7 +240,10 @@ const SignUp = () => {
             </Text>
             <CustomButton
               title="Browse Home"
-              onPress={() => router.push(`/(Root)/(tabs)/home`)}
+              onPress={() => {
+                console.log("Navigating to home after verification.");
+                router.push(`/(Root)/(tabs)/home`);
+              }}
               className="mt-5"
             />
           </View>
