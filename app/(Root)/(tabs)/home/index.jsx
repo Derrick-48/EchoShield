@@ -25,6 +25,7 @@ import {
   nearbyHospitalsData as DummyNearbyHospitalsData,
   nearbyPoliceData as DummyNearbyPoliceData,
 } from "@/constants/data";
+import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
 
 // Define the HomeTabScreen component
 const HomeTabScreen = () => {

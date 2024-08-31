@@ -17,6 +17,7 @@ import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
 import { fetchAPI } from "@/lib/fetch";
+import { imageDataURL } from "@/constants/ImageData";
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -97,7 +98,7 @@ const SignUp = () => {
       <ScrollView style={styles.container}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={images.signUpCar} style={styles.image} />
+            <Image source={{ uri: imageDataURL[6] }} style={styles.image} />
             <Text style={styles.headerText}>Create Your Account</Text>
           </View>
           <View style={styles.formContainer}>
@@ -131,7 +132,7 @@ const SignUp = () => {
               style={styles.signUpButton}
             />
             <OAuth />
-            <Link href="/" style={styles.signInLink}>
+            <Link href="/Sign-in" style={styles.signInLink}>
               Already have an account?{" "}
               <Text style={styles.signInText}>Log In</Text>
             </Link>
@@ -178,7 +179,7 @@ const SignUp = () => {
               </Text>
               <CustomButton
                 title="Browse Home"
-                onPress={() => router.push(`/(root)/(tabs)/home`)}
+                onPress={() => router.replace(`/(Root)/(tabs)/home`)}
                 style={styles.browseHomeButton}
               />
             </View>
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 24,
-    color: "black",
+    color: "white",
     fontFamily: "JakartaSemiBold",
     position: "absolute",
     fontWeight: "600",

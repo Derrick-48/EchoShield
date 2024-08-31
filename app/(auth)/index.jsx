@@ -1,124 +1,210 @@
-import React, { useCallback, useState } from "react";
-import { Alert, Image, ScrollView, Text, View, StyleSheet } from "react-native";
-import { useSignIn } from "@clerk/clerk-expo";
-import { Link, router } from "expo-router";
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import Swiper from "react-native-swiper";
+import { useRouter } from "expo-router";
+import { useState, useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { useTheme } from "@/Context/ThemeContext";
+import { StatusBar } from "expo-status-bar";
 
-import CustomButton from "@/components/CustomButton";
-import InputField from "@/components/InputField";
-import OAuth from "@/components/OAuth";
-import { icons, images } from "@/constants";
-import { imageDataURL } from "@/constants/ImageData";
+const { width, height } = Dimensions.get("window");
 
-const SignIn = () => {
-  const { signIn, setActive, isLoaded } = useSignIn();
+const Onboarding = () => {
+  const { isDarkTheme } = useTheme();
+  const statusBarStyle = isDarkTheme ? "light" : "dark";
+  const router = useRouter();
+  const swiperRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
-  const onSignInPress = useCallback(async () => {
-    if (!isLoaded) return;
-
-    try {
-      const signInAttempt = await signIn.create({
-        identifier: form.email,
-        password: form.password,
-      });
-
-      if (signInAttempt.status === "complete") {
-        await setActive({ session: signInAttempt.createdSessionId });
-        router.replace("/(Root)/(tabs)/home");
-      } else {
-        console.log(JSON.stringify(signInAttempt, null, 2));
-        Alert.alert("Error", "Log in failed. Please try again.");
-      }
-    } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
-      Alert.alert("Error", err.errors[0].longMessage);
-    }
-  }, [isLoaded, form, signIn, setActive]);
+  const handleGetStarted = () => {
+    router.replace("/(auth)/Sign-in");
+  };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Image source={{ uri: imageDataURL[5] }} style={styles.headerImage} />
-        <Text style={styles.headerText}>Welcome 👋</Text>
-      </View>
+    <>
+      <StatusBar style={statusBarStyle} />
+      <SafeAreaView style={styles.safeArea}>
+        <Swiper
+          ref={swiperRef}
+          loop={false}
+          showsPagination={true}
+          paginationStyle={styles.pagination}
+          dot={<View style={styles.dot} />}
+          activeDot={<View style={styles.activeDot} />}
+          onIndexChanged={(index) => setActiveIndex(index)}
+        >
+          <View style={styles.slide}>
+            <Icon name="shield" size={80} color="#0066FF" style={styles.icon} />
+            <Text style={styles.title}>Welcome to EchoShield</Text>
+            <Text style={styles.message}>
+              Your trusted safety companion, here to protect and guide you in
+              any emergency.
+            </Text>
+          </View>
 
-      <View style={styles.formContainer}>
-        <InputField
-          label="Email"
-          placeholder="Enter email"
-          icon={icons.email}
-          textContentType="emailAddress"
-          value={form.email}
-          onChangeText={(value) => setForm({ ...form, email: value })}
-        />
+          <View style={styles.slide}>
+            <Icon
+              name="list-alt"
+              size={80}
+              color="#0066FF"
+              style={styles.icon}
+            />
+            <Text style={styles.title}>Essential Features</Text>
+            <View style={styles.featureList}>
+              <View style={styles.featureItem}>
+                <Icon
+                  name="microphone"
+                  size={40}
+                  color="#0066FF"
+                  style={styles.featureIcon}
+                />
+                <Text style={styles.FeatureMessage}>
+                  Record Audio: Capture critical moments in real-time.
+                </Text>
+              </View>
+              <View style={styles.featureItem}>
+                <Icon
+                  name="location-arrow"
+                  size={40}
+                  color="#0066FF"
+                  style={styles.featureIcon}
+                />
+                <Text style={styles.FeatureMessage}>
+                  Real-Time Location: Share your location instantly.
+                </Text>
+              </View>
+              <View style={styles.featureItem}>
+                <Icon
+                  name="bell"
+                  size={40}
+                  color="#0066FF"
+                  style={styles.featureIcon}
+                />
+                <Text style={styles.FeatureMessage}>
+                  Automated Alerts: Notify your contacts with one tap.
+                </Text>
+              </View>
+            </View>
+          </View>
 
-        <InputField
-          label="Password"
-          placeholder="Enter password"
-          icon={icons.lock}
-          secureTextEntry={true}
-          textContentType="password"
-          value={form.password}
-          onChangeText={(value) => setForm({ ...form, password: value })}
-        />
-
-        <CustomButton
-          title="Sign In"
-          onPress={onSignInPress}
-          style={styles.signInButton}
-        />
-
-        <OAuth />
-
-        <Link href="/SignUp" style={styles.signUpLink}>
-          Don't have an account? <Text style={styles.signUpText}>Sign Up</Text>
-        </Link>
-      </View>
-    </ScrollView>
+          <View style={styles.slide}>
+            <Icon name="lock" size={80} color="#0066FF" style={styles.icon} />
+            <Text style={styles.title}>Your Privacy Matters</Text>
+            <Text style={styles.message}>
+              We prioritize your safety and privacy with top-tier encryption and
+              secure storage.
+            </Text>
+            <TouchableOpacity style={styles.button} onPress={handleGetStarted}>
+              <Text style={styles.buttonText}>Get Started</Text>
+            </TouchableOpacity>
+          </View>
+        </Swiper>
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#F7F9FC",
   },
-  headerContainer: {
-    position: "relative",
-    width: "100%",
-    height: 250,
-  },
-  headerImage: {
-    width: "100%",
-    height: 250,
-  },
-  headerText: {
-    position: "absolute",
-    bottom: 5,
-    left: 5,
-    fontSize: 24,
-    fontWeight: "600",
-    color: "white",
-  },
-  formContainer: {
+  slide: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
+    width,
+    height,
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
-  signInButton: {
-    marginTop: 24,
+  icon: {
+    marginBottom: 20,
   },
-  signUpLink: {
-    fontSize: 18,
+  title: {
+    fontSize: 28,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 10,
     textAlign: "center",
-    color: "#6B7280", // Example color; replace with actual color
+  },
+  message: {
+    fontSize: 16,
+    color: "#666",
+    marginBottom: 30,
+    textAlign: "center",
+    paddingHorizontal: 15,
+    fontWeight: "600",
+  },
+  FeatureMessage: {
+    fontSize: 16,
+    color: "#666",
+    textAlign: "center",
+    fontWeight: "700",
+  },
+  featureList: {
     marginTop: 20,
   },
-  signUpText: {
-    color: "#1D4ED8", // Example color; replace with actual color
+  featureItem: {
+    flexDirection: "column",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  featureIcon: {
+    marginRight: 15,
+    marginBottom: 5,
+  },
+  button: {
+    backgroundColor: "#0066FF",
+    padding: 15,
+    borderRadius: 30,
+    marginTop: 40,
+    width: "80%",
+    alignItems: "center",
+    shadowColor: "#0066FF",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  pagination: {
+    bottom: 15,
+  },
+  dot: {
+    width: 32,
+    height: 4,
+    marginHorizontal: 4,
+    backgroundColor: "#E2E8F0",
+    borderRadius: 2,
+  },
+  activeDot: {
+    width: 32,
+    height: 4,
+    marginHorizontal: 4,
+    backgroundColor: "#0066FF",
+    borderRadius: 2,
   },
 });
 
-export default SignIn;
+export default Onboarding;

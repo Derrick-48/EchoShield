@@ -1,12 +1,7 @@
 import { SplashScreen, Stack, Slot, useRouter, useSegments } from "expo-router";
 import { useFonts } from "expo-font";
 import { ClerkProvider, ClerkLoaded, useAuth } from "@clerk/clerk-expo";
-import { useTheme } from "@/Context/ThemeContext";
-import { StatusBar } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import * as SecureStore from "expo-secure-store";
 import { ThemeProvider } from "@/Context/ThemeContext";
-import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect } from "react";
 import { tokenCache } from "@/lib/auth";
@@ -14,12 +9,6 @@ import { tokenCache } from "@/lib/auth";
 const ClerkPublishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 SplashScreen.preventAutoHideAsync();
-
-if (!ClerkPublishableKey) {
-  throw new Error(
-    "Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env"
-  );
-}
 
 const MainLayout = () => {
   const [loaded, error] = useFonts({
@@ -30,9 +19,6 @@ const MainLayout = () => {
     "Jakarta-Medium": require("../assets/fonts/PlusJakartaSans-Medium.ttf"),
     "Jakarta-SemiBold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
   });
-  const { isLoaded, isSignedIn } = useAuth();
-  const segments = useSegments();
-  const router = useRouter();
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -45,34 +31,22 @@ const MainLayout = () => {
     }
   }, [loaded]);
 
-  useEffect(() => {
-    if (!isLoaded) return;
-
-    const inAuthGroup = segments[0] === "(auth)";
-
-    if (isSignedIn && !inAuthGroup) {
-      router.replace("/(Root)/(tabs)/home");
-    } else if (!isSignedIn) {
-      router.replace("/(auth)");
-    }
-  }, [isSignedIn]);
-
-  if (!loaded || !isLoaded) {
-    return <Slot />;
-  }
-
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="(Root)" options={{ headerShown: false }} />
       <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="Intro/onboarding" options={{ headerShown: false }} />
       <Stack.Screen name="+not-found" />
     </Stack>
   );
 };
 
 const RootLayoutNav = () => {
+  if (!ClerkPublishableKey) {
+    throw new Error(
+      "Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env"
+    );
+  }
   return (
     <ThemeProvider>
       <ClerkProvider
