@@ -58,7 +58,7 @@ const HomeTabScreen = () => {
   const PoliceNearCardBgColor = isDarkTheme ? "#00BFA6" : "#ffff";
   const MedNearCardBgColor = isDarkTheme ? "#FF4500" : "#ffffff";
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
-  const PoliceTextColor = isDarkTheme ? "#f0f0f0" : "#000000";
+  const PoliceTextColor = isDarkTheme ? "#ffffff" : "#000000";
   const SixthTextColor = isDarkTheme ? "#1F2937" : "#1F2937";
   const InverseTextColor = isDarkTheme ? "#000000" : "#ffffff";
   const SameTextColor = isDarkTheme ? "#ffffff" : "#ffffff";

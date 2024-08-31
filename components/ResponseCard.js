@@ -1,6 +1,6 @@
 // DoctorCard.js
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import HomeStyle from "@/Styles_Theme/HomeScreenStyle";
 
@@ -18,9 +18,11 @@ const ResponseOverviewCard = ({
       <View style={HomeStyle.doctorCard}>
         <Image source={{ uri: imageUri }} style={HomeStyle.doctorImage} />
         <View style={HomeStyle.doctorInfo}>
-          <Text style={[HomeStyle.doctorName, { color: textColor }]}>
-            {name}
-          </Text>
+          <View style={styles.textWrapper}>
+            <Text style={[HomeStyle.doctorName, { color: textColor }]}>
+              {name}
+            </Text>
+          </View>
           <Text style={[HomeStyle.doctorRole, { color: textColor }]}>
             {role}
           </Text>
@@ -47,3 +49,19 @@ const ResponseOverviewCard = ({
 };
 
 export default ResponseOverviewCard;
+const styles = StyleSheet.create({
+  textWrapper: {
+    // Shadow for iOS
+    shadowColor: "#000000", // Shadow color
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOpacity: 0.2, // Shadow opacity
+    shadowRadius: 3.84, // Shadow blur radius
+
+    // Shadow for Android
+    elevation: 5, // Elevation for Android
+  },
+  text: {
+    fontSize: 24,
+    color: "#333",
+  },
+});

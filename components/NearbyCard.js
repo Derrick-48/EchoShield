@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import {
   FontAwesome,
   MaterialIcons,
@@ -35,10 +35,11 @@ const NearbyCard = ({
         <View style={HomeStyle.nearDoctorCard}>
           <Image source={{ uri: imageUrl }} style={HomeStyle.nearDoctorImage} />
           <View style={HomeStyle.nearDoctorInfo}>
-            <Text style={[HomeStyle.nearDoctorName, { color: textColor }]}>
-              {name}
-            </Text>
-
+            <View style={styles.textWrapper}>
+              <Text style={[HomeStyle.nearDoctorName, { color: textColor }]}>
+                {name}
+              </Text>
+            </View>
             <Text
               style={[
                 HomeStyle.nearDoctorRole,
@@ -106,3 +107,20 @@ const NearbyCard = ({
 };
 
 export default NearbyCard;
+
+const styles = StyleSheet.create({
+  textWrapper: {
+    // Shadow for iOS
+    shadowColor: "#000000", // Shadow color
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOpacity: 0.4, // Shadow opacity
+    shadowRadius: 3, // Shadow blur radius
+
+    // Shadow for Android
+    elevation: 5, // Elevation for Android
+  },
+  text: {
+    fontSize: 24,
+    color: "#333",
+  },
+});
