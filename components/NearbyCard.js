@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     // Shadow for iOS
     shadowColor: "#000000", // Shadow color
     shadowOffset: { width: 0, height: 2 }, // Shadow offset
-    shadowOpacity: 0.4, // Shadow opacity
-    shadowRadius: 3, // Shadow blur radius
+    shadowOpacity: 0.2, // Shadow opacity
+    shadowRadius: 3.2, // Shadow blur radius
 
     // Shadow for Android
     elevation: 5, // Elevation for Android

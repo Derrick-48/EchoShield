@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,10 +15,14 @@ import { StatusBar } from "expo-status-bar";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "@/Context/ThemeContext";
 import { settingsSections } from "@/constants/settingsData"; // Adjust the path as needed
+import LogoutModal from "@/constants/logoutModal";
 
 const SettingsScreen = () => {
   const { isDarkTheme, toggleTheme } = useTheme();
   const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const settingsSectionsData = settingsSections(setModalVisible); // Create sections with the modal trigger
 
   const themeColors = {
     text: isDarkTheme ? "#ffffff" : "#000000",
@@ -49,6 +53,12 @@ const SettingsScreen = () => {
         { backgroundColor: themeColors.screenBackground },
       ]}
     >
+      <LogoutModal
+        isModalVisible={isModalVisible}
+        setModalVisible={setModalVisible}
+        isLoggingOut={isLoggingOut}
+        setIsLoggingOut={setIsLoggingOut}
+      />
       <View
         style={[
           styles.headerContainer,
@@ -75,7 +85,7 @@ const SettingsScreen = () => {
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
-        {settingsSections.map((section, index) => (
+        {settingsSectionsData.map((section, index) => (
           <View key={index} style={styles.sectionContainer}>
             <Text style={[styles.sectionTitle, { color: themeColors.text }]}>
               {section.title}

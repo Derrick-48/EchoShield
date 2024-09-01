@@ -28,11 +28,15 @@ const EditProfileScreen = () => {
   const BorderColor = isDarkTheme ? "#ffffff" : "#151718";
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
   const { user, updateUser } = useUser(); // Get the current user from the Clerk context
-  const userRealName = user?.fullName.toUpperCase() || "No Full Name";
   const userProfile = user?.imageUrl;
-  const userName = user?.username || "No User Name";
+
   const initialEmail =
     user?.emailAddresses[0].emailAddress || "Email Not Found";
+
+  const userName =
+    initialEmail && initialEmail !== "Email Not Found"
+      ? initialEmail.split("@")[0]
+      : "Username Not Available";
   const [selectedImage, setSelectedImage] = useState(userProfile);
   const [name, setName] = useState(userName);
   const [email, setEmail] = useState(initialEmail);

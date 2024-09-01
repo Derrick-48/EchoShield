@@ -1,6 +1,6 @@
 import { Alert } from "react-native";
 
-export const settingsSections = [
+export const settingsSections = (setModalVisible) => [
   {
     title: "Account",
     items: [
@@ -64,7 +64,7 @@ export const settingsSections = [
       },
       {
         icon: "logout",
-        action: () => Alert.alert("You've Successfully Logged Out"),
+        action: () => setModalVisible(true), // Use the passed function
         text: "Log out",
       },
     ],
