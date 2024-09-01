@@ -169,15 +169,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   userInfoWrapper: {
-    flexDirection: "row",
+    flexDirection: "column",
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderBottomColor: "#ccc",
     borderBottomWidth: 1,
     marginBottom: 10,
+    flex: 1,
+    justifyContent: "flex-start",
   },
   userImg: {
     borderRadius: 40,
+    paddingLeft: -5,
   },
   userDetailsWrapper: {
     flex: 1,
@@ -189,7 +192,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   userEmail: {
-    fontSize: 16,
+    fontSize: 13,
+    fontWeight: "600",
     textDecorationLine: "underline",
   },
 });

@@ -1,5 +1,13 @@
 import React, { useCallback, useState } from "react";
-import { Alert, Image, ScrollView, Text, View, StyleSheet } from "react-native";
+import {
+  Alert,
+  Image,
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useSignIn } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 
@@ -73,10 +81,14 @@ const SignIn = () => {
         />
 
         <OAuth />
-
-        <Link href="/SignUp" style={styles.signUpLink}>
-          Don't have an account? <Text style={styles.signUpText}>Sign Up</Text>
-        </Link>
+        <View className="flex-row flex-1 ">
+          <Text>Don't have an account?</Text>
+          <Link href="/SignUp" style={styles.signUpLink} asChild>
+            <TouchableOpacity>
+              <Text style={styles.signUpText}>Sign Up</Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
       </View>
     </ScrollView>
   );
