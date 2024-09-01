@@ -6,7 +6,7 @@ import { useTheme } from "@/Context/ThemeContext";
 const AwarenessProfile = () => {
   const { isDarkTheme } = useTheme();
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
-  const SecondTextColor = isDarkTheme ? "#ffffff" : "#0066FF";
+  const SecondTextColor = isDarkTheme ? "#FF000D" : "#0066FF";
 
   return (
     <View className="mt-3 flex-row mx-2">

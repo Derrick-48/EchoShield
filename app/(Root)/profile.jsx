@@ -42,7 +42,7 @@ const ProfileSection = () => {
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
     } else {
-      Alert.alert("Image Has Been Successfully Changed");
+      Alert.alert("No Image Has Was Selected");
     }
   };
   const handleBgImageSelection = async () => {
@@ -55,7 +55,7 @@ const ProfileSection = () => {
     if (!result.canceled) {
       setSelectedBgImage(result.assets[0].uri);
     } else {
-      Alert.alert("Image Has Been Successfully Changed");
+      Alert.alert("No Image Has Was Selected");
     }
   };
 

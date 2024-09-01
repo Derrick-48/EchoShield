@@ -56,7 +56,7 @@ const HomeTabScreen = () => {
   const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
   const NearCardBgColor = isDarkTheme ? "#FBBF00" : "#ffff";
   const PoliceNearCardBgColor = isDarkTheme ? "#00BFA6" : "#ffff";
-  const MedNearCardBgColor = isDarkTheme ? "#FF4500" : "#ffffff";
+  const MedNearCardBgColor = isDarkTheme ? "#950606" : "#ffffff";
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const PoliceTextColor = isDarkTheme ? "#ffffff" : "#000000";
   const SixthTextColor = isDarkTheme ? "#1F2937" : "#1F2937";
@@ -304,6 +304,7 @@ const HomeTabScreen = () => {
                   LeftDownIconName={data.LeftDownIconName}
                   rating={data.rating}
                   reviews={data.reviews}
+                  availability={data.availability}
                   cardBgColor={MedNearCardBgColor}
                   textColor={PoliceTextColor}
                   fourTextColor={FourTextColor}
