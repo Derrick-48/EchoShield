@@ -12,13 +12,14 @@ import { router, usePathname } from "expo-router";
 import { useTheme } from "@/Context/ThemeContext";
 import { StatusBar } from "expo-status-bar";
 import { useUser } from "@clerk/clerk-expo";
+import AwarenessProfile from "@/components/DangerProfile";
 
 const CustomDrawerContent = (props) => {
   const { isDarkTheme } = useTheme();
   const { user } = useUser(); // Get the current user from the Clerk context
-  const userName = user?.fullName || "No Full Name";
   const userProfile = user?.imageUrl;
   const email = user?.emailAddresses[0].emailAddress || "Email Not Found";
+  const username = email.split("@")[0].toUpperCase();
 
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const DrawerButtonActiveText = isDarkTheme ? "#ffffff" : "#ffffff";
@@ -44,10 +45,11 @@ const CustomDrawerContent = (props) => {
         />
         <View style={styles.userDetailsWrapper}>
           <Text style={[styles.userName, { color: TextColor }]}>
-            {userName}
+            {username}
           </Text>
           <Text style={[styles.userEmail, { color: TextColor }]}>{email}</Text>
         </View>
+        <AwarenessProfile />
       </View>
       <DrawerItem
         icon={({ color, size }) => (
