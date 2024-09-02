@@ -1,3 +1,5 @@
+import { imageDataURL } from "./ImageData";
+
 export const symptoms = [
   "Fever",
   "Cough",
@@ -19,4 +21,237 @@ export const symptoms = [
   "Abdominal pain",
   "Swollen lymph nodes",
   "Loss of appetite",
+];
+
+export const doctors = [
+  {
+    name: "Dr. Sarah Johnson",
+    specialization: "Cardiologist",
+    rating: 4.8,
+    imageUrl: "https://example.com/images/dr-sarah-johnson.jpg",
+    experience: "12 years",
+    contact: "+1-800-123-4567",
+    bio: "Dr. Sarah Johnson is a highly skilled cardiologist with over a decade of experience in treating heart diseases. Passionate about cardiac health and patient care.",
+    reviews: [
+      {
+        reviewer: "John Doe",
+        rating: 5,
+        comment: "Exceptional care and expertise.",
+      },
+      {
+        reviewer: "Jane Smith",
+        rating: 4.5,
+        comment: "Very knowledgeable and compassionate.",
+      },
+    ],
+    location: "123 Heart Lane, Cardio City, TX",
+    consultantPrice: "$200",
+  },
+  {
+    name: "Dr. Michael Smith",
+    specialization: "Dermatologist",
+    rating: 4.6,
+    imageUrl: "https://example.com/images/dr-michael-smith.jpg",
+    experience: "8 years",
+    contact: "+1-800-234-5678",
+    bio: "Dr. Michael Smith specializes in treating skin conditions and cosmetic procedures. Known for his precision and patient-focused approach.",
+    reviews: [
+      {
+        reviewer: "Emily Davis",
+        rating: 4.7,
+        comment: "Great dermatologist, helped with my skin issues.",
+      },
+      {
+        reviewer: "Michael Brown",
+        rating: 4.5,
+        comment: "Professional and effective treatments.",
+      },
+    ],
+    location: "456 Skin St, Derma Town, CA",
+    consultantPrice: "$180",
+  },
+  {
+    name: "Dr. Emily Brown",
+    specialization: "Pediatrician",
+    rating: 4.9,
+    imageUrl: "https://example.com/images/dr-emily-brown.jpg",
+    experience: "10 years",
+    contact: "+1-800-345-6789",
+    bio: "Dr. Emily Brown is dedicated to providing exceptional care to children. With extensive experience in pediatrics, she ensures a comfortable environment for young patients.",
+    reviews: [
+      {
+        reviewer: "Sarah Lee",
+        rating: 5,
+        comment: "Wonderful with kids and very knowledgeable.",
+      },
+      {
+        reviewer: "David Smith",
+        rating: 4.8,
+        comment: "Caring and attentive pediatrician.",
+      },
+    ],
+    location: "789 Childcare Blvd, Pediatric City, NY",
+    consultantPrice: "$160",
+  },
+  {
+    name: "Dr. James Lee",
+    specialization: "Orthopedic Surgeon",
+    rating: 4.7,
+    imageUrl: "https://example.com/images/dr-james-lee.jpg",
+    experience: "15 years",
+    contact: "+1-800-456-7890",
+    bio: "Dr. James Lee is a renowned orthopedic surgeon with expertise in treating musculoskeletal injuries and conditions. Known for his advanced surgical techniques.",
+    reviews: [
+      {
+        reviewer: "Linda Adams",
+        rating: 4.9,
+        comment: "Excellent surgery and recovery experience.",
+      },
+      {
+        reviewer: "Tom Harris",
+        rating: 4.6,
+        comment: "Highly skilled and professional.",
+      },
+    ],
+    location: "101 Bone Ave, Ortho City, IL",
+    consultantPrice: "$250",
+  },
+  {
+    name: "Dr. Olivia Davis",
+    specialization: "Neurologist",
+    rating: 4.5,
+    imageUrl: "https://example.com/images/dr-olivia-davis.jpg",
+    experience: "9 years",
+    contact: "+1-800-567-8901",
+    bio: "Dr. Olivia Davis specializes in diagnosing and treating neurological disorders. She combines expertise with a compassionate approach to patient care.",
+    reviews: [
+      {
+        reviewer: "Kevin White",
+        rating: 4.4,
+        comment: "Knowledgeable and caring neurologist.",
+      },
+      {
+        reviewer: "Laura Johnson",
+        rating: 4.6,
+        comment: "Helped me understand my condition better.",
+      },
+    ],
+    location: "202 Neuro Rd, Brain Town, FL",
+    consultantPrice: "$220",
+  },
+  {
+    name: "Dr. William Wilson",
+    specialization: "General Practitioner",
+    rating: 4.3,
+    imageUrl: "https://example.com/images/dr-william-wilson.jpg",
+    experience: "7 years",
+    contact: "+1-800-678-9012",
+    bio: "Dr. William Wilson provides comprehensive healthcare services for patients of all ages. He is committed to general wellness and preventive care.",
+    reviews: [
+      {
+        reviewer: "Nancy Green",
+        rating: 4.2,
+        comment: "Good general practice, thorough consultations.",
+      },
+      {
+        reviewer: "Robert Hall",
+        rating: 4.4,
+        comment: "Reliable and attentive doctor.",
+      },
+    ],
+    location: "303 Health St, Wellness City, WA",
+    consultantPrice: "$150",
+  },
+  {
+    name: "Dr. Sophia Martinez",
+    specialization: "Endocrinologist",
+    rating: 4.4,
+    imageUrl: "https://example.com/images/dr-sophia-martinez.jpg",
+    experience: "11 years",
+    contact: "+1-800-789-0123",
+    bio: "Dr. Sophia Martinez specializes in treating hormonal and metabolic disorders. She offers personalized treatment plans for endocrine health.",
+    reviews: [
+      {
+        reviewer: "Chris King",
+        rating: 4.5,
+        comment: "Expert in endocrine disorders, very helpful.",
+      },
+      {
+        reviewer: "Emma Scott",
+        rating: 4.3,
+        comment: "Understanding and professional.",
+      },
+    ],
+    location: "404 Endo Blvd, Hormone City, TX",
+    consultantPrice: "$190",
+  },
+  {
+    name: "Dr. Benjamin Clark",
+    specialization: "Ophthalmologist",
+    rating: 4.6,
+    imageUrl: "https://example.com/images/dr-benjamin-clark.jpg",
+    experience: "14 years",
+    contact: "+1-800-890-1234",
+    bio: "Dr. Benjamin Clark is an experienced ophthalmologist specializing in eye care and vision correction. He uses the latest technology to ensure the best outcomes.",
+    reviews: [
+      {
+        reviewer: "Ava Lee",
+        rating: 4.7,
+        comment: "Top-notch eye care, very skilled.",
+      },
+      {
+        reviewer: "James Lewis",
+        rating: 4.5,
+        comment: "Effective treatment and professional care.",
+      },
+    ],
+    location: "505 Eye St, Vision City, CA",
+    consultantPrice: "$210",
+  },
+  {
+    name: "Dr. Mia Thomas",
+    specialization: "Psychiatrist",
+    rating: 4.9,
+    imageUrl: "https://example.com/images/dr-mia-thomas.jpg",
+    experience: "13 years",
+    contact: "+1-800-901-2345",
+    bio: "Dr. Mia Thomas offers expert psychiatric care, focusing on mental health and emotional well-being. Known for her empathetic approach and effective treatments.",
+    reviews: [
+      {
+        reviewer: "Oliver Walker",
+        rating: 5,
+        comment: "Incredible psychiatrist, truly cares.",
+      },
+      {
+        reviewer: "Sophia Martinez",
+        rating: 4.8,
+        comment: "Supportive and understanding.",
+      },
+    ],
+    location: "606 Mind Ave, Wellness Town, NY",
+    consultantPrice: "$230",
+  },
+  {
+    name: "Dr. Daniel Rodriguez",
+    specialization: "Gastroenterologist",
+    rating: 4.5,
+    imageUrl: "https://example.com/images/dr-daniel-rodriguez.jpg",
+    experience: "9 years",
+    contact: "+1-800-234-5678",
+    bio: "Dr. Daniel Rodriguez specializes in digestive health and gastrointestinal disorders. He provides comprehensive care and advanced treatment options.",
+    reviews: [
+      {
+        reviewer: "Lucas White",
+        rating: 4.6,
+        comment: "Excellent care for digestive issues.",
+      },
+      {
+        reviewer: "Emma Davis",
+        rating: 4.4,
+        comment: "Knowledgeable and professional.",
+      },
+    ],
+    location: "707 Gastro St, Digestive City, TX",
+    consultantPrice: "$200",
+  },
 ];

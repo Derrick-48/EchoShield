@@ -10,7 +10,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useTheme } from "@/Context/ThemeContext";
 import SymptomsComponent from "@/components/SymptomsComponent";
-import { symptoms } from "@/constants/SymptomsData";
+import { symptoms, doctors } from "@/constants/SymptomsData";
+import PopularDoctors from "@/components/PopularDoctorsCard";
 
 const DoctorScreen = () => {
   const { isDarkTheme } = useTheme();
@@ -20,10 +21,14 @@ const DoctorScreen = () => {
   const ScreenBackgroundColor = isDarkTheme ? "bg-primary-1000" : "bg-white";
   const ButtonColor = isDarkTheme ? "bg-slate-900" : "bg-white";
   const ButtonColor2 = isDarkTheme ? "bg-white" : "bg-slate-900";
+  const TextColor2 = isDarkTheme ? "text-white" : "text-blue-950";
 
   return (
-    <ScrollView className={`p-2  flex-1 ${ScreenBackgroundColor} `}>
-      <View className={`  flex-1 ${ScreenBackgroundColor} `}>
+    <ScrollView
+      className={`p-2  flex-1 ${ScreenBackgroundColor} `}
+      showsVerticalScrollIndicator={false}
+    >
+      <View className={` ${ScreenBackgroundColor} `}>
         <View className="flex-row  ">
           <View
             className={` p-4 ${BackgroundColor} w-44 h-44 p-5 rounded-3xl mx-2 shadow-sm shadow-slate-700`}
@@ -54,7 +59,7 @@ const DoctorScreen = () => {
             </Text>
           </View>
         </View>
-        <Text className="font-JakartaBold text-blue-950 text-lg mt-5 p-3">
+        <Text className={`font-JakartaBold ${TextColor2} text-lg mt-5 p-3`}>
           What are your symptoms?
         </Text>
       </View>
@@ -68,6 +73,21 @@ const DoctorScreen = () => {
           />
         ))}
       </ScrollView>
+      <Text className={`font-JakartaBold ${TextColor2} text-lg mt-2 p-3`}>
+        {"  "}
+        Popular Doctors
+      </Text>
+      <View className="flex-wrap  flex-row  justify-evenly ">
+        {doctors.map((doctor, index) => (
+          <PopularDoctors
+            key={index}
+            name={doctor.name}
+            specialization={doctor.specialization}
+            DoctorImage={doctor.imageUrl}
+            Ratings={doctor.rating}
+          />
+        ))}
+      </View>
     </ScrollView>
   );
 };
