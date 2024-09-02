@@ -23,6 +23,7 @@ export default function HomeLayout() {
           name="index"
           options={{
             headerShown: true,
+            headerTitle: "Home",
             header: () => {
               return (
                 <View style={{}}>
@@ -64,6 +65,16 @@ export default function HomeLayout() {
             headerShown: true,
             presentation: "modal",
             headerTitle: "Captured Incidents",
+            headerTitleStyle: { color: TextColor },
+            headerStyle: { backgroundColor: ScreenBackgroundColor },
+          }}
+        />
+        <Stack.Screen
+          name="EmergencyServices"
+          options={{
+            headerShown: true,
+            presentation: "card",
+            headerTitle: "Emergency Services",
             headerTitleStyle: { color: TextColor },
             headerStyle: { backgroundColor: ScreenBackgroundColor },
           }}

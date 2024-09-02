@@ -26,6 +26,7 @@ import {
   nearbyPoliceData as DummyNearbyPoliceData,
 } from "@/constants/data";
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
+import { router } from "expo-router";
 
 // Define the HomeTabScreen component
 const HomeTabScreen = () => {
@@ -97,6 +98,7 @@ const HomeTabScreen = () => {
   const userName = user?.firstName || "User"; // Use the user's first name, or fallback to "User" if not available
 
   // useEffect(() => {
+
   //   const fetchData = async () => {
   //     try {
   //       const response = await fetch(""); // Replace with your API URL
@@ -117,6 +119,38 @@ const HomeTabScreen = () => {
   // }
 
   // Render the component
+
+  const handleIconPress = (index) => {
+    switch (index) {
+      case 0:
+        // Handle press for "Police"
+        console.log("Police icon pressed");
+        // Navigate to Police Screen or perform some action
+        router.push("/(Root)/(tabs)/home/EmergencyServices");
+        break;
+      case 1:
+        // Handle press for "Doctor"
+        console.log("Doctor icon pressed");
+        // Navigate to Doctor Screen or perform some action
+        router.push("/(Root)/(tabs)/home/EmergencyServices/Doctor");
+        break;
+      case 2:
+        // Handle press for "Medicine"
+        console.log("Medicine icon pressed");
+        // Navigate to Medicine Screen or perform some action
+        router.push("/(Root)/(tabs)/home/EmergencyServices/Medicine");
+        break;
+      case 3:
+        // Handle press for "Hospital"
+        console.log("Hospital icon pressed");
+        // Navigate to Hospital Screen or perform some action
+        router.push("/(Root)/(tabs)/home/EmergencyServices/Hospital");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <View
@@ -206,6 +240,7 @@ const HomeTabScreen = () => {
                         HomeStyle.iconContainer,
                         { backgroundColor: IconBackgroundColor },
                       ]}
+                      onPress={() => handleIconPress(index)}
                     >
                       <FontAwesome name={icon} size={20} color={IconColor} />
                     </TouchableOpacity>
