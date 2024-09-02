@@ -94,7 +94,7 @@ const HomeTabScreen = () => {
     };
   }, []);
 
-  const userName = user?.fullName || "User"; // Use the user's first name, or fallback to "User" if not available
+  const userName = user?.firstName || "User"; // Use the user's first name, or fallback to "User" if not available
 
   // useEffect(() => {
   //   const fetchData = async () => {

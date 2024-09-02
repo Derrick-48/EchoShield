@@ -9,8 +9,9 @@ import { ReactNativeModal } from "react-native-modal";
 import { images } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 import { useState } from "react";
-import { useUser, useSignIn, useClerk } from "@clerk/clerk-expo";
+import { useUser } from "@clerk/clerk-expo";
 import { router } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
 
 const LogoutModal = ({
   isModalVisible,
@@ -20,8 +21,12 @@ const LogoutModal = ({
 }) => {
   const { user } = useUser();
 
+  const email = user?.emailAddresses[0].emailAddress || "Email Not Found";
+  const usernameNotExist = email.split("@")[0].toUpperCase();
+  const usernameExist = user?.username;
+
+  const { signOut } = useAuth();
   const handleLogout = async () => {
-    const { signOut } = useClerk();
     try {
       await signOut();
       Alert.alert("Success", "You have been logged out.");
@@ -57,7 +62,7 @@ const LogoutModal = ({
               Do You Want To Log Out From Your Account?
             </Text>
             <Text className="text-base text-blue-600 font-JakartaExtraBold text-center mt-2">
-              {user.emailAddresses[0].emailAddress}
+              {email}
             </Text>
             {isLoggingOut ? (
               <ActivityIndicator />

@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/Context/ThemeContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect } from "react";
 import { tokenCache } from "@/lib/auth";
+import { LogBox } from "react-native";
 
 const ClerkPublishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -19,6 +20,8 @@ const MainLayout = () => {
     "Jakarta-Medium": require("../assets/fonts/PlusJakartaSans-Medium.ttf"),
     "Jakarta-SemiBold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
   });
+
+  LogBox.ignoreLogs(["Warning : ..."]);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {

@@ -19,8 +19,9 @@ const CustomDrawerContent = (props) => {
   const { user } = useUser(); // Get the current user from the Clerk context
   const userProfile = user?.imageUrl;
   const email = user?.emailAddresses[0].emailAddress || "Email Not Found";
-  const username = email.split("@")[0].toUpperCase();
-
+  const usernameNotExist = email.split("@")[0].toUpperCase();
+  const usernameExist = user?.username;
+  const username = usernameExist ? usernameExist : usernameNotExist; // Use existing username if available, otherwise use the extracted one
   const TextColor = isDarkTheme ? "#ffffff" : "#000000";
   const DrawerButtonActiveText = isDarkTheme ? "#ffffff" : "#ffffff";
   const DrawerButtonInActiveText = isDarkTheme ? "#ffffff" : "#151718";
