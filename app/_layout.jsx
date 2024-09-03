@@ -48,7 +48,7 @@ const MainLayout = () => {
       <Stack.Screen name="+not-found" />
       <Stack.Screen
         name="doctors/[doctorId]"
-        options={{ headerShown: true, headerTitle: "Doctor Profile" }}
+        options={{ headerShown: false, headerTitle: "Doctor Profile" }}
       />
     </Stack>
   );

@@ -48,7 +48,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "123 Heart Lane, Cardio City, TX",
+    location: {
+      place: "123 Heart Lane, Cardio City, TX",
+      Country_State: "USA, Texas",
+      Clinic_Hospital: "Heart Health Center",
+    },
     consultantPrice: "$200",
   },
   {
@@ -75,7 +79,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "456 Skin St, Derma Town, CA",
+    location: {
+      place: "456 Skin St, Derma Town, CA",
+      Country_State: "USA, California",
+      Clinic_Hospital: "Clear Skin Dermatology Clinic",
+    },
     consultantPrice: "$180",
   },
   {
@@ -102,7 +110,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "789 Childcare Blvd, Pediatric City, NY",
+    location: {
+      place: "789 Childcare Blvd, Pediatric City, NY",
+      Country_State: "USA, New York",
+      Clinic_Hospital: "Kids Care Pediatric Clinic",
+    },
     consultantPrice: "$160",
   },
   {
@@ -129,7 +141,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "101 Bone Ave, Ortho City, IL",
+    location: {
+      place: "101 Bone Ave, Ortho City, IL",
+      Country_State: "USA, Illinois",
+      Clinic_Hospital: "Advanced Orthopedics Center",
+    },
     consultantPrice: "$250",
   },
   {
@@ -156,7 +172,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "202 Neuro Rd, Brain Town, FL",
+    location: {
+      place: "202 Neuro Rd, Brain Town, FL",
+      Country_State: "USA, Florida",
+      Clinic_Hospital: "Neurology Specialists of Florida",
+    },
     consultantPrice: "$220",
   },
   {
@@ -183,7 +203,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "303 Health St, Wellness City, WA",
+    location: {
+      place: "303 Health St, Wellness City, WA",
+      Country_State: "USA, Washington",
+      Clinic_Hospital: "Wellness Family Clinic",
+    },
     consultantPrice: "$150",
   },
   {
@@ -210,7 +234,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "404 Endo Blvd, Hormone City, TX",
+    location: {
+      place: "404 Endo Blvd, Hormone City, TX",
+      Country_State: "USA, Texas",
+      Clinic_Hospital: "Endocrine Health Institute",
+    },
     consultantPrice: "$190",
   },
   {
@@ -237,7 +265,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "505 Eye St, Vision City, CA",
+    location: {
+      place: "505 Eye St, Vision City, CA",
+      Country_State: "USA, California",
+      Clinic_Hospital: "Vision Care Center",
+    },
     consultantPrice: "$210",
   },
   {
@@ -264,7 +296,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "606 Mind Ave, Wellness Town, NY",
+    location: {
+      place: "606 Mind Ave, Wellness Town, NY",
+      Country_State: "USA, New York",
+      Clinic_Hospital: "Mind and Wellness Psychiatric Services",
+    },
     consultantPrice: "$230",
   },
   {
@@ -291,7 +327,11 @@ export const doctors = [
         reviewer_image: "https://placehold.co/600x400/000000/FFFFFF/png",
       },
     ],
-    location: "707 Gastro St, Digestive City, TX",
+    location: {
+      place: "707 Gastro St, Digestive City, TX",
+      Country_State: "USA, Texas",
+      Clinic_Hospital: "Digestive Health Associates",
+    },
     consultantPrice: "$200",
   },
 ];
