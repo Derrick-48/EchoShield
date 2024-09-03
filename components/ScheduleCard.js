@@ -5,7 +5,7 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import HomeStyle from "@/Styles_Theme/HomeScreenStyle";
 import { Link } from "expo-router";
 
-const ResponseOverviewCard = ({
+const ScheduleOverviewCard = ({
   name,
   role,
   imageUri,
@@ -28,23 +28,10 @@ const ResponseOverviewCard = ({
             {role}
           </Text>
         </View>
-        <Link
-          href={{
-            pathname: "/schedule/[schedules]",
-            params: {
-              scheduledDoctorId: encodeURIComponent(name), // Encoding the name to handle special characters
-              scheduledDoctorSpecs: encodeURIComponent(role), // Fixed typo
-              scheduledDoctorImageUrl: encodeURIComponent(imageUri), // Encoding the URL
-              doctorScheduleDate: encodeURIComponent(scheduleDate),
-              doctorScheduleTime: encodeURIComponent(scheduleTime),
-            },
-          }}
-          asChild
-        >
-          <TouchableOpacity style={HomeStyle.arrowIcon}>
-            <FontAwesome name="chevron-right" size={20} color={textColor} />
-          </TouchableOpacity>
-        </Link>
+
+        <TouchableOpacity style={HomeStyle.arrowIcon}>
+          <FontAwesome name="chevron-right" size={20} color={textColor} />
+        </TouchableOpacity>
       </View>
       {/* Separator Line */}
       <View style={HomeStyle.separatorLine} />
@@ -63,7 +50,7 @@ const ResponseOverviewCard = ({
   );
 };
 
-export default ResponseOverviewCard;
+export default ScheduleOverviewCard;
 const styles = StyleSheet.create({
   textWrapper: {
     // Shadow for iOS

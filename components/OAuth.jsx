@@ -2,9 +2,10 @@ import { useOAuth } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import { Alert, Image, Text, View, StyleSheet } from "react-native";
 import CustomButton from "@/components/CustomButton";
-import { icons } from "@/constants";
+import { icons, images } from "@/constants";
 import { googleOAuth } from "@/lib/auth";
 import ReactNativeModal from "react-native-modal";
+import { useState } from "react";
 
 const OAuth = () => {
   const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
@@ -15,13 +16,13 @@ const OAuth = () => {
 
     if (result.code === "session_exists" || result.code === "success") {
       router.replace("/(Root)/(tabs)/home");
-    } else {
+    } else if (result.code === "session_exists" || result.code === "success") {
       setShowSuccessModal(true);
     }
   };
   const handleCloseModal = () => {
     setShowSuccessModal(false);
-    router.push("/(Root)/(tabs)/home");
+    router.replace("/(Root)/(tabs)/home");
   };
 
   return (

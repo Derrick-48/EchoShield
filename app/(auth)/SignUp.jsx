@@ -10,7 +10,6 @@ import {
   View,
 } from "react-native";
 import { ReactNativeModal } from "react-native-modal";
-
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";

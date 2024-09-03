@@ -27,6 +27,7 @@ import {
 } from "@/constants/data";
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
 import { router } from "expo-router";
+import * as Haptics from "expo-haptics";
 
 // Define the HomeTabScreen component
 const HomeTabScreen = () => {
@@ -123,27 +124,33 @@ const HomeTabScreen = () => {
   const handleIconPress = (index) => {
     switch (index) {
       case 0:
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
         // Handle press for "Police"
         console.log("Police icon pressed");
+
         // Navigate to Police Screen or perform some action
         router.push("/(Root)/(tabs)/home/EmergencyServices");
+
         break;
       case 1:
         // Handle press for "Doctor"
         console.log("Doctor icon pressed");
         // Navigate to Doctor Screen or perform some action
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
         router.push("/(Root)/(tabs)/home/EmergencyServices/Doctor");
         break;
       case 2:
         // Handle press for "Medicine"
         console.log("Medicine icon pressed");
         // Navigate to Medicine Screen or perform some action
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
         router.push("/(Root)/(tabs)/home/EmergencyServices/Medicine");
         break;
       case 3:
         // Handle press for "Hospital"
         console.log("Hospital icon pressed");
         // Navigate to Hospital Screen or perform some action
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
         router.push("/(Root)/(tabs)/home/EmergencyServices/Hospital");
         break;
       default:

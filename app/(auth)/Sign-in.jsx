@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
+import { useState } from "react";
 import {
   Alert,
   Image,
@@ -10,7 +11,6 @@ import {
 } from "react-native";
 import { useSignIn } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
-
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";

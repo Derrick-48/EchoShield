@@ -29,7 +29,12 @@ const NearbyCard = ({
       <View
         style={[
           HomeStyle.nearDoctorCardContainer,
-          { backgroundColor: cardBgColor, marginHorizontal: 10 },
+          {
+            backgroundColor: cardBgColor,
+            marginHorizontal: 10,
+            elevation: 4,
+            shadowRadius: 5,
+          },
         ]}
       >
         <View style={HomeStyle.nearDoctorCard}>
