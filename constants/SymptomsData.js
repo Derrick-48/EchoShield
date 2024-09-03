@@ -28,7 +28,7 @@ export const doctors = [
     name: "Dr. Sarah Johnson",
     specialization: "Cardiologist",
     rating: 4.8,
-    imageUrl: "https://example.com/images/dr-sarah-johnson.jpg",
+    imageUrl: imageDataURL[0],
     experience: "12 years",
     contact: "+1-800-123-4567",
     bio: "Dr. Sarah Johnson is a highly skilled cardiologist with over a decade of experience in treating heart diseases. Passionate about cardiac health and patient care.",

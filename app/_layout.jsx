@@ -37,10 +37,19 @@ const MainLayout = () => {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(Root)" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(Root)"
+        options={{ headerShown: false, headerTitle: "Back" }}
+      />
+      <Stack.Screen
+        name="(auth)"
+        options={{ headerShown: false, headerTitle: "authentication" }}
+      />
       <Stack.Screen name="+not-found" />
-      <Stack.Screen name="doctors/[doctorId]" options={{ headerShown: true }} />
+      <Stack.Screen
+        name="doctors/[doctorId]"
+        options={{ headerShown: true, headerTitle: "Doctor Profile" }}
+      />
     </Stack>
   );
 };
