@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { doctors } from "@/constants/SymptomsData";
 import HeaderCustom from "@/components/HeaderCustom";
 import React from "react";
@@ -15,6 +15,7 @@ import Icon from "react-native-vector-icons/Ionicons"; // or any other icon set 
 import { useTheme } from "@/Context/ThemeContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "@/components/CustomButton";
+import ReviewOverviewCard from "@/components/ReviewCard";
 
 export default function DoctorDetailsScreen() {
   const { doctorId } = useLocalSearchParams(); // Extract the ID from the URL parameters
@@ -33,6 +34,14 @@ export default function DoctorDetailsScreen() {
   const doctor = doctors.find(
     (doc) => decodeURIComponent(doc.name) === decodedId
   );
+
+  const numberOfReviews = doctor.reviews.length;
+  // Calculate the average rating
+  const totalRating = doctor.reviews.reduce(
+    (acc, review) => acc + review.rating,
+    0
+  );
+  const averageRating = (totalRating / numberOfReviews).toFixed(1); // Rounded to one decimal place
 
   if (!doctor) {
     return (
@@ -58,11 +67,20 @@ export default function DoctorDetailsScreen() {
               </TouchableOpacity>
             </View>
 
-            <Image source={{ uri: doctor.imageUrl }} style={styles.image} />
-            <Text style={styles.name}>{doctor.name}</Text>
+            <Image
+              source={{ uri: doctor.imageUrl }}
+              className="w-24 h-24 rounded-full self-center"
+            />
+            <Text className="text-2xl font-bold text-center mt-5">
+              {doctor.name}
+            </Text>
             <View className="flex flex-row  justify-center">
-              <Text style={styles.specialization}>{doctor.specialization}</Text>
-              <Text style={styles.rating}> {doctor.rating} ⭐</Text>
+              <Text className="text-lg text-gray-500 text-center mt-2.5">
+                {doctor.specialization}
+              </Text>
+              <Text className="text-base text-center mt-3">
+                {doctor.rating} ⭐
+              </Text>
             </View>
             <View className="flex flex-row  justify-center mt-3">
               <TouchableOpacity className="p-2 rounded-full bg-white mx-1 ">
@@ -81,30 +99,53 @@ export default function DoctorDetailsScreen() {
 
           <ScrollView className="pt-3 bg-white ">
             <Text className="font-JakartaBold text-lg pl-3"> About Doctor</Text>
-            <View className="p-4 bg-white mb-3 pb-5   ">
-              <Text style={styles.experience}>
+            <View className=" bg-white mb-3 pb-5  ">
+              <Text className="text-base pl-4">
                 Experience: {doctor.experience}
               </Text>
-              <Text style={styles.contact}>Contact: {doctor.contact}</Text>
-              <Text className="text-sm mt-2.5 text-left font-medium">
+              <Text className="text-base pl-4">Contact: {doctor.contact}</Text>
+              <Text className="text-sm text-left font-medium pl-4">
                 {doctor.bio}
               </Text>
 
-              <View style={styles.reviewsContainer}>
-                <Text style={styles.reviewsTitle}>Reviews:</Text>
-                {doctor.reviews.map((review, index) => (
-                  <View key={index} style={styles.review}>
-                    <Text style={styles.reviewer}>{review.reviewer}:</Text>
-                    <Text style={styles.reviewRating}> {review.rating} ⭐</Text>
-                    <Text style={styles.reviewComment}>
-                      {" "}
-                      - {review.comment}
+              <View className="mt-5">
+                <View className="flex flex-row justify-between">
+                  <View className="flex flex-row">
+                    <Text className="text-lg font-bold mb-2.5 pl-3">
+                      Reviews:{" "}
+                    </Text>
+                    <Text className="pr-1 text-lg font-JakartaBold">
+                      ⭐{averageRating}
+                    </Text>
+                    <Text className=" text-lg font-JakartaBold text-cyan-600">
+                      ( {numberOfReviews} )
                     </Text>
                   </View>
-                ))}
+                  <Link href={"/(Root)"} asChild>
+                    <TouchableOpacity>
+                      <Text className="text-lg font-bold mb-2.5 pr-4 text-blue-700">
+                        See all
+                      </Text>
+                    </TouchableOpacity>
+                  </Link>
+                </View>
+
+                <ScrollView horizontal>
+                  {doctor.reviews.map((review, index) => (
+                    <ReviewOverviewCard
+                      key={index}
+                      name={review.reviewer}
+                      date={review.days}
+                      UserRated={review.rating}
+                      message={review.comment}
+                      imageUri={review.reviewer_image}
+                    />
+                  ))}
+                </ScrollView>
               </View>
 
-              <Text style={styles.location}>Location: {doctor.location}</Text>
+              <Text className="text-base mt-2.5 pl-3">Location:</Text>
+              <Text className="text-base mt-2.5 pl-3">{doctor.location}</Text>
             </View>
           </ScrollView>
 
@@ -115,7 +156,7 @@ export default function DoctorDetailsScreen() {
               <Text className="text-sm font-JakartaBold  p-2">
                 Consultation Price:
               </Text>
-              <Text className="text-sm font-JakartaBold  p-2">
+              <Text className="text-base font-JakartaBold  p-2 text-blue-700">
                 {doctor.consultantPrice}
               </Text>
             </View>
@@ -131,81 +172,3 @@ export default function DoctorDetailsScreen() {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "white",
-  },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 75,
-    alignSelf: "center",
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 20,
-  },
-  specialization: {
-    fontSize: 18,
-    color: "gray",
-    textAlign: "center",
-    marginTop: 10,
-  },
-  rating: {
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 12,
-  },
-  experience: {
-    fontSize: 16,
-  },
-  contact: {
-    fontSize: 16,
-    marginTop: 10,
-  },
-  bio: {
-    fontSize: 16,
-    marginTop: 10,
-    textAlign: "left",
-  },
-  reviewsContainer: {
-    marginTop: 20,
-  },
-  reviewsTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  review: {
-    marginBottom: 10,
-  },
-  reviewer: {
-    fontWeight: "bold",
-  },
-  reviewRating: {
-    color: "orange",
-  },
-  reviewComment: {
-    color: "gray",
-  },
-  location: {
-    fontSize: 16,
-    marginTop: 10,
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  iconContainer: {
-    padding: 10,
-    borderRadius: 25,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 5,
-  },
-});
