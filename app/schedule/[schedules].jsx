@@ -13,6 +13,8 @@ import { useTheme } from "@/Context/ThemeContext";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { doctors } from "@/constants/data";
+import ScheduleOverviewCard from "@/components/ScheduleCard";
+import { imageDataURL } from "@/constants/ImageData";
 
 // Define the screens for each tab
 const UpcomingScreenRoute = () => {
@@ -34,12 +36,20 @@ const UpcomingScreenRoute = () => {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        marginTop: 20,
         backgroundColor: "white",
+        padding: 12,
       }}
     >
-      <Text>Home Screen</Text>
+      <ScheduleOverviewCard
+        name={"Doctor"}
+        role={"surgeon"}
+        imageUri={imageDataURL[1]}
+        scheduleDate={"20/8/23"}
+        scheduleTime={"12:30 pm"}
+        iconColor={"white"}
+        textColor={"black"}
+      />
     </View>
   );
 };

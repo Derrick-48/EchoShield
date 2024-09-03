@@ -1,9 +1,9 @@
-// DoctorCard.js
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import HomeStyle from "@/Styles_Theme/HomeScreenStyle";
 import { Link } from "expo-router";
+import { imageDataURL } from "@/constants/ImageData";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ScheduleOverviewCard = ({
   name,
@@ -15,55 +15,62 @@ const ScheduleOverviewCard = ({
   iconColor,
 }) => {
   return (
-    <View style={HomeStyle.doctorOverviewCard}>
-      <View style={HomeStyle.doctorCard}>
-        <Image source={{ uri: imageUri }} style={HomeStyle.doctorImage} />
-        <View style={HomeStyle.doctorInfo}>
-          <View style={styles.textWrapper}>
-            <Text style={[HomeStyle.doctorName, { color: textColor }]}>
-              {name}
-            </Text>
+    <ScrollView>
+      <View
+        className="flex-col bg-white rounded-xl p-2 mb-5 mx-1   "
+        style={{
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.3,
+          shadowRadius: 3.84,
+          elevation: 5,
+        }}
+      >
+        <View className="flex-row mb-2 p-1.5 items-center">
+          <View className="flex-1 ml-4">
+            <View className="shadow-lg">
+              <Text className={`text-lg font-bold ${textColor}`}>{name}</Text>
+            </View>
+            <Text className={`text-base ${textColor}`}>{role}</Text>
           </View>
-          <Text style={[HomeStyle.doctorRole, { color: textColor }]}>
-            {role}
-          </Text>
-        </View>
 
-        <TouchableOpacity style={HomeStyle.arrowIcon}>
-          <FontAwesome name="chevron-right" size={20} color={textColor} />
-        </TouchableOpacity>
+          <Image
+            source={{ uri: imageUri }}
+            className="w-16 h-16 rounded-full border  border-white"
+          />
+        </View>
+        {/* Separator Line */}
+        <View className="h-0.5 bg-gray-200 my-2 w-full" />
+        <View className="flex-row items-center mt-1 justify-evenly">
+          <MaterialIcons name="date-range" size={20} color={iconColor} />
+          <Text className={`text-base font-medium ${textColor}`}>
+            {scheduleDate}
+          </Text>
+          <MaterialIcons name="access-time" size={20} color={iconColor} />
+          <Text className={`text-base font-medium ${textColor}`}>
+            {scheduleTime}
+          </Text>
+          <View className="flex-row items-center">
+            <FontAwesome name="dot-circle-o" size={20} color="white" />
+            <Text className="mt-0.5"> Confirmed</Text>
+          </View>
+        </View>
+        <View className="flex flex-row justify-center mt-4">
+          <TouchableOpacity className="bg-slate-950  rounded-lg w-32 h-10 justify-center">
+            <Text className="text-sm font-bold text-center text-white">
+              Cancel
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className="bg-slate-950 rounded-lg w-32 h-10 justify-center ml-3">
+            <Text className="text-sm font-bold text-center text-white">
+              Reschedule
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      {/* Separator Line */}
-      <View style={HomeStyle.separatorLine} />
-      <View style={HomeStyle.doctorSchedule}>
-        <MaterialIcons name="date-range" size={16} color={iconColor} />
-        <Text style={[HomeStyle.scheduleText, { color: textColor }]}>
-          {"  "} {scheduleDate} {"  "}
-        </Text>
-        <MaterialIcons name="access-time" size={16} color={iconColor} />
-        <Text style={[HomeStyle.scheduleText, { color: textColor }]}>
-          {"  "}
-          {scheduleTime}
-        </Text>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
 export default ScheduleOverviewCard;
-const styles = StyleSheet.create({
-  textWrapper: {
-    // Shadow for iOS
-    shadowColor: "#000000", // Shadow color
-    shadowOffset: { width: 0, height: 2 }, // Shadow offset
-    shadowOpacity: 0.2, // Shadow opacity
-    shadowRadius: 3.84, // Shadow blur radius
-
-    // Shadow for Android
-    elevation: 5, // Elevation for Android
-  },
-  text: {
-    fontSize: 24,
-    color: "#333",
-  },
-});
