@@ -7,7 +7,7 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const ScheduleOverviewCard = ({
   name,
-  role,
+  specialization,
   imageUri,
   scheduleDate,
   scheduleTime,
@@ -30,7 +30,7 @@ const ScheduleOverviewCard = ({
           <View className="shadow-lg">
             <Text className={`text-lg font-bold ${textColor}`}>{name}</Text>
           </View>
-          <Text className={`text-base ${textColor}`}>{role}</Text>
+          <Text className={`text-base ${textColor}`}>{specialization}</Text>
         </View>
 
         <Image

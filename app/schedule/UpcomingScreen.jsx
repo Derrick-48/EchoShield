@@ -25,7 +25,7 @@ const UpcomingScreenRoute = ({ schedules, doctor }) => {
           <ScheduleOverviewCard
             key={index}
             name={doctor.name} // Include the doctor’s name if needed
-            role={doctor.specialization} // Include the doctor’s role if needed
+            specialization={doctor.specialization} // Include the doctor’s role if needed
             imageUri={doctor.imageUrl} // Include the doctor’s image if needed
             scheduleDate={schedule.scheduleDate}
             scheduleTime={schedule.scheduleTime}
