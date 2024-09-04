@@ -19,7 +19,7 @@ import { imageDataURL } from "@/constants/ImageData";
 import HomeStyle from "@/Styles_Theme/HomeScreenStyle";
 import NearbyCard from "@/components/NearbyCard";
 import ResponseOverviewCard from "@/components/ResponseCard";
-import { doctors as InitialDoctorsData } from "@/constants/data";
+import { doctors as InitialDoctorsData } from "@/constants/DoctorDatas";
 import {
   nearbyDoctorsData as DummyNearbyDoctorsData,
   nearbyHospitalsData as DummyNearbyHospitalsData,
@@ -205,7 +205,7 @@ const HomeTabScreen = () => {
               contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
               showsHorizontalScrollIndicator={false}
             >
-              {doctors.map((doctor, index) => {
+              {doctors.slice(0, 3).map((doctor, index) => {
                 const upcomingSchedules = filterUpcomingSchedules(
                   doctor.schedules
                 );

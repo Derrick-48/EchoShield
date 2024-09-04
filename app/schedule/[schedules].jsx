@@ -4,7 +4,7 @@ import { View, Text, Image } from "react-native";
 import { useTheme } from "@/Context/ThemeContext";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { useLocalSearchParams } from "expo-router";
-import { doctors } from "@/constants/data";
+import { doctors } from "@/constants/DoctorDatas";
 import UpcomingScreenRoute from "./UpcomingScreen";
 import CompletedScreenRoute from "./CompletedScreen";
 import CanceledScreenRoute from "./CanceledScreen";
