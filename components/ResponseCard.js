@@ -7,7 +7,7 @@ import { Link } from "expo-router";
 
 const ResponseOverviewCard = ({
   name,
-  role,
+  specialization,
   imageUri,
   scheduleDate,
   scheduleTime,
@@ -25,7 +25,7 @@ const ResponseOverviewCard = ({
             </Text>
           </View>
           <Text style={[HomeStyle.doctorRole, { color: textColor }]}>
-            {role}
+            {specialization}
           </Text>
         </View>
         <Link
@@ -33,7 +33,7 @@ const ResponseOverviewCard = ({
             pathname: "/schedule/[schedules]",
             params: {
               scheduledDoctorId: encodeURIComponent(name), // Encoding the name to handle special characters
-              scheduledDoctorSpecs: encodeURIComponent(role), // Fixed typo
+              scheduledDoctorSpecs: encodeURIComponent(specialization), // Fixed typo
               scheduledDoctorImageUrl: encodeURIComponent(imageUri), // Encoding the URL
               doctorScheduleDate: encodeURIComponent(scheduleDate),
               doctorScheduleTime: encodeURIComponent(scheduleTime),

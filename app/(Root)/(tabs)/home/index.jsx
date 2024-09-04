@@ -219,7 +219,7 @@ const HomeTabScreen = () => {
                   <ResponseOverviewCard
                     key={index}
                     name={doctor.name}
-                    role={doctor.role}
+                    specialization={doctor.specialization}
                     imageUri={doctor.imageUrl}
                     scheduleDate={scheduleDate}
                     scheduleTime={scheduleTime}

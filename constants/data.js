@@ -14,7 +14,7 @@ export const photos = [
 export const doctors = [
   {
     name: "Dr. Imran Syahir",
-    role: "General Doctor",
+    specialization: "General Doctor",
     imageUrl: "https://via.placeholder.com/50",
     schedules: [
       {
@@ -33,7 +33,7 @@ export const doctors = [
   },
   {
     name: "Dr. Alice Johnson",
-    role: "Cardiologist",
+    specialization: "Cardiologist",
     imageUrl: "https://via.placeholder.com/50",
     schedules: [
       {
@@ -48,7 +48,7 @@ export const doctors = [
   },
   {
     name: "Dr. Bob Brown",
-    role: "Neurologist",
+    specialization: "Neurologist",
     imageUrl: "https://via.placeholder.com/50",
     schedules: [
       {
