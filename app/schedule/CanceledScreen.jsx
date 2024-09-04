@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import ScheduleOverviewCard from "@/components/ScheduleCard";
+import CanceledScheduleOverviewCard from "@/components/CanceledScheduleCard";
 
 const CanceledScreenRoute = ({ schedules, doctor }) => {
   if (!schedules || schedules.length === 0) {
@@ -21,10 +21,10 @@ const CanceledScreenRoute = ({ schedules, doctor }) => {
       }}
     >
       {schedules.map((schedule, index) => (
-        <ScheduleOverviewCard
+        <CanceledScheduleOverviewCard
           key={index}
           name={doctor.name} // Include the doctor’s name if needed
-          role={doctor.role} // Include the doctor’s role if needed
+          specialization={doctor.specialization} // Include the doctor’s role if needed
           imageUri={doctor.imageUri} // Include the doctor’s image if needed
           scheduleDate={schedule.scheduleDate}
           scheduleTime={schedule.scheduleTime}
