@@ -28,7 +28,7 @@ const DoctorScreen = () => {
       className={`p-2  flex-1 ${ScreenBackgroundColor} `}
       showsVerticalScrollIndicator={false}
     >
-      <View className={` ${ScreenBackgroundColor} `}>
+      <View className={`  ${ScreenBackgroundColor} `}>
         <View className="flex-row  ">
           <View
             className={` p-4 ${BackgroundColor} w-44 h-44 p-5 rounded-3xl mx-2 shadow-sm shadow-slate-700`}
@@ -77,7 +77,7 @@ const DoctorScreen = () => {
         {"  "}
         Popular Doctors
       </Text>
-      <View className="flex-wrap  flex-row  justify-evenly ">
+      <View className="flex-wrap flex-row  justify-evenly ">
         {doctors.map((doctor, index) => (
           <PopularDoctors
             key={index}

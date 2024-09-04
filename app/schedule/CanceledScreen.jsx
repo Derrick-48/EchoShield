@@ -1,11 +1,13 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView, Image } from "react-native";
 import CanceledScheduleOverviewCard from "@/components/CanceledScheduleCard";
+import { images } from "@/constants";
 
 const CanceledScreenRoute = ({ schedules, doctor }) => {
   if (!schedules || schedules.length === 0) {
     return (
       <View>
+        <Image source={images.noResult} style={{ width: 200, height: 200 }} />
         <Text>No canceled schedules</Text>
       </View>
     );
@@ -20,18 +22,20 @@ const CanceledScreenRoute = ({ schedules, doctor }) => {
         padding: 12,
       }}
     >
-      {schedules.map((schedule, index) => (
-        <CanceledScheduleOverviewCard
-          key={index}
-          name={doctor.name} // Include the doctor’s name if needed
-          specialization={doctor.specialization} // Include the doctor’s role if needed
-          imageUri={doctor.imageUri} // Include the doctor’s image if needed
-          scheduleDate={schedule.scheduleDate}
-          scheduleTime={schedule.scheduleTime}
-          iconColor={"white"}
-          textColor={"black"}
-        />
-      ))}
+      <ScrollView>
+        {schedules.map((schedule, index) => (
+          <CanceledScheduleOverviewCard
+            key={index}
+            name={doctor.name} // Include the doctor’s name if needed
+            specialization={doctor.specialization} // Include the doctor’s role if needed
+            imageUri={doctor.imageUri} // Include the doctor’s image if needed
+            scheduleDate={schedule.scheduleDate}
+            scheduleTime={schedule.scheduleTime}
+            iconColor={"white"}
+            textColor={"black"}
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 };

@@ -1,6 +1,6 @@
 // Import necessary libraries
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { useTheme } from "@/Context/ThemeContext";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { useLocalSearchParams } from "expo-router";
@@ -8,6 +8,7 @@ import { doctors } from "@/constants/data";
 import UpcomingScreenRoute from "./UpcomingScreen";
 import CompletedScreenRoute from "./CompletedScreen";
 import CanceledScreenRoute from "./CanceledScreen";
+import { images } from "@/constants";
 
 // Create the SchedulesDetails
 const SchedulesDetails = () => {
@@ -115,24 +116,33 @@ const SchedulesDetails = () => {
       upcomingSchedules.length > 0 ? (
         <UpcomingScreenRoute doctor={doctor} schedules={upcomingSchedules} />
       ) : (
-        <View>
-          <Text>No upcoming schedule</Text>
+        <View className="justify-center">
+          <Image source={images.noResult} className="w-52 h-52  self-center " />
+          <Text className="self-center font-JakartaBold text-xl ">
+            No Upcoming schedules
+          </Text>
         </View>
       ),
     second: () =>
       completedSchedules.length > 0 ? (
         <CompletedScreenRoute doctor={doctor} schedules={completedSchedules} />
       ) : (
-        <View>
-          <Text>No completed schedule</Text>
+        <View className="justify-center">
+          <Image source={images.noResult} className="w-52 h-52  self-center " />
+          <Text className="self-center font-JakartaBold text-xl ">
+            No Completed schedules
+          </Text>
         </View>
       ),
     third: () =>
       canceledSchedules.length > 0 ? (
         <CanceledScreenRoute doctor={doctor} schedules={canceledSchedules} />
       ) : (
-        <View>
-          <Text>No canceled schedule</Text>
+        <View className="justify-center">
+          <Image source={images.noResult} className="w-52 h-52  self-center " />
+          <Text className="self-center font-JakartaBold text-xl ">
+            No canceled schedules
+          </Text>
         </View>
       ),
   });
