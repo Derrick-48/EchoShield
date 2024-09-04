@@ -1,123 +1,25 @@
 // Import necessary libraries
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text } from "react-native";
 import { useTheme } from "@/Context/ThemeContext";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
-import { Link, router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { doctors } from "@/constants/data";
-import ScheduleOverviewCard from "@/components/ScheduleCard";
-import { imageDataURL } from "@/constants/ImageData";
-
-// Define the screens for each tab
-const UpcomingScreenRoute = () => {
-  const { scheduledDoctorId } = useLocalSearchParams();
-  const decodedId = decodeURIComponent(scheduledDoctorId);
-  const doctor = doctors.find(
-    (doc) => decodeURIComponent(doc.name) === decodedId
-  );
-
-  if (!doctor) {
-    return (
-      <View>
-        <Text>Schedule Not Found</Text>
-      </View>
-    );
-  }
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        marginTop: 20,
-        backgroundColor: "white",
-        padding: 12,
-      }}
-    >
-      <ScheduleOverviewCard
-        name={"Doctor"}
-        role={"surgeon"}
-        imageUri={imageDataURL[1]}
-        scheduleDate={"20/8/23"}
-        scheduleTime={"12:30 pm"}
-        iconColor={"white"}
-        textColor={"black"}
-      />
-    </View>
-  );
-};
-
-const CompletedScreenRoute = () => {
-  const { scheduledDoctorId } = useLocalSearchParams();
-  const decodedId = decodeURIComponent(scheduledDoctorId);
-  const doctor = doctors.find(
-    (doc) => decodeURIComponent(doc.name) === decodedId
-  );
-
-  if (!doctor) {
-    return (
-      <View>
-        <Text>Schedule Not Found</Text>
-      </View>
-    );
-  }
-  return (
-    <View style={styles.container}>
-      <Text>Settings Screen</Text>
-    </View>
-  );
-};
-
-const CanceledScreenRoute = () => {
-  const { scheduledDoctorId } = useLocalSearchParams();
-  const decodedId = decodeURIComponent(scheduledDoctorId);
-  const doctor = doctors.find(
-    (doc) => decodeURIComponent(doc.name) === decodedId
-  );
-
-  if (!doctor) {
-    return (
-      <View>
-        <Text>Schedule Not Found</Text>
-      </View>
-    );
-  }
-  return (
-    <View style={styles.container}>
-      <Text>Profile Screen</Text>
-    </View>
-  );
-};
-
-// Define the styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
-
-const renderScene = SceneMap({
-  first: UpcomingScreenRoute,
-  second: CompletedScreenRoute,
-  third: CanceledScreenRoute,
-});
+import UpcomingScreenRoute from "./UpcomingScreen";
+import CompletedScreenRoute from "./CompletedScreen";
+import CanceledScreenRoute from "./CanceledScreen";
 
 // Create the SchedulesDetails
 const SchedulesDetails = () => {
   const { scheduledDoctorId } = useLocalSearchParams();
-  const ScreenBackgroundColor = isDarkTheme ? "#151718" : "#ffff";
-  const FocusedLineColor = isDarkTheme ? "#0066FF" : "#0066FF";
   const TextLineColor = isDarkTheme ? "#ffffff" : "#ffffff";
   const FocusedTextLineColor = isDarkTheme ? "#FFFF00" : "#000000";
+
+  // States for scheduling status
+  // State to store schedules by status
+  const [upcomingSchedules, setUpcomingSchedules] = useState([]);
+  const [completedSchedules, setCompletedSchedules] = useState([]);
+  const [canceledSchedules, setCanceledSchedules] = useState([]);
 
   const [index, setIndex] = useState(0);
   const { isDarkTheme } = useTheme();
@@ -131,6 +33,31 @@ const SchedulesDetails = () => {
   const doctor = doctors.find(
     (doc) => decodeURIComponent(doc.name) === decodedId
   );
+
+  // Calculate the status of the schedule
+  useEffect(() => {
+    if (doctor) {
+      const currentDate = new Date();
+      const upcoming = [];
+      const completed = [];
+
+      doctor.schedules.forEach((schedule) => {
+        const scheduleDateTime = new Date(
+          `${schedule.scheduleDate}T${schedule.scheduleTime.split(" - ")[0]}`
+        ); // Extracting the start time
+
+        if (scheduleDateTime > currentDate) {
+          upcoming.push(schedule);
+        } else {
+          completed.push(schedule);
+        }
+      });
+
+      setUpcomingSchedules(upcoming);
+      setCompletedSchedules(completed);
+      setCanceledSchedules([]); // Set an empty array for canceled schedules; update logic as needed
+    }
+  }, [doctor]);
 
   if (!doctor) {
     return (
@@ -182,6 +109,33 @@ const SchedulesDetails = () => {
       )}
     />
   );
+
+  const renderScene = SceneMap({
+    first: () =>
+      upcomingSchedules.length > 0 ? (
+        <UpcomingScreenRoute doctor={doctor} schedules={upcomingSchedules} />
+      ) : (
+        <View>
+          <Text>No upcoming schedule</Text>
+        </View>
+      ),
+    second: () =>
+      completedSchedules.length > 0 ? (
+        <CompletedScreenRoute doctor={doctor} schedules={completedSchedules} />
+      ) : (
+        <View>
+          <Text>No completed schedule</Text>
+        </View>
+      ),
+    third: () =>
+      canceledSchedules.length > 0 ? (
+        <CanceledScreenRoute doctor={doctor} schedules={canceledSchedules} />
+      ) : (
+        <View>
+          <Text>No canceled schedule</Text>
+        </View>
+      ),
+  });
 
   return (
     <TabView

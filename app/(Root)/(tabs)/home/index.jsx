@@ -69,10 +69,15 @@ const HomeTabScreen = () => {
   const ThirdTextColor = isDarkTheme ? "#ffffff" : "#0066FF";
   const FourTextColor = isDarkTheme ? "#ffffff" : "#6B7280";
   const FifthTextColor = isDarkTheme ? "#000000" : "#6B7280";
-  const SecondTextColor = isDarkTheme ? "#ffffff" : "#FBBF24";
   const TextInputColor = isDarkTheme ? "#ffffff" : "#6B7280";
-  const statusBarStyle = isDarkTheme ? "light" : "dark";
   const IconBackgroundColor = isDarkTheme ? "#252829" : "#f0f0f0";
+
+  const filterUpcomingSchedules = (schedules) => {
+    const currentDate = new Date();
+    return schedules.filter(
+      (schedule) => new Date(schedule.scheduleDate) > currentDate
+    );
+  };
 
   // Add event listeners for keyboard show and hide events
   useEffect(() => {
@@ -200,18 +205,29 @@ const HomeTabScreen = () => {
               contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
               showsHorizontalScrollIndicator={false}
             >
-              {doctors.map((doctor, index) => (
-                <ResponseOverviewCard
-                  key={index}
-                  name={doctor.name}
-                  role={doctor.role}
-                  imageUri={doctor.imageUri}
-                  scheduleDate={doctor.scheduleDate}
-                  scheduleTime={doctor.scheduleTime}
-                  textColor={SameTextColor}
-                  iconColor={IconColor}
-                />
-              ))}
+              {doctors.map((doctor, index) => {
+                const upcomingSchedules = filterUpcomingSchedules(
+                  doctor.schedules
+                );
+                if (upcomingSchedules.length === 0) {
+                  return null; // If there are no upcoming schedules, don't render a card for this doctor
+                }
+
+                const { scheduleDate, scheduleTime } = upcomingSchedules[0]; // Display the first upcoming schedule
+
+                return (
+                  <ResponseOverviewCard
+                    key={index}
+                    name={doctor.name}
+                    role={doctor.role}
+                    imageUri={doctor.imageUri}
+                    scheduleDate={scheduleDate}
+                    scheduleTime={scheduleTime}
+                    textColor={SameTextColor}
+                    iconColor={IconColor}
+                  />
+                );
+              })}
             </ScrollView>
 
             {/* Search Bar */}

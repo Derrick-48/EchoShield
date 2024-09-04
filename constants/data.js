@@ -16,22 +16,46 @@ export const doctors = [
     name: "Dr. Imran Syahir",
     role: "General Doctor",
     imageUri: "https://via.placeholder.com/50",
-    scheduleDate: "Sunday, 12 June",
-    scheduleTime: "11:00 - 12:00 AM",
+    schedules: [
+      {
+        scheduleDate: "2024-09-08", // Future date (Upcoming)
+        scheduleTime: "11:00 - 12:00 AM",
+      },
+      {
+        scheduleDate: "2023-05-10", // Past date (Completed)
+        scheduleTime: "02:00 - 03:00 PM",
+      },
+    ],
   },
   {
     name: "Dr. Alice Johnson",
     role: "Cardiologist",
     imageUri: "https://via.placeholder.com/50",
-    scheduleDate: "Monday, 13 June",
-    scheduleTime: "09:00 - 10:00 AM",
+    schedules: [
+      {
+        scheduleDate: "2023-06-13", // Past date (Completed)
+        scheduleTime: "09:00 - 10:00 AM",
+      },
+      {
+        scheduleDate: "2024-10-05", // Future date (Upcoming)
+        scheduleTime: "01:00 - 02:00 PM",
+      },
+    ],
   },
   {
     name: "Dr. Bob Brown",
     role: "Neurologist",
     imageUri: "https://via.placeholder.com/50",
-    scheduleDate: "Tuesday, 14 June",
-    scheduleTime: "02:00 - 03:00 PM",
+    schedules: [
+      {
+        scheduleDate: "2023-06-14", // Past date (Completed)
+        scheduleTime: "02:00 - 03:00 PM",
+      },
+      {
+        scheduleDate: "2024-12-01", // Future date (Upcoming)
+        scheduleTime: "10:00 - 11:00 AM",
+      },
+    ],
   },
   // Add more doctor objects as needed
 ];

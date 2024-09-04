@@ -51,7 +51,7 @@ const ScheduleOverviewCard = ({
             {scheduleTime}
           </Text>
           <View className="flex-row items-center">
-            <FontAwesome name="dot-circle-o" size={20} color="white" />
+            <FontAwesome name="dot-circle-o" size={20} color="black" />
             <Text className="mt-0.5"> Confirmed</Text>
           </View>
         </View>
