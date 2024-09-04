@@ -16,7 +16,7 @@ const ScheduleOverviewCard = ({
 }) => {
   return (
     <View
-      className="flex-col bg-white rounded-xl p-2 mb-5 mx-1   "
+      className="flex-col bg-white rounded-xl p-1 mb-5 mx-1   "
       style={{
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
@@ -42,19 +42,19 @@ const ScheduleOverviewCard = ({
       <View className="h-0.5 bg-gray-200 my-2 w-full" />
       <View className="flex-row items-center mt-1 justify-evenly">
         <MaterialIcons name="date-range" size={20} color={iconColor} />
-        <Text className={`text-sm font-medium ${textColor}`}>
+        <Text className={`text-xs font-medium ${textColor}`}>
           {scheduleDate}
         </Text>
         <MaterialIcons name="access-time" size={20} color={iconColor} />
-        <Text className={`text-sm font-medium ${textColor}`}>
+        <Text className={`text-xs font-medium ${textColor}`}>
           {scheduleTime}
         </Text>
         <View className="flex-row items-center">
           <FontAwesome name="dot-circle-o" size={20} color="black" />
-          <Text className="mt-0.5 text-sm font-medium  "> Confirmed</Text>
+          <Text className="mt-0.5 text-xs font-medium  "> Confirmed</Text>
         </View>
       </View>
-      <View className="flex flex-row justify-center mt-4">
+      <View className="flex flex-row justify-center mt-4 mb-3">
         <TouchableOpacity className="bg-slate-950  rounded-lg w-32 h-10 justify-center">
           <Text className="text-sm font-bold text-center text-white">
             Cancel

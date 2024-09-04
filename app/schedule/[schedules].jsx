@@ -13,17 +13,16 @@ import { images } from "@/constants";
 // Create the SchedulesDetails
 const SchedulesDetails = () => {
   const { scheduledDoctorId } = useLocalSearchParams();
+  const { isDarkTheme } = useTheme();
   const TextLineColor = isDarkTheme ? "#ffffff" : "#ffffff";
   const FocusedTextLineColor = isDarkTheme ? "#FFFF00" : "#000000";
 
   // States for scheduling status
-  // State to store schedules by status
   const [upcomingSchedules, setUpcomingSchedules] = useState([]);
   const [completedSchedules, setCompletedSchedules] = useState([]);
   const [canceledSchedules, setCanceledSchedules] = useState([]);
 
   const [index, setIndex] = useState(0);
-  const { isDarkTheme } = useTheme();
   const [routes] = useState([
     { key: "first", title: "Upcoming" },
     { key: "second", title: "Completed" },
@@ -38,25 +37,23 @@ const SchedulesDetails = () => {
   // Calculate the status of the schedule
   useEffect(() => {
     if (doctor) {
-      const currentDate = new Date();
       const upcoming = [];
       const completed = [];
+      const canceled = [];
 
       doctor.schedules.forEach((schedule) => {
-        const scheduleDateTime = new Date(
-          `${schedule.scheduleDate}T${schedule.scheduleTime.split(" - ")[0]}`
-        ); // Extracting the start time
-
-        if (scheduleDateTime > currentDate) {
+        if (schedule.status === "Upcoming") {
           upcoming.push(schedule);
-        } else {
+        } else if (schedule.status === "Completed") {
           completed.push(schedule);
+        } else if (schedule.status === "Canceled") {
+          canceled.push(schedule);
         }
       });
 
       setUpcomingSchedules(upcoming);
       setCompletedSchedules(completed);
-      setCanceledSchedules([]); // Set an empty array for canceled schedules; update logic as needed
+      setCanceledSchedules(canceled);
     }
   }, [doctor]);
 
@@ -117,8 +114,8 @@ const SchedulesDetails = () => {
         <UpcomingScreenRoute doctor={doctor} schedules={upcomingSchedules} />
       ) : (
         <View className="justify-center">
-          <Image source={images.noResult} className="w-52 h-52  self-center " />
-          <Text className="self-center font-JakartaBold text-xl ">
+          <Image source={images.noResult} className="w-52 h-52 self-center" />
+          <Text className="self-center font-JakartaBold text-xl">
             No Upcoming schedules
           </Text>
         </View>
@@ -128,8 +125,8 @@ const SchedulesDetails = () => {
         <CompletedScreenRoute doctor={doctor} schedules={completedSchedules} />
       ) : (
         <View className="justify-center">
-          <Image source={images.noResult} className="w-52 h-52  self-center " />
-          <Text className="self-center font-JakartaBold text-xl ">
+          <Image source={images.noResult} className="w-52 h-52 self-center" />
+          <Text className="self-center font-JakartaBold text-xl">
             No Completed schedules
           </Text>
         </View>
@@ -139,9 +136,9 @@ const SchedulesDetails = () => {
         <CanceledScreenRoute doctor={doctor} schedules={canceledSchedules} />
       ) : (
         <View className="justify-center">
-          <Image source={images.noResult} className="w-52 h-52  self-center " />
-          <Text className="self-center font-JakartaBold text-xl ">
-            No canceled schedules
+          <Image source={images.noResult} className="w-52 h-52 self-center" />
+          <Text className="self-center font-JakartaBold text-xl">
+            No Canceled schedules
           </Text>
         </View>
       ),

@@ -4,10 +4,11 @@ export async function POST(request: Request) {
   try {
     const sql = neon(`${process.env.EXPO_DATABASE_URL}`);
     // Extract data from the request body
-    const { doctor_id, schedule_date, schedule_time } = await request.json();
+    const { doctor_id, schedule_date, schedule_time, schedule_status } =
+      await request.json();
 
     // Validate required fields
-    if (!doctor_id || !schedule_date || !schedule_time) {
+    if (!doctor_id || !schedule_date || !schedule_time || !schedule_status) {
       return Response.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -19,12 +20,14 @@ export async function POST(request: Request) {
       INSERT INTO Schedules (
         doctor_id, 
         schedule_date, 
-        schedule_time
+        schedule_time,
+        schedule_status  -- Add schedule_status field
       ) 
       VALUES (
         ${doctor_id}, 
         ${schedule_date},
-        ${schedule_time}
+        ${schedule_time},
+        ${schedule_status || "Upcoming"}
       )
       RETURNING *;`; // Return the inserted row
 

@@ -20,14 +20,22 @@ export const doctors = [
       {
         scheduleDate: "2024-09-08", // Future date (Upcoming)
         scheduleTime: "11:00 - 12:00 AM",
+        status: "Upcoming", // Added status
       },
       {
         scheduleDate: "2023-05-10", // Past date (Completed)
         scheduleTime: "02:00 - 03:00 PM",
+        status: "Completed", // Added status
       },
       {
         scheduleDate: "2024-10-08", // Future date (Upcoming)
         scheduleTime: "11:00 - 12:00 AM",
+        status: "Upcoming", // Added status
+      },
+      {
+        scheduleDate: "2024-07-15", // Canceled schedule example
+        scheduleTime: "01:00 - 02:00 PM",
+        status: "Canceled", // Added status
       },
     ],
   },
@@ -39,10 +47,17 @@ export const doctors = [
       {
         scheduleDate: "2023-06-13", // Past date (Completed)
         scheduleTime: "09:00 - 10:00 AM",
+        status: "Completed", // Added status
       },
       {
         scheduleDate: "2024-10-05", // Future date (Upcoming)
         scheduleTime: "01:00 - 02:00 PM",
+        status: "Upcoming", // Added status
+      },
+      {
+        scheduleDate: "2024-08-15", // Canceled schedule example
+        scheduleTime: "11:00 - 12:00 AM",
+        status: "Canceled", // Added status
       },
     ],
   },
@@ -54,10 +69,17 @@ export const doctors = [
       {
         scheduleDate: "2023-06-14", // Past date (Completed)
         scheduleTime: "02:00 - 03:00 PM",
+        status: "Completed", // Added status
       },
       {
         scheduleDate: "2024-12-01", // Future date (Upcoming)
         scheduleTime: "10:00 - 11:00 AM",
+        status: "Upcoming", // Added status
+      },
+      {
+        scheduleDate: "2024-09-25", // Canceled schedule example
+        scheduleTime: "03:00 - 04:00 PM",
+        status: "Canceled", // Added status
       },
     ],
   },

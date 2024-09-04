@@ -25,13 +25,20 @@ const DoctorScreen = () => {
 
   return (
     <ScrollView
-      className={`p-2  flex-1 ${ScreenBackgroundColor} `}
+      className={`flex-1 ${ScreenBackgroundColor} pt-2 p-2 `}
       showsVerticalScrollIndicator={false}
     >
-      <View className={`  ${ScreenBackgroundColor} `}>
+      <View className={` ${ScreenBackgroundColor} `}>
         <View className="flex-row  ">
           <View
-            className={` p-4 ${BackgroundColor} w-44 h-44 p-5 rounded-3xl mx-2 shadow-sm shadow-slate-700`}
+            className={`${BackgroundColor} w-44 h-44 p-5 rounded-3xl mx-2 `}
+            style={{
+              shadowColor: "#000000",
+              shadowOpacity: 0.2,
+              shadowRadius: 5,
+              shadowOffset: { width: 4, height: 5 },
+              elevation: 5,
+            }}
           >
             <TouchableOpacity
               className={`${ButtonColor} rounded-full w-16 h-16 items-center justify-center `}
@@ -47,7 +54,16 @@ const DoctorScreen = () => {
             </Text>
           </View>
 
-          <View className=" bg-slate-50 w-44 h-44  p-5 rounded-3xl shadow-sm shadow-slate-700">
+          <View
+            className=" bg-slate-50 w-44 h-44  p-5 rounded-3xl "
+            style={{
+              shadowColor: "#000000",
+              shadowOpacity: 0.2,
+              shadowRadius: 5,
+              shadowOffset: { width: 4, height: 5 },
+              elevation: 5,
+            }}
+          >
             <TouchableOpacity className="rounded-full bg-slate-900 w-16 h-16 items-center justify-center ">
               <Entypo name="home" size={26} color="white" />
             </TouchableOpacity>
@@ -77,7 +93,7 @@ const DoctorScreen = () => {
         {"  "}
         Popular Doctors
       </Text>
-      <View className="flex-wrap flex-row  justify-evenly ">
+      <View className="flex-wrap flex-row ">
         {doctors.map((doctor, index) => (
           <PopularDoctors
             key={index}

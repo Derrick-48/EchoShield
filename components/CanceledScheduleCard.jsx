@@ -6,7 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 const CanceledScheduleOverviewCard = ({
   name,
   specialization,
-  imageUri,
+  imageUrl,
   scheduleDate,
   scheduleTime,
   textColor,
@@ -32,7 +32,7 @@ const CanceledScheduleOverviewCard = ({
         </View>
 
         <Image
-          source={{ uri: imageUri }}
+          source={{ uri: imageUrl }}
           className="w-16 h-16 rounded-full border  border-white"
         />
       </View>
@@ -49,8 +49,15 @@ const CanceledScheduleOverviewCard = ({
         </Text>
         <View className="flex-row items-center mr-3">
           <FontAwesome name="dot-circle-o" size={20} color="black" style={{}} />
-          <Text className="-mt-0.5 text-xs font-medium"> Completed</Text>
+          <Text className="-mt-0.5 text-xs font-medium"> canceled</Text>
         </View>
+      </View>
+      <View className="flex flex-row justify-center mt-3">
+        <TouchableOpacity className="bg-slate-950 rounded-lg w-40 h-10 justify-center ">
+          <Text className="text-xs font-bold text-center text-white">
+            Reschedule
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

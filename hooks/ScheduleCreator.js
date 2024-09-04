@@ -8,11 +8,12 @@ const CreateSchedule = () => {
     doctorId: "",
     scheduleDate: "",
     scheduleTime: "",
+    scheduleStatus: "Upcoming", // Set default status to "Upcoming"
   });
 
   // Function to handle form submission
   const handleSubmit = async () => {
-    const { doctorId, scheduleDate, scheduleTime } = form;
+    const { doctorId, scheduleDate, scheduleTime, scheduleStatus } = form;
 
     if (!doctorId || !scheduleDate || !scheduleTime) {
       Alert.alert("Error", "All fields are required!");
@@ -59,6 +60,12 @@ const CreateSchedule = () => {
         placeholder="Schedule Time (HH:MM)"
         value={form.scheduleTime}
         onChangeText={(value) => setForm({ ...form, scheduleTime: value })}
+      />
+      {/* Display schedule status */}
+      <TextInput
+        placeholder="Schedule Status"
+        value={form.scheduleStatus}
+        editable={false} // Make this field read-only for now
       />
       <CustomButton title="Create Schedule" onPress={handleSubmit} />
     </View>

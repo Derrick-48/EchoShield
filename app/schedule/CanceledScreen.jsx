@@ -28,10 +28,10 @@ const CanceledScreenRoute = ({ schedules, doctor }) => {
             key={index}
             name={doctor.name} // Include the doctor’s name if needed
             specialization={doctor.specialization} // Include the doctor’s role if needed
-            imageUri={doctor.imageUri} // Include the doctor’s image if needed
+            imageUrl={doctor.imageUrl} // Include the doctor’s image if needed
             scheduleDate={schedule.scheduleDate}
             scheduleTime={schedule.scheduleTime}
-            iconColor={"white"}
+            iconColor={"black"}
             textColor={"black"}
           />
         ))}
