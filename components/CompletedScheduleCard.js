@@ -1,11 +1,9 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { Link } from "expo-router";
-import { imageDataURL } from "@/constants/ImageData";
 import { ScrollView } from "react-native-gesture-handler";
 
-const ScheduleOverviewCard = ({
+const CompletedScheduleOverviewCard = ({
   name,
   role,
   imageUri,
@@ -16,7 +14,7 @@ const ScheduleOverviewCard = ({
 }) => {
   return (
     <View
-      className="flex-col bg-white rounded-xl p-2 mb-5 mx-1   "
+      className="flex-col bg-white rounded-xl p-5 mb-5 mx-1   "
       style={{
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
@@ -25,7 +23,7 @@ const ScheduleOverviewCard = ({
         elevation: 5,
       }}
     >
-      <View className="flex-row mb-2 p-1.5 items-center">
+      <View className="flex-row items-center">
         <View className="flex-1 ml-4">
           <View className="shadow-lg">
             <Text className={`text-lg font-bold ${textColor}`}>{name}</Text>
@@ -42,33 +40,20 @@ const ScheduleOverviewCard = ({
       <View className="h-0.5 bg-gray-200 my-2 w-full" />
       <View className="flex-row items-center mt-1 justify-evenly">
         <MaterialIcons name="date-range" size={20} color={iconColor} />
-        <Text className={`text-sm font-medium ${textColor}`}>
-          {scheduleDate}
+        <Text className={`text-xs font-medium ${textColor}`}>
+          {"  "} {scheduleDate} {"  "}
         </Text>
         <MaterialIcons name="access-time" size={20} color={iconColor} />
-        <Text className={`text-sm font-medium ${textColor}`}>
-          {scheduleTime}
+        <Text className={`text-xs font-medium ${textColor}`}>
+          {"  "} {scheduleTime} {"  "}
         </Text>
-        <View className="flex-row items-center">
-          <FontAwesome name="dot-circle-o" size={20} color="black" />
-          <Text className="mt-0.5 text-sm font-medium  "> Confirmed</Text>
+        <View className="flex-row items-center mr-3">
+          <FontAwesome name="dot-circle-o" size={20} color="black" style={{}} />
+          <Text className="-mt-0.5 text-xs font-medium"> Completed</Text>
         </View>
-      </View>
-      <View className="flex flex-row justify-center mt-4">
-        <TouchableOpacity className="bg-slate-950  rounded-lg w-32 h-10 justify-center">
-          <Text className="text-sm font-bold text-center text-white">
-            Cancel
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="bg-slate-950 rounded-lg w-40 h-10 justify-center ml-3">
-          <Text className="text-xs font-bold text-center text-white">
-            Change Schedule
-          </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default ScheduleOverviewCard;
+export default CompletedScheduleOverviewCard;

@@ -220,7 +220,7 @@ const HomeTabScreen = () => {
                     key={index}
                     name={doctor.name}
                     role={doctor.role}
-                    imageUri={doctor.imageUri}
+                    imageUri={doctor.imageUrl}
                     scheduleDate={scheduleDate}
                     scheduleTime={scheduleTime}
                     textColor={SameTextColor}

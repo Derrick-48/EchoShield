@@ -15,7 +15,7 @@ export const doctors = [
   {
     name: "Dr. Imran Syahir",
     role: "General Doctor",
-    imageUri: "https://via.placeholder.com/50",
+    imageUrl: "https://via.placeholder.com/50",
     schedules: [
       {
         scheduleDate: "2024-09-08", // Future date (Upcoming)
@@ -25,12 +25,16 @@ export const doctors = [
         scheduleDate: "2023-05-10", // Past date (Completed)
         scheduleTime: "02:00 - 03:00 PM",
       },
+      {
+        scheduleDate: "2024-10-08", // Future date (Upcoming)
+        scheduleTime: "11:00 - 12:00 AM",
+      },
     ],
   },
   {
     name: "Dr. Alice Johnson",
     role: "Cardiologist",
-    imageUri: "https://via.placeholder.com/50",
+    imageUrl: "https://via.placeholder.com/50",
     schedules: [
       {
         scheduleDate: "2023-06-13", // Past date (Completed)
@@ -45,7 +49,7 @@ export const doctors = [
   {
     name: "Dr. Bob Brown",
     role: "Neurologist",
-    imageUri: "https://via.placeholder.com/50",
+    imageUrl: "https://via.placeholder.com/50",
     schedules: [
       {
         scheduleDate: "2023-06-14", // Past date (Completed)
