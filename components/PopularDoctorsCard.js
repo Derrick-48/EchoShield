@@ -12,7 +12,7 @@ const PopularDoctors = ({ name, specialization, DoctorImage, Ratings }) => {
   const starColor = isDarkTheme ? "#000000" : "#ffffff";
 
   return (
-    <View style={{ width: "48%", marginBottom: 15 }}>
+    <View style={{ width: "48%", marginBottom: 15, justifyContent: "center" }}>
       <Link
         href={{
           pathname: "/doctors/[doctorId]",
