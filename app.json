@@ -15,8 +15,11 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": ["fetch", "remote-notification"],
-        "NSUserNotificationUsageDescription": "This app needs access to notifications to alert you of important updates."
+        "UIBackgroundModes": [
+          "fetch",
+          "remote-notification"
+        ],
+        "NSUserNotificationUsageDescription": "EcoShield access to notifications to alert you of important updates."
       }
     },
     "android": {
@@ -24,7 +27,9 @@
         "foregroundImage": "./assets/images/EcoShield-mainLogo.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["NOTIFICATIONS"]
+      "permissions": [
+        "NOTIFICATIONS"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -32,17 +37,24 @@
       "favicon": "./assets/images/EcoShield-mainLogo.png"
     },
     "plugins": [
-   [  
-    
-   "expo-router",
-      {
-        "origin" : "https://ecoshield.com/"
-      }
-    
-    ]
+      [
+        "expo-router",
+        {
+          "origin": "https://ecoshield.com/"
+        }
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": "https://ecoshield.com/"
+      },
+      "eas": {
+        "projectId": "59dbc93e-5c1f-4f91-bdbd-edb83270054d"
+      }
     }
   }
 }
