@@ -105,6 +105,74 @@ const Onboarding = () => {
               <Text style={styles.buttonText}>Get Started</Text>
             </TouchableOpacity>
           </View>
+
+          <View style={styles.slide}>
+            {/* Card Header */}
+            <View className="bg-primary p-2  ">
+              <Text className="text-2xl font-bold text-black">
+                Emergency AI Assistant
+              </Text>
+            </View>
+
+            {/* Card Content */}
+            <View className="p-2 space-y-4 flex-1">
+              {/* Real-Time Recording */}
+              <View className=" flex-row items-center gap-4">
+                <View className="bg-gray-200 rounded-full p-2">
+                  <Icon name="microphone" size={24} color="#6B7280" />
+                </View>
+
+                <View className="flex-1">
+                  <Text className="font-medium text-black ">
+                    Real-Time Recording
+                  </Text>
+                  <Text className="text-sm text-gray-500  ">
+                    Activate the microphone to record your emergency.
+                  </Text>
+                </View>
+              </View>
+
+              {/* Location Tracking */}
+              <View className="flex flex-row items-center gap-4">
+                <View className="bg-gray-200 rounded-full p-2">
+                  <Icon name="crosshairs-gps" size={24} color="#6B7280" />
+                </View>
+
+                <View className="flex-1">
+                  <Text className="font-medium text-black ">
+                    Location Tracking
+                  </Text>
+                  <Text className="text-base text-gray-500  ">
+                    Your location will be shared with emergency services.
+                  </Text>
+                </View>
+              </View>
+
+              {/* Emergency Alerts */}
+              <View className="flex flex-row items-center gap-4">
+                <View className="bg-gray-200 rounded-full p-2">
+                  <Icon name="bell" size={24} color="#6B7280" />
+                </View>
+                <View className=" flex-1 ">
+                  <Text className="font-medium">Emergency Alerts</Text>
+                  <Text className="text-sm text-gray-500">
+                    Alerts will be sent to your emergency contacts.
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            {/* Card Footer */}
+
+            <View className="justify-center self-center ">
+              <TouchableOpacity className=" flex flex-row items-center justify-center bg-black  w-52 h-16 bg-primary rounded-3xl ">
+                <Icon name="alarm" size={20} color="#ffffff" />
+                <Text className="text-white font-medium ">
+                  Activate Emergency AI
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </Swiper>
       </SafeAreaView>
     </>
