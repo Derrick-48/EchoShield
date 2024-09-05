@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { Link, router, useLocalSearchParams } from "expo-router";
-import { doctors } from "@/constants/SymptomsData";
+import { doctors } from "@/constants/DoctorDatas";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "@/Context/ThemeContext";
 import { SafeAreaView } from "react-native-safe-area-context";

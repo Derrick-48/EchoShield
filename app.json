@@ -13,13 +13,18 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": ["fetch", "remote-notification"],
+        "NSUserNotificationUsageDescription": "This app needs access to notifications to alert you of important updates."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/EcoShield-mainLogo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": ["NOTIFICATIONS"]
     },
     "web": {
       "bundler": "metro",

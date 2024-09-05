@@ -40,7 +40,7 @@ const PopularDoctors = ({ name, specialization, DoctorImage, Ratings }) => {
       >
         <TouchableOpacity>
           <View
-            className={` p-4 ${BackgroundColor}  ${containerClass} p-3 rounded-3xl mx-2   shadow-sm shadow-slate-700`}
+            className={` p-4 ${BackgroundColor}  ${containerClass} p-3 rounded-3xl mx-2   `}
           >
             <View
               className={`${ButtonColor} rounded-full w-16 h-16 items-center justify-center align-middle  self-center`}

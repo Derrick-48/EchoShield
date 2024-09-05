@@ -10,7 +10,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useTheme } from "@/Context/ThemeContext";
 import SymptomsComponent from "@/components/SymptomsComponent";
-import { symptoms, doctors } from "@/constants/SymptomsData";
+import { symptoms } from "@/constants/SymptomsData";
+import { doctors } from "@/constants/DoctorDatas";
 import PopularDoctors from "@/components/PopularDoctorsCard";
 
 const DoctorScreen = () => {
