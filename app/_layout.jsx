@@ -54,6 +54,10 @@ const MainLayout = () => {
         name="schedule/[schedules]"
         options={{ headerShown: true, headerTitle: "Schedule" }}
       />
+      <Stack.Screen
+        name="searchDoctor/doctorSearch"
+        options={{ headerShown: true, headerTitle: "Search Doctor" }}
+      />
     </Stack>
   );
 };

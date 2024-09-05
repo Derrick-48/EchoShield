@@ -26,7 +26,7 @@ import {
   nearbyPoliceData as DummyNearbyPoliceData,
 } from "@/constants/data";
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import * as Haptics from "expo-haptics";
 
 // Define the HomeTabScreen component
@@ -231,27 +231,37 @@ const HomeTabScreen = () => {
             </ScrollView>
 
             {/* Search Bar */}
-            <View
-              style={[HomeStyle.searchBar, { backgroundColor: TextInputColor }]}
-            >
-              <FontAwesome
-                name="search"
-                size={25}
-                color={SecondIconColor}
-                style={HomeStyle.searchIcon}
-              />
-              <TextInput
-                style={[
-                  HomeStyle.searchInput,
-                  {
-                    backgroundColor: TextInputColor,
-                    color: InverseTextColor,
-                  },
-                ]}
-                placeholder="Search doctor or health issue"
-                placeholderTextColor={InverseTextColor}
-              />
-            </View>
+
+            <Link href={"/searchDoctor/doctorSearch"} asChild>
+              <TouchableOpacity>
+                <View
+                  style={[
+                    HomeStyle.searchBar,
+                    { backgroundColor: TextInputColor },
+                  ]}
+                >
+                  <FontAwesome
+                    name="search"
+                    size={25}
+                    color={SecondIconColor}
+                    style={HomeStyle.searchIcon}
+                  />
+                  <View
+                    style={[
+                      HomeStyle.searchInput,
+                      {
+                        backgroundColor: TextInputColor,
+                        color: InverseTextColor,
+                      },
+                    ]}
+                  >
+                    <Text style={{ color: InverseTextColor }}>
+                      Search doctor or health issue
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </Link>
 
             {/* Category Icons */}
             <View style={HomeStyle.categories}>
