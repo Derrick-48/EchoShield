@@ -49,7 +49,7 @@ const doctorSearch = () => {
   const [searchNearByDoctor, setSearchNearByDoctor] = useState(null);
 
   // snap points for the BottomSheet
-  const snapPoints = useMemo(() => ["15%", "25%", "50%", "75%"], []);
+  const snapPoints = useMemo(() => ["15%", "25%", "50%", "85%"], []);
 
   // Function to handle the onPress event
   const handleOpenBottomSheet = useCallback(() => {
@@ -91,6 +91,8 @@ const doctorSearch = () => {
     setAvailability(selectedDate); // set the selected date
     handleCloseDatePicker(); // close the date picker modal
   };
+
+  const handleSearchingDoctor = (doctor) => {};
 
   return (
     <View className="flex-1 bg-white p-4">
@@ -190,7 +192,10 @@ const doctorSearch = () => {
 
         {/* Buttons */}
         <View className="mt-6">
-          <TouchableOpacity className="bg-purple-600 p-4 rounded-full mb-3">
+          <TouchableOpacity
+            className="bg-purple-600 p-4 rounded-full mb-3"
+            onPress={handleSearchingDoctor}
+          >
             <Text className="text-white text-center font-bold">
               Find Doctor
             </Text>
