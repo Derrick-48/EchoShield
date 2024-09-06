@@ -73,10 +73,6 @@ const doctorSearch = () => {
   }, []);
 
   const handlePress = (doctor) => {
-    // Add your navigation or any other logic here
-    console.log("Doctor pressed:", doctor.specialization);
-    // Example: Navigate to a DoctorDetails screen
-    // navigation.navigate('DoctorDetails', { doctor });
     setSpeciality(doctor.specialization);
   };
 
@@ -150,7 +146,7 @@ const doctorSearch = () => {
 
           {/* Availability Input */}
 
-          <TouchableOpacity onPress={() => setDatePickerVisible(true)}>
+          <TouchableOpacity onPress={handleOpenDatePicker}>
             <View className="flex-row items-center bg-gray-100 p-3 w-full h-14  rounded-full mb-4">
               <View className=" bg-slate-200 rounded-full w-10 h-10 justify-center self-center items-center ">
                 <MaterialIcons
@@ -177,16 +173,16 @@ const doctorSearch = () => {
           onRequestClose={handleCloseDatePicker}
         >
           <View className="flex-1 justify-center items-center">
-            <View className="bg-primary m-5 items-center justify-center rounded-3xl p-9 w-[90%] shadow-md ">
+            <View className="bg-primary m-5 items-center justify-center rounded-3xl p-9 w-[90%] shadow-xl ">
               <DatePickerModal
                 mode="datetime"
                 onDateChange={handleDateChange}
                 minimumDate={new Date().toISOString().split("T")[0]} // Optional: set minimum date to today
               />
               <TouchableOpacity onPress={handleCloseDatePicker}>
-                <Text className="text-center mt-4 text-red-500 w-16 h-6 ">
-                  Cancel
-                </Text>
+                <View className=" w-16 h-6  mt-4 items-center justify-center  rounded-xl bg-slate-950">
+                  <Text className="text-center  text-white  ">Cancel</Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
