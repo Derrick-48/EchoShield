@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
   FlatList,
+  Modal,
 } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import React, { useRef, useMemo, useState, useCallback } from "react";
@@ -16,6 +17,7 @@ import NearbyDoctors from "@/components/NearbyDoctors";
 import { ScrollView } from "react-native-gesture-handler";
 import { imageDataURL } from "@/constants/ImageData";
 import { useAllDoctorsData } from "@/hooks/useAllDoctorsData";
+import DatePickerModal from "react-native-modern-datepicker";
 
 const CustomHandle = () => {
   return (
@@ -27,26 +29,14 @@ const CustomHandle = () => {
   );
 };
 
-const SecondCustomHandle = () => {
-  return (
-    <TouchableWithoutFeedback>
-      <View>
-        <View style={styles.customHandleContainer}>
-          <View style={styles.customHandle} />
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
-};
-
 const doctorSearch = () => {
   const { cleanedDoctorsData, loading, error } = useAllDoctorsData();
+  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
 
   // ref for the BottomSheet
   const bottomSheetRef = useRef(null);
   const bottomSheetSpecialityRef = useRef(null);
   const bottomSheetLocRef = useRef(null);
-  const bottomSheetAvailRef = useRef(null);
 
   const snapLocPoints = useMemo(() => ["1%", "50%", "80%"], []);
   const snapSpecsPoints = useMemo(() => ["40%", "80%"], []);
@@ -82,22 +72,28 @@ const doctorSearch = () => {
     bottomSheetLocRef.current?.close();
   }, []);
 
-  const handleOpenAvailBottomSheet = useCallback(() => {
-    // Open the BottomSheet to the first snap point (index 0)
-    bottomSheetAvailRef.current?.expand();
-  }, []);
-
-  const handleCloseAvailBottomSheet = useCallback(() => {
-    // Close the BottomSheet
-    bottomSheetAvailRef.current?.close();
-  }, []);
-
   const handlePress = (doctor) => {
     // Add your navigation or any other logic here
     console.log("Doctor pressed:", doctor.specialization);
     // Example: Navigate to a DoctorDetails screen
     // navigation.navigate('DoctorDetails', { doctor });
     setSpeciality(doctor.specialization);
+  };
+
+  // Function to open the date picker
+  const handleOpenDatePicker = useCallback(() => {
+    setDatePickerVisible(true);
+  }, []);
+
+  // Function to close the date picker
+  const handleCloseDatePicker = useCallback(() => {
+    setDatePickerVisible(false);
+  }, []);
+
+  // Function to handle date and time selection
+  const handleDateChange = (selectedDate) => {
+    setAvailability(selectedDate); // set the selected date
+    handleCloseDatePicker(); // close the date picker modal
   };
 
   return (
@@ -154,7 +150,7 @@ const doctorSearch = () => {
 
           {/* Availability Input */}
 
-          <TouchableOpacity onPress={handleOpenAvailBottomSheet}>
+          <TouchableOpacity onPress={() => setDatePickerVisible(true)}>
             <View className="flex-row items-center bg-gray-100 p-3 w-full h-14  rounded-full mb-4">
               <View className=" bg-slate-200 rounded-full w-10 h-10 justify-center self-center items-center ">
                 <MaterialIcons
@@ -173,6 +169,28 @@ const doctorSearch = () => {
             </View>
           </TouchableOpacity>
         </View>
+        {/* Date Picker Modal */}
+        <Modal
+          visible={isDatePickerVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={handleCloseDatePicker}
+        >
+          <View className="flex-1 justify-center items-center">
+            <View className="bg-primary m-5 items-center justify-center rounded-3xl p-9 w-[90%] shadow-md ">
+              <DatePickerModal
+                mode="datetime"
+                onDateChange={handleDateChange}
+                minimumDate={new Date().toISOString().split("T")[0]} // Optional: set minimum date to today
+              />
+              <TouchableOpacity onPress={handleCloseDatePicker}>
+                <Text className="text-center mt-4 text-red-500 w-16 h-6 ">
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
 
         {/* Buttons */}
         <View className="mt-6">
@@ -258,23 +276,6 @@ const doctorSearch = () => {
         <View style={styles.contentContainer}>
           <View className=" pl-60 mt-4">
             <TouchableOpacity onPress={handleCloseLocBottomSheet}>
-              <View className="rounded-full bg-slate-950 w-8 h-8 self-end   justify-center items-center">
-                <MaterialIcons name="close" size={24} color="#ffffffff" />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <Text>Bottom Sheet Content</Text>
-        </View>
-      </BottomSheet>
-
-      <BottomSheet
-        ref={bottomSheetAvailRef}
-        index={-1} // Initial index set to -1 to keep it closed
-        snapPoints={snapLocPoints}
-      >
-        <View style={styles.contentContainer}>
-          <View className=" pl-60 mt-4">
-            <TouchableOpacity onPress={handleCloseAvailBottomSheet}>
               <View className="rounded-full bg-slate-950 w-8 h-8 self-end   justify-center items-center">
                 <MaterialIcons name="close" size={24} color="#ffffffff" />
               </View>
