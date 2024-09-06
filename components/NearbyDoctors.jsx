@@ -4,12 +4,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { Link } from "expo-router";
 
-const NearbyDoctors = ({ DoctorName, Speciality, noYear }) => {
+const NearbyDoctors = ({ DoctorName, Speciality, noYear, imageURl }) => {
   return (
     <Link
       href={{
@@ -20,7 +21,12 @@ const NearbyDoctors = ({ DoctorName, Speciality, noYear }) => {
     >
       <TouchableOpacity>
         <View className="mt-4 flex-row items-center bg-white p-4 rounded-2xl shadow">
-          <View className="w-12 h-12 rounded-full bg-gray-200 mr-3"></View>
+          <View className="w-12 h-12 rounded-full bg-gray-200 mr-3">
+            <Image
+              source={{ uri: imageURl }}
+              className="w-full h-full rounded-full"
+            />
+          </View>
           <View>
             <Text className="font-bold">
               {DoctorName}

@@ -4,13 +4,18 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
   TouchableWithoutFeedback,
+  ActivityIndicator,
+  FlatList,
 } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import React, { useRef, useMemo, useState } from "react";
-import BottomSheet, { TouchableHighlight } from "@gorhom/bottom-sheet";
+import React, { useRef, useMemo, useState, useCallback } from "react";
+import BottomSheet from "@gorhom/bottom-sheet";
 import NearbyDoctors from "@/components/NearbyDoctors";
 import { ScrollView } from "react-native-gesture-handler";
+import { imageDataURL } from "@/constants/ImageData";
+import { useAllDoctorsData } from "@/hooks/useAllDoctorsData";
 
 const CustomHandle = () => {
   return (
@@ -22,22 +27,78 @@ const CustomHandle = () => {
   );
 };
 
+const SecondCustomHandle = () => {
+  return (
+    <TouchableWithoutFeedback>
+      <View>
+        <View style={styles.customHandleContainer}>
+          <View style={styles.customHandle} />
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
+
 const doctorSearch = () => {
+  const { cleanedDoctorsData, loading, error } = useAllDoctorsData();
+
   // ref for the BottomSheet
   const bottomSheetRef = useRef(null);
+  const bottomSheetSpecialityRef = useRef(null);
+  const bottomSheetLocRef = useRef(null);
+  const bottomSheetAvailRef = useRef(null);
 
-  const snapDocPoints = useMemo(() => ["0%", "70%", "100%"], []);
-  const [initialSnapPoint, setSnapPoint] = useState(2);
+  const snapLocPoints = useMemo(() => ["1%", "50%", "80%"], []);
+  const snapSpecsPoints = useMemo(() => ["40%", "80%"], []);
 
-  const handlePress = () => {};
-
-  const [initialSpeciality, setSpeciality] = useState("Nothing Selected");
-  const [initialLocation, setLocation] = useState("Nothing Selected");
-  const [initialAvailability, setAvailability] = useState("Nothing Selected");
+  const [initialSpeciality, setSpeciality] = useState(
+    "No Speciality  Selected"
+  );
+  const [initialLocation, setLocation] = useState("No  Location  Selected");
+  const [initialAvailability, setAvailability] = useState("Nothing  Selected");
   const [searchNearByDoctor, setSearchNearByDoctor] = useState(null);
 
   // snap points for the BottomSheet
   const snapPoints = useMemo(() => ["15%", "25%", "50%", "75%"], []);
+
+  // Function to handle the onPress event
+  const handleOpenBottomSheet = useCallback(() => {
+    // Open the BottomSheet to the first snap point (index 0)
+    bottomSheetSpecialityRef.current?.expand();
+  }, []);
+
+  const handleCloseBottomSheet = useCallback(() => {
+    // Close the BottomSheet
+    bottomSheetSpecialityRef.current?.close();
+  }, []);
+
+  const handleOpenLocBottomSheet = useCallback(() => {
+    // Open the BottomSheet to the first snap point (index 0)
+    bottomSheetLocRef.current?.expand();
+  }, []);
+
+  const handleCloseLocBottomSheet = useCallback(() => {
+    // Close the BottomSheet
+    bottomSheetLocRef.current?.close();
+  }, []);
+
+  const handleOpenAvailBottomSheet = useCallback(() => {
+    // Open the BottomSheet to the first snap point (index 0)
+    bottomSheetAvailRef.current?.expand();
+  }, []);
+
+  const handleCloseAvailBottomSheet = useCallback(() => {
+    // Close the BottomSheet
+    bottomSheetAvailRef.current?.close();
+  }, []);
+
+  const handlePress = (doctor) => {
+    // Add your navigation or any other logic here
+    console.log("Doctor pressed:", doctor.specialization);
+    // Example: Navigate to a DoctorDetails screen
+    // navigation.navigate('DoctorDetails', { doctor });
+    setSpeciality(doctor.specialization);
+  };
 
   return (
     <View className="flex-1 bg-white p-4">
@@ -51,7 +112,7 @@ const doctorSearch = () => {
         <View className="mt-6">
           {/* Specialty Input */}
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleOpenBottomSheet}>
             <View className="flex-row items-center bg-gray-100 p-3 w-full h-14  rounded-full mb-4">
               <View className=" bg-slate-200 rounded-full w-10 h-10 justify-center self-center items-center ">
                 <FontAwesome
@@ -72,7 +133,7 @@ const doctorSearch = () => {
           </TouchableOpacity>
 
           {/* Location Input */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleOpenLocBottomSheet}>
             <View className="flex-row items-center bg-gray-100 p-3 w-full h-14  rounded-full mb-4">
               <View className=" bg-slate-200 rounded-full w-10 h-10 justify-center self-center items-center ">
                 <MaterialIcons
@@ -85,7 +146,7 @@ const doctorSearch = () => {
               <View className=" ml-4 flex-col">
                 <Text className="text-sm font-JakartaMedium">Location</Text>
                 <Text className="text-sm font-JakartaBold ">
-                  New York, NY, USA
+                  {initialLocation}
                 </Text>
               </View>
             </View>
@@ -93,7 +154,7 @@ const doctorSearch = () => {
 
           {/* Availability Input */}
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleOpenAvailBottomSheet}>
             <View className="flex-row items-center bg-gray-100 p-3 w-full h-14  rounded-full mb-4">
               <View className=" bg-slate-200 rounded-full w-10 h-10 justify-center self-center items-center ">
                 <MaterialIcons
@@ -105,7 +166,9 @@ const doctorSearch = () => {
               </View>
               <View className=" ml-4 flex-col">
                 <Text className="text-sm font-JakartaMedium">Availability</Text>
-                <Text className="text-sm font-JakartaBold ">Today,26 Nov</Text>
+                <Text className="text-sm font-JakartaBold ">
+                  {initialAvailability}
+                </Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -137,8 +200,87 @@ const doctorSearch = () => {
               noYear={"6"}
               DoctorName={" Dr. Leonard Campbell "}
               Speciality={"Cardiologist"}
+              imageURl={imageDataURL[0]}
             />
           </ScrollView>
+        </View>
+      </BottomSheet>
+
+      <BottomSheet
+        ref={bottomSheetSpecialityRef}
+        index={-1} // Initial index set to -1 to keep it closed
+        snapPoints={snapSpecsPoints}
+      >
+        <View style={styles.contentContainer}>
+          <View className=" pl-60 mt-4">
+            <TouchableOpacity onPress={handleCloseBottomSheet}>
+              <View className="rounded-full bg-slate-950 w-8 h-8 self-end   justify-center items-center">
+                <MaterialIcons name="close" size={24} color="#ffffffff" />
+              </View>
+            </TouchableOpacity>
+          </View>
+          {loading ? (
+            <View style={styles.center}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+          ) : (
+            <View className="flex-1 p-4">
+              {cleanedDoctorsData.length > 0 ? (
+                <FlatList
+                  data={cleanedDoctorsData}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => handlePress(item)}>
+                      <View className="mb-5 p-2 bg-slate-900 rounded-lg shadow-sm">
+                        <Text className="text-lg text-white">
+                          {item.specialization}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                  ListEmptyComponent={() => <Text>No doctors available</Text>}
+                />
+              ) : (
+                <View style={styles.center}>
+                  <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+              )}
+            </View>
+          )}
+        </View>
+      </BottomSheet>
+
+      <BottomSheet
+        ref={bottomSheetLocRef}
+        index={-1} // Initial index set to -1 to keep it closed
+        snapPoints={snapLocPoints}
+      >
+        <View style={styles.contentContainer}>
+          <View className=" pl-60 mt-4">
+            <TouchableOpacity onPress={handleCloseLocBottomSheet}>
+              <View className="rounded-full bg-slate-950 w-8 h-8 self-end   justify-center items-center">
+                <MaterialIcons name="close" size={24} color="#ffffffff" />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text>Bottom Sheet Content</Text>
+        </View>
+      </BottomSheet>
+
+      <BottomSheet
+        ref={bottomSheetAvailRef}
+        index={-1} // Initial index set to -1 to keep it closed
+        snapPoints={snapLocPoints}
+      >
+        <View style={styles.contentContainer}>
+          <View className=" pl-60 mt-4">
+            <TouchableOpacity onPress={handleCloseAvailBottomSheet}>
+              <View className="rounded-full bg-slate-950 w-8 h-8 self-end   justify-center items-center">
+                <MaterialIcons name="close" size={24} color="#ffffffff" />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text>Bottom Sheet Content</Text>
         </View>
       </BottomSheet>
     </View>
@@ -155,6 +297,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: "center",
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
   },
   handleIndicator: {
     width: 80, // Increase the width of the handle bar
@@ -175,4 +319,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#7e22ce",
     borderRadius: 4,
   },
+  center: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
