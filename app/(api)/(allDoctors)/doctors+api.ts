@@ -15,35 +15,35 @@ export async function GET(request: Request) {
         doctors.consultantPrice,
         COALESCE(
           json_agg(
-            json_build_object(
+          json_build_object(
               'reviewer', reviews.reviewer,
               'rating', reviews.rating,
               'comment', reviews.comment,
               'days', reviews.days,
               'reviewer_image', reviews.reviewer_image
             )
-          ) FILTER (WHERE reviews.id IS NOT NULL),
-          '{}'
+          ) FILTER (WHERE reviews.reviewer IS NOT NULL),
+          '[]'
         ) AS reviews,
         COALESCE(
           json_agg(
-            json_build_object(
+              json_build_object(
               'schedule_date', schedules.schedule_date,
               'schedule_time', schedules.schedule_time,
               'schedule_status', schedules.schedule_status
             )
-          ) FILTER (WHERE schedules.id IS NOT NULL),
-          '{}'
+          ) FILTER (WHERE schedules.schedule_date IS NOT NULL),
+          '[]'
         ) AS schedules,
         COALESCE(
           json_agg(
-            json_build_object(
-              'availabilityScheduleDate', AvailabilitySchedules.availabilityScheduleDate,
-              'availabilityScheduleTime', AvailabilitySchedules.availabilityScheduleTime
+           json_build_object(
+              'availabilityscheduledate', availabilityschedules.availabilityscheduledate,
+              'availabilityscheduletime', availabilityschedules.availabilityscheduletime
             )
-          ) FILTER (WHERE AvailabilitySchedules.id IS NOT NULL),
+          ) FILTER (WHERE availabilityschedules.id IS NOT NULL),
           '[]'
-        ) AS availabilitySchedules,
+        ) AS availabilityschedules,
         COALESCE(
           json_build_object(
             'place', location.place,

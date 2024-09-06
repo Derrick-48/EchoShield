@@ -20,13 +20,12 @@ import HomeStyle from "@/Styles_Theme/HomeScreenStyle";
 import NearbyCard from "@/components/NearbyCard";
 import ResponseOverviewCard from "@/components/ResponseCard";
 import { doctors as InitialDoctorsData } from "@/constants/DoctorDatas";
-import { useFetch } from "@/lib/fetch"; // Adjust the path according to your project structure
 import {
   nearbyDoctorsData as DummyNearbyDoctorsData,
   nearbyHospitalsData as DummyNearbyHospitalsData,
   nearbyPoliceData as DummyNearbyPoliceData,
 } from "@/constants/data";
-import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
+import { useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import * as Haptics from "expo-haptics";
 
@@ -42,12 +41,6 @@ const HomeTabScreen = () => {
   const [nearbyPolice, setNearbyPolice] = useState(DummyNearbyPoliceData);
   const [refreshing, setRefreshing] = useState(false); // State for the refreshing indicator
   const { user } = useUser(); // Get the current user from the Clerk context
-
-  const {
-    data: doctorsData,
-    loading,
-    error,
-  } = useFetch(`/(api)/(allDoctors)/doctors`);
 
   // Your main component rendering goes here
 
@@ -171,238 +164,229 @@ const HomeTabScreen = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  } else if (error) {
-    return <Text>Error: {error}</Text>;
-  } else
-    return (
-      <>
-        <View
-          style={[
-            HomeStyle.MainContainer,
-            { backgroundColor: ScreenBackgroundColor },
-          ]}
+  return (
+    <>
+      <View
+        style={[
+          HomeStyle.MainContainer,
+          { backgroundColor: ScreenBackgroundColor },
+        ]}
+      >
+        {/* Header */}
+        <View style={HomeStyle.header}>
+          <Text style={[HomeStyle.greetingText, { color: TextColor }]}>
+            Hello,
+          </Text>
+          <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
+            {userName}
+          </Text>
+        </View>
+
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={HomeStyle.MainContainer}
+          keyboardVerticalOffset={90} // Adjust this value as needed
         >
-          {/* Header */}
-          <View style={HomeStyle.header}>
-            <Text style={[HomeStyle.greetingText, { color: TextColor }]}>
-              Hello,
-            </Text>
-            <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
-              {userName}
-            </Text>
-          </View>
-
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={HomeStyle.MainContainer}
-            keyboardVerticalOffset={90} // Adjust this value as needed
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor={isDarkTheme ? "#ffffff" : "#000000"} // iOS: sets the spinner color
+                colors={[isDarkTheme ? "#ffffff" : "#000000"]} // Android: sets the spinner colors
+                progressBackgroundColor={isDarkTheme ? "#151718" : "#ffff"} // Android: sets the background color of the spinner
+              />
+            }
           >
+            {/* Doctor Overview Card */}
+            {/* Contacted  Doctor or schedule meetings */}
             <ScrollView
-              showsVerticalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                  tintColor={isDarkTheme ? "#ffffff" : "#000000"} // iOS: sets the spinner color
-                  colors={[isDarkTheme ? "#ffffff" : "#000000"]} // Android: sets the spinner colors
-                  progressBackgroundColor={isDarkTheme ? "#151718" : "#ffff"} // Android: sets the background color of the spinner
-                />
-              }
+              horizontal={true}
+              contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
+              showsHorizontalScrollIndicator={false}
             >
-              {/* Doctor Overview Card */}
-              {/* Contacted  Doctor or schedule meetings */}
-              <ScrollView
-                horizontal={true}
-                contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
-                showsHorizontalScrollIndicator={false}
-              >
-                {doctors.slice(0, 3).map((doctor, index) => {
-                  const upcomingSchedules = filterUpcomingSchedules(
-                    doctor.schedules
-                  );
-                  if (upcomingSchedules.length === 0) {
-                    return null; // If there are no upcoming schedules, don't render a card for this doctor
-                  }
+              {doctors.slice(0, 3).map((doctor, index) => {
+                const upcomingSchedules = filterUpcomingSchedules(
+                  doctor.schedules
+                );
+                if (upcomingSchedules.length === 0) {
+                  return null; // If there are no upcoming schedules, don't render a card for this doctor
+                }
 
-                  const { scheduleDate, scheduleTime } = upcomingSchedules[0]; // Display the first upcoming schedule
+                const { scheduleDate, scheduleTime } = upcomingSchedules[0]; // Display the first upcoming schedule
 
-                  return (
-                    <ResponseOverviewCard
-                      key={index}
-                      name={doctor.name}
-                      specialization={doctor.specialization}
-                      imageUri={doctor.imageUrl}
-                      scheduleDate={scheduleDate}
-                      scheduleTime={scheduleTime}
-                      textColor={SameTextColor}
-                      iconColor={IconColor}
-                    />
-                  );
-                })}
-              </ScrollView>
+                return (
+                  <ResponseOverviewCard
+                    key={index}
+                    name={doctor.name}
+                    specialization={doctor.specialization}
+                    imageUri={doctor.imageUrl}
+                    scheduleDate={scheduleDate}
+                    scheduleTime={scheduleTime}
+                    textColor={SameTextColor}
+                    iconColor={IconColor}
+                  />
+                );
+              })}
+            </ScrollView>
 
-              {/* Search Bar */}
+            {/* Search Bar */}
 
-              <Link href={"/searchDoctor/doctorSearch"} asChild>
-                <TouchableOpacity>
+            <Link href={"/searchDoctor/doctorSearch"} asChild>
+              <TouchableOpacity>
+                <View
+                  style={[
+                    HomeStyle.searchBar,
+                    { backgroundColor: TextInputColor },
+                  ]}
+                >
+                  <FontAwesome
+                    name="search"
+                    size={25}
+                    color={SecondIconColor}
+                    style={HomeStyle.searchIcon}
+                  />
                   <View
                     style={[
-                      HomeStyle.searchBar,
-                      { backgroundColor: TextInputColor },
+                      HomeStyle.searchInput,
+                      {
+                        backgroundColor: TextInputColor,
+                        color: InverseTextColor,
+                      },
                     ]}
                   >
-                    <FontAwesome
-                      name="search"
-                      size={25}
-                      color={SecondIconColor}
-                      style={HomeStyle.searchIcon}
-                    />
-                    <View
-                      style={[
-                        HomeStyle.searchInput,
-                        {
-                          backgroundColor: TextInputColor,
-                          color: InverseTextColor,
-                        },
-                      ]}
-                    >
-                      <Text style={{ color: InverseTextColor }}>
-                        Search doctor or health issue
-                      </Text>
-                    </View>
+                    <Text style={{ color: InverseTextColor }}>
+                      Search doctor or health issue
+                    </Text>
                   </View>
-                </TouchableOpacity>
-              </Link>
+                </View>
+              </TouchableOpacity>
+            </Link>
 
-              {/* Category Icons */}
-              <View style={HomeStyle.categories}>
-                {["building-o", "user-md", "medkit", "hospital-o"].map(
-                  (icon, index) => (
-                    <View key={index} style={HomeStyle.categoryButton}>
-                      <TouchableOpacity
-                        style={[
-                          HomeStyle.iconContainer,
-                          { backgroundColor: IconBackgroundColor },
-                        ]}
-                        onPress={() => handleIconPress(index)}
-                      >
-                        <FontAwesome name={icon} size={20} color={IconColor} />
-                      </TouchableOpacity>
-                      <Text
-                        style={[HomeStyle.categoryText, { color: TextColor }]}
-                      >
-                        {["Police", "Doctor", "Medicine", "Hospital"][index]}
-                      </Text>
-                    </View>
-                  )
-                )}
-              </View>
-              {/* Nearby Doctor Card */}
-              <View style={HomeStyle.header}>
-                <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
-                  Nearby Doctor
-                </Text>
-              </View>
-              <ScrollView
-                horizontal={true}
-                contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
-                showsHorizontalScrollIndicator={false}
-              >
-                {nearbyDoctors.map((data, index) => (
-                  <NearbyCard
-                    key={index}
-                    imageUrl={data.imageUrl}
-                    name={data.name}
-                    role={data.role}
-                    location={data.location}
-                    distance={data.distance}
-                    LocationIconName={data.LocationIconName}
-                    LeftDownIconName={data.LeftDownIconName}
-                    rating={data.rating}
-                    reviews={data.reviews}
-                    availability={data.availability}
-                    cardBgColor={NearCardBgColor}
-                    textColor={SixthTextColor}
-                    fourTextColor={FourTextColor}
-                    fifthTextColor={FifthTextColor}
-                    thirdTextColor={ThirdTextColor}
-                  />
-                ))}
-              </ScrollView>
-
-              <View style={HomeStyle.header}>
-                <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
-                  Nearby Police Station
-                </Text>
-              </View>
-              <ScrollView
-                horizontal={true}
-                contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
-                showsHorizontalScrollIndicator={false}
-              >
-                {nearbyPolice.map((data, index) => (
-                  <NearbyCard
-                    key={index}
-                    imageUrl={data.imageUrl}
-                    name={data.name}
-                    role={data.role}
-                    location={data.location}
-                    distance={data.distance}
-                    LocationIconName={data.LocationIconName}
-                    LeftDownIconName={data.LeftDownIconName}
-                    rating={data.rating}
-                    reviews={data.reviews}
-                    availability={data.availability}
-                    cardBgColor={PoliceNearCardBgColor}
-                    textColor={SixthTextColor}
-                    fourTextColor={FourTextColor}
-                    fifthTextColor={FifthTextColor}
-                    thirdTextColor={ThirdTextColor}
-                  />
-                ))}
-              </ScrollView>
-              <View style={HomeStyle.header}>
-                <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
-                  Nearby Hospital
-                </Text>
-              </View>
-              <ScrollView
-                horizontal={true}
-                contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
-                showsHorizontalScrollIndicator={false}
-              >
-                {nearbyHospitals.map((data, index) => (
-                  <NearbyCard
-                    key={index}
-                    imageUrl={data.imageUrl}
-                    name={data.name}
-                    role={data.role}
-                    location={data.location}
-                    distance={data.distance}
-                    LocationIconName={data.LocationIconName}
-                    LeftDownIconName={data.LeftDownIconName}
-                    rating={data.rating}
-                    reviews={data.reviews}
-                    availability={data.availability}
-                    cardBgColor={MedNearCardBgColor}
-                    textColor={PoliceTextColor}
-                    fourTextColor={FourTextColor}
-                    fifthTextColor={FifthTextColor}
-                    thirdTextColor={ThirdTextColor}
-                  />
-                ))}
-              </ScrollView>
+            {/* Category Icons */}
+            <View style={HomeStyle.categories}>
+              {["building-o", "user-md", "medkit", "hospital-o"].map(
+                (icon, index) => (
+                  <View key={index} style={HomeStyle.categoryButton}>
+                    <TouchableOpacity
+                      style={[
+                        HomeStyle.iconContainer,
+                        { backgroundColor: IconBackgroundColor },
+                      ]}
+                      onPress={() => handleIconPress(index)}
+                    >
+                      <FontAwesome name={icon} size={20} color={IconColor} />
+                    </TouchableOpacity>
+                    <Text
+                      style={[HomeStyle.categoryText, { color: TextColor }]}
+                    >
+                      {["Police", "Doctor", "Medicine", "Hospital"][index]}
+                    </Text>
+                  </View>
+                )
+              )}
+            </View>
+            {/* Nearby Doctor Card */}
+            <View style={HomeStyle.header}>
+              <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
+                Nearby Doctor
+              </Text>
+            </View>
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
+              showsHorizontalScrollIndicator={false}
+            >
+              {nearbyDoctors.map((data, index) => (
+                <NearbyCard
+                  key={index}
+                  imageUrl={data.imageUrl}
+                  name={data.name}
+                  role={data.role}
+                  location={data.location}
+                  distance={data.distance}
+                  LocationIconName={data.LocationIconName}
+                  LeftDownIconName={data.LeftDownIconName}
+                  rating={data.rating}
+                  reviews={data.reviews}
+                  availability={data.availability}
+                  cardBgColor={NearCardBgColor}
+                  textColor={SixthTextColor}
+                  fourTextColor={FourTextColor}
+                  fifthTextColor={FifthTextColor}
+                  thirdTextColor={ThirdTextColor}
+                />
+              ))}
             </ScrollView>
-          </KeyboardAvoidingView>
-        </View>
-      </>
-    );
+
+            <View style={HomeStyle.header}>
+              <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
+                Nearby Police Station
+              </Text>
+            </View>
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
+              showsHorizontalScrollIndicator={false}
+            >
+              {nearbyPolice.map((data, index) => (
+                <NearbyCard
+                  key={index}
+                  imageUrl={data.imageUrl}
+                  name={data.name}
+                  role={data.role}
+                  location={data.location}
+                  distance={data.distance}
+                  LocationIconName={data.LocationIconName}
+                  LeftDownIconName={data.LeftDownIconName}
+                  rating={data.rating}
+                  reviews={data.reviews}
+                  availability={data.availability}
+                  cardBgColor={PoliceNearCardBgColor}
+                  textColor={SixthTextColor}
+                  fourTextColor={FourTextColor}
+                  fifthTextColor={FifthTextColor}
+                  thirdTextColor={ThirdTextColor}
+                />
+              ))}
+            </ScrollView>
+            <View style={HomeStyle.header}>
+              <Text style={[HomeStyle.greetingName, { color: TextColor }]}>
+                Nearby Hospital
+              </Text>
+            </View>
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={[HomeStyle.scrollViewContentContainer]}
+              showsHorizontalScrollIndicator={false}
+            >
+              {nearbyHospitals.map((data, index) => (
+                <NearbyCard
+                  key={index}
+                  imageUrl={data.imageUrl}
+                  name={data.name}
+                  role={data.role}
+                  location={data.location}
+                  distance={data.distance}
+                  LocationIconName={data.LocationIconName}
+                  LeftDownIconName={data.LeftDownIconName}
+                  rating={data.rating}
+                  reviews={data.reviews}
+                  availability={data.availability}
+                  cardBgColor={MedNearCardBgColor}
+                  textColor={PoliceTextColor}
+                  fourTextColor={FourTextColor}
+                  fifthTextColor={FifthTextColor}
+                  thirdTextColor={ThirdTextColor}
+                />
+              ))}
+            </ScrollView>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </View>
+    </>
+  );
 };
 
 export default HomeTabScreen;
