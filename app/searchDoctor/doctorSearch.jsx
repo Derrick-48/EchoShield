@@ -11,13 +11,21 @@ import {
   Modal,
 } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import React, { useRef, useMemo, useState, useCallback } from "react";
+import React, {
+  useRef,
+  useMemo,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import BottomSheet from "@gorhom/bottom-sheet";
 import NearbyDoctors from "@/components/NearbyDoctors";
 import { ScrollView } from "react-native-gesture-handler";
 import { imageDataURL } from "@/constants/ImageData";
 import { useAllDoctorsData } from "@/hooks/useAllDoctorsData";
 import DatePickerModal from "react-native-modern-datepicker";
+import * as Location from "expo-location";
+import MapView, { Marker } from "react-native-maps";
 
 const CustomHandle = () => {
   return (
@@ -30,27 +38,103 @@ const CustomHandle = () => {
 };
 
 const doctorSearch = () => {
+  useEffect(() => {
+    const getCurrentLocation = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        alert("Permission to access location was denied");
+        return;
+      }
+
+      const { coords } = await Location.getCurrentPositionAsync();
+      const { latitude, longitude } = coords;
+
+      setLocation({ latitude, longitude });
+
+      // Reverse geocoding
+      const [result] = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+      setAddress(
+        result
+          ? `${result.city}, ${result.region}, ${result.country}`
+          : "Unknown location"
+      );
+      setIsLoading(false);
+    };
+
+    getCurrentLocation();
+  }, []);
+  const [address, setAddress] = useState("Loading...");
+
   const { cleanedDoctorsData, loading, error } = useAllDoctorsData();
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const requestLocationPermission = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission to access location was denied");
+      return;
+    }
+  };
+
+  useEffect(() => {
+    requestLocationPermission();
+  }, []);
 
   // ref for the BottomSheet
   const bottomSheetRef = useRef(null);
   const bottomSheetSpecialityRef = useRef(null);
   const bottomSheetLocRef = useRef(null);
-
+  const [location, setLocation] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const snapLocPoints = useMemo(() => ["1%", "50%", "80%"], []);
   const snapSpecsPoints = useMemo(() => ["40%", "80%"], []);
-
   const [initialSpeciality, setSpeciality] = useState(
     "No Speciality  Selected"
   );
-  const [initialLocation, setLocation] = useState("No  Location  Selected");
+  const [initialLocation, setInitialLocation] = useState(
+    "No  Location  Selected"
+  );
   const [initialAvailability, setAvailability] = useState("Nothing  Selected");
   const [searchNearByDoctor, setSearchNearByDoctor] = useState(null);
 
+  const handleSearch = async () => {
+    if (searchQuery.trim() === "") return;
+
+    setSearchLoading(true);
+
+    try {
+      const results = await Location.geocodeAsync(searchQuery);
+      if (results.length > 0) {
+        const { latitude, longitude } = results[0];
+        setLocation({ latitude, longitude });
+
+        // Reverse geocoding to get the address
+        const [result] = await Location.reverseGeocodeAsync({
+          latitude,
+          longitude,
+        });
+        setAddress(
+          result
+            ? `${result.city}, ${result.region}, ${result.country}`
+            : "Unknown location"
+        );
+      } else {
+        setAddress("No results found");
+      }
+    } catch (error) {
+      console.error(error);
+      setAddress("Error occurred");
+    }
+
+    setSearchLoading(false);
+  };
+
   // snap points for the BottomSheet
   const snapPoints = useMemo(() => ["15%", "25%", "50%", "85%"], []);
-
   // Function to handle the onPress event
   const handleOpenBottomSheet = useCallback(() => {
     // Open the BottomSheet to the first snap point (index 0)
@@ -71,11 +155,9 @@ const doctorSearch = () => {
     // Close the BottomSheet
     bottomSheetLocRef.current?.close();
   }, []);
-
   const handlePress = (doctor) => {
     setSpeciality(doctor.specialization);
   };
-
   // Function to open the date picker
   const handleOpenDatePicker = useCallback(() => {
     setDatePickerVisible(true);
@@ -85,14 +167,15 @@ const doctorSearch = () => {
   const handleCloseDatePicker = useCallback(() => {
     setDatePickerVisible(false);
   }, []);
-
   // Function to handle date and time selection
   const handleDateChange = (selectedDate) => {
     setAvailability(selectedDate); // set the selected date
     handleCloseDatePicker(); // close the date picker modal
   };
-
   const handleSearchingDoctor = (doctor) => {};
+  const handleLocationChange = () => {
+    setInitialLocation(address);
+  };
 
   return (
     <View className="flex-1 bg-white p-4">
@@ -275,14 +358,82 @@ const doctorSearch = () => {
         snapPoints={snapLocPoints}
       >
         <View style={styles.contentContainer}>
-          <View className=" pl-60 mt-4">
+          <View className=" pl-60  mt-4">
             <TouchableOpacity onPress={handleCloseLocBottomSheet}>
               <View className="rounded-full bg-slate-950 w-8 h-8 self-end   justify-center items-center">
                 <MaterialIcons name="close" size={24} color="#ffffffff" />
               </View>
             </TouchableOpacity>
           </View>
-          <Text>Bottom Sheet Content</Text>
+          <ScrollView className="flex-1 ">
+            <TextInput
+              className="w-11/12 h-10 border border-gray-300 rounded-full px-4 my-4"
+              placeholder="Search for a place"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholderTextColor={"black"}
+            />
+            <TouchableOpacity
+              onPress={handleSearch}
+              className="bg-[#7e22ce] py-2 rounded-full my-4 w-11/12 items-center justify-center"
+            >
+              <Text className="text-white">Search</Text>
+            </TouchableOpacity>
+            {isLoading ? (
+              <ActivityIndicator size="large" color="#0000ff" />
+            ) : location ? (
+              <>
+                <MapView
+                  style={{ width: "100%", height: 400 }}
+                  initialRegion={{
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                  }}
+                  onRegionChangeComplete={(region) => {
+                    setLocation({
+                      latitude: region.latitude,
+                      longitude: region.longitude,
+                    });
+
+                    // Reverse geocoding
+                    const getAddress = async () => {
+                      const [result] = await Location.reverseGeocodeAsync({
+                        latitude: region.latitude,
+                        longitude: region.longitude,
+                      });
+                      setAddress(
+                        result
+                          ? `${result.city}, ${result.region}, ${result.country}`
+                          : "Unknown location"
+                      );
+                    };
+
+                    getAddress();
+                  }}
+                >
+                  <Marker
+                    coordinate={{
+                      latitude: location.latitude,
+                      longitude: location.longitude,
+                    }}
+                    title="You are here"
+                  />
+                </MapView>
+
+                <Text className="text-center mt-2">{address}</Text>
+
+                <TouchableOpacity onPress={handleLocationChange}>
+                  <View className="w-24 h-6 mt-4 items-center justify-center rounded-xl bg-slate-950">
+                    <Text className="text-center text-white">Set Location</Text>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <Text>No location found</Text>
+            )}
+          </ScrollView>
         </View>
       </BottomSheet>
     </View>
@@ -298,7 +449,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    alignItems: "center",
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
   },
