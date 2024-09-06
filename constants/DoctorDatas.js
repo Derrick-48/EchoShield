@@ -245,6 +245,34 @@ export const doctors = [
         status: "Canceled", // Added status
       },
     ],
+    availabilitySchedules: [
+      {
+        availabilityScheduleDate: "2024-09-10",
+        availabilityScheduleTime: "10:00 - 11:00 AM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-12",
+        availabilityScheduleTime: "01:00 - 02:00 PM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-15",
+        availabilityScheduleTime: "03:00 - 04:00 PM",
+      },
+    ],
+    availabilitySchedules: [
+      {
+        availabilityScheduleDate: "2024-09-11",
+        availabilityScheduleTime: "09:00 - 10:00 AM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-14",
+        availabilityScheduleTime: "12:00 - 01:00 PM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-18",
+        availabilityScheduleTime: "03:00 - 04:00 PM",
+      },
+    ],
   },
   {
     name: "Dr. Sophia Martinez",
@@ -309,6 +337,20 @@ export const doctors = [
     },
     consultantPrice: "$210",
     schedules: [],
+    availabilitySchedules: [
+      {
+        availabilityScheduleDate: "2024-09-11",
+        availabilityScheduleTime: "09:00 - 10:00 AM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-14",
+        availabilityScheduleTime: "12:00 - 01:00 PM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-18",
+        availabilityScheduleTime: "03:00 - 04:00 PM",
+      },
+    ],
   },
   {
     name: "Dr. Mia Thomas",
@@ -341,6 +383,20 @@ export const doctors = [
     },
     consultantPrice: "$230",
     schedules: [],
+    availabilitySchedules: [
+      {
+        availabilityScheduleDate: "2024-09-09",
+        availabilityScheduleTime: "09:00 - 10:00 AM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-13",
+        availabilityScheduleTime: "01:00 - 02:00 PM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-17",
+        availabilityScheduleTime: "02:00 - 03:00 PM",
+      },
+    ],
   },
   {
     name: "Dr. Daniel Rodriguez",
@@ -373,5 +429,19 @@ export const doctors = [
     },
     consultantPrice: "$200",
     schedules: [],
+    availabilitySchedules: [
+      {
+        availabilityScheduleDate: "2024-09-08",
+        availabilityScheduleTime: "10:00 - 11:00 AM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-15",
+        availabilityScheduleTime: "02:00 - 03:00 PM",
+      },
+      {
+        availabilityScheduleDate: "2024-09-20",
+        availabilityScheduleTime: "04:00 - 05:00 PM",
+      },
+    ],
   },
 ];

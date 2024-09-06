@@ -51,12 +51,24 @@ const MainLayout = () => {
         options={{ headerShown: false, headerTitle: "Doctors Profile" }}
       />
       <Stack.Screen
+        name="doctors/allDoctors"
+        options={{ headerShown: false, headerTitle: "Doctors Profile" }}
+      />
+      <Stack.Screen
         name="schedule/[schedules]"
         options={{ headerShown: true, headerTitle: "Schedule" }}
       />
       <Stack.Screen
         name="searchDoctor/doctorSearch"
         options={{ headerShown: true, headerTitle: "Search Doctor" }}
+      />
+      <Stack.Screen
+        name="symptom/[sypmtoms]"
+        options={{ headerShown: true, headerTitle: "Schedule" }}
+      />
+      <Stack.Screen
+        name="searchDoctor/doctorProfile"
+        options={{ headerShown: false, headerTitle: "Search Doctor" }}
       />
     </Stack>
   );

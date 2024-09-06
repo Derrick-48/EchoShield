@@ -13,6 +13,7 @@ import SymptomsComponent from "@/components/SymptomsComponent";
 import { symptoms } from "@/constants/SymptomsData";
 import { doctors } from "@/constants/DoctorDatas";
 import PopularDoctors from "@/components/PopularDoctorsCard";
+import { Link } from "expo-router";
 
 const DoctorScreen = () => {
   const { isDarkTheme } = useTheme();
@@ -41,11 +42,13 @@ const DoctorScreen = () => {
               elevation: 5,
             }}
           >
-            <TouchableOpacity
-              className={`${ButtonColor} rounded-full w-16 h-16 items-center justify-center `}
-            >
-              <Text className={`${IconColor} text-4xl `}>+</Text>
-            </TouchableOpacity>
+            <Link href={"/doctors/allDoctors"} asChild>
+              <TouchableOpacity
+                className={`${ButtonColor} rounded-full w-16 h-16 items-center justify-center `}
+              >
+                <Text className={`${IconColor} text-4xl `}>+</Text>
+              </TouchableOpacity>
+            </Link>
             <Text className={` ${TextColor} font-JakartaBold text-lg mt-3`}>
               Clinic Visit
             </Text>
